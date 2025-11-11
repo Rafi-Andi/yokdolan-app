@@ -30,12 +30,12 @@ onMounted(() => {
     }
 });
 
-// --- PROPS DARI BACKEND (Untuk data Dasbor) ---
-// Asumsi Anda akan menerima data dari Controller PartnerDashboard
 const props = defineProps({
-   stats: Object,
+    stats: Object,
+    pendingValidations: Array
 });
-console.log(props.stats)
+console.log(props.pendingValidations)
+console.log(props.stats);
 </script>
 
 <template>
@@ -59,7 +59,9 @@ console.log(props.stats)
                         <p class="text-sm font-medium text-gray-500">
                             Total Poin Dikeluarkan
                         </p>
-                        <p class="text-3xl font-bold text-gray-900">{{ props.stats.total_points_spent }}</p>
+                        <p class="text-3xl font-bold text-gray-900">
+                            {{ props.stats.total_points_spent }}
+                        </p>
                     </div>
                     <div
                         class="rounded-xl border-2 border-gray-300 bg-white p-4 shadow-sm"
@@ -67,7 +69,9 @@ console.log(props.stats)
                         <p class="text-sm font-medium text-gray-500">
                             Total Reward Misi Selesai
                         </p>
-                        <p class="text-3xl font-bold text-gray-900">{{ props.stats.total_missions_redeemed }}</p>
+                        <p class="text-3xl font-bold text-gray-900">
+                            {{ props.stats.total_missions_redeemed }}
+                        </p>
                     </div>
                 </div>
 
@@ -125,7 +129,7 @@ console.log(props.stats)
                     </h2>
 
                     <div class="space-y-4 rounded-xl bg-gray-300 p-4 shadow-sm">
-                        <div class="space-y-4">
+                        <div v-for="(reward, index) in props.pendingValidations" :key="index" class="space-y-4">
                             <div
                                 class="flex items-center gap-3 border-b-2 border-gray-500 pb-2"
                             >
@@ -136,28 +140,10 @@ console.log(props.stats)
                                     <p
                                         class="text-sm font-medium text-gray-900"
                                     >
-                                        Gratis 1 Gelas Seduhan Kopi Tubruk
+                                        {{ reward.reward.title }}
                                     </p>
-                                    <p class="text-gray text-xs">
-                                        Randi Permana
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex items-center gap-3 border-b-2 border-gray-500 pb-3"
-                            >
-                                <div
-                                    class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-600"
-                                ></div>
-                                <div class="flex-grow">
-                                    <p
-                                        class="text-sm font-medium text-gray-900"
-                                    >
-                                        Voucher Diskon 30%
-                                    </p>
-                                    <p class="text-gray text-xs">
-                                        Habl Sankrumi
+                                    <p class="text-black text-xs">
+                                       {{ reward.tourist.name }}
                                     </p>
                                 </div>
                             </div>
