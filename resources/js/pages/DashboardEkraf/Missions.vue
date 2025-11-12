@@ -12,12 +12,12 @@ console.log(props.missions);
     <div class="bg-gray-50">
         <div class="pb-24">
             <header class="flex items-center gap-14 p-4">
-                <a href="index.html" class="text-gray-800">
+                <Link href="/dashboard/ekraf" class="text-gray-800">
                     <icon
                         icon="mdi:arrow-left"
                         class="text-2xl"
                     ></icon>
-                </a>
+                </Link>
                 <h1 class="text-xl font-bold text-gray-900">Daftar Misi</h1>
             </header>
 
@@ -81,26 +81,26 @@ console.log(props.missions);
             <div
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
-                <a href="index.html" class="p-2">
+                <Link href="/dashboard/ekraf" class="p-2">
                     <icon
                         icon="mdi:home"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
 
-                <a href="daftarmisi.html" class="p-2">
+                <Link href="/dashboard/ekraf/mission" class="p-2">
                     <icon
                         icon="tabler:target-arrow"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
 
-                <a href="daftarhadiah.html" class="p-2">
+                <Link href="/dashboard/ekraf/reward" class="p-2">
                     <icon
                         icon="mdi:gift"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
             </div>
         </nav>
     </div>

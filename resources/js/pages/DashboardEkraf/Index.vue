@@ -180,26 +180,26 @@ console.log(props.stats);
             <div
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
-                <a href="#" class="p-2">
+                <Link href="/dashboard/ekraf" class="p-2">
                     <icon
                         icon="mdi:home"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
 
-                <a href="daftarmisi.html" class="p-2">
+                <Link href="/dashboard/ekraf/mission" class="p-2">
                     <icon
                         icon="tabler:target-arrow"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
 
-                <a href="daftarhadiah.html" class="p-2">
+                <Link href="/dashboard/ekraf/reward" class="p-2">
                     <icon
                         icon="mdi:gift"
                         class="text-3xl"
                     ></icon>
-                </a>
+                </Link>
             </div>
         </nav>
     </div>
