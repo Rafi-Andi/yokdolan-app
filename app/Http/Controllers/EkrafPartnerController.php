@@ -79,6 +79,13 @@ class EkrafPartnerController extends Controller
             "missions" => $missions
         ]);
     }
+
+    public function createMission(){
+        return Inertia::render('DashboardEkraf/AddMission');
+    }
+    public function createReward(){
+        return Inertia::render('DashboardEkraf/AddReward');
+    }
     /**
      * Show the form for creating a new resource.
      */

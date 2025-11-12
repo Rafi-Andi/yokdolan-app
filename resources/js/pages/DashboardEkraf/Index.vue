@@ -1,4 +1,5 @@
 <script setup>
+import { Icon } from '@iconify/vue';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import { computed, onMounted } from 'vue';
@@ -86,10 +87,10 @@ console.log(props.stats);
                             class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
                         >
                             <span class="flex items-center gap-3">
-                                <iconify-icon
+                                <Icon
                                     icon="tabler:target-arrow"
                                     class="text-3xl text-gray-600"
-                                ></iconify-icon>
+                                ></Icon>
                                 <span
                                     class="text-base font-medium text-gray-800"
                                     >Kelola Misi</span

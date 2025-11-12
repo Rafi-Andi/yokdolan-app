@@ -2,6 +2,7 @@
 const props = defineProps({
     rewards: Array,
 });
+import { Head, Link } from '@inertiajs/vue3';
 
 console.log(props.rewards)
 </script>
@@ -64,15 +65,15 @@ console.log(props.rewards)
                 </div>
             </main>
         </div>
-        <a
-            href="tambahhadiah.html"
+        <Link
+            href="/dashboard/ekraf/add-reward"
             class="fixed right-6 bottom-24 flex h-14 w-14 items-center justify-center rounded-full bg-gray-200 shadow-lg transition-all hover:bg-gray-300"
         >
             <iconify-icon
                 icon="mdi:plus"
                 class="text-3xl text-gray-700"
             ></iconify-icon>
-        </a>
+    </Link>
 
         <nav
             class="fixed right-0 bottom-0 left-0 border-t border-gray-200 bg-blue-100"
