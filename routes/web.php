@@ -49,5 +49,6 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/ekraf/mission', [EkrafPartnerController::class, 'getAllMissions'])->name('dashboard.ekraf.mission');
     Route::get('/dashboard/ekraf/add-mission', [EkrafPartnerController::class, 'createMission'])->name('dashboard.ekraf.mission.add');
+    Route::post('/dashboard/ekraf/store-mission', [EkrafPartnerController::class, 'storeMission']);
 });
 require __DIR__ . '/settings.php';
