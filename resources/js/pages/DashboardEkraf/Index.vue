@@ -96,10 +96,10 @@ console.log(props.stats);
                                     >Kelola Misi</span
                                 >
                             </span>
-                            <iconify-icon
+                            <icon
                                 icon="mdi:chevron-right"
                                 class="text-3xl text-gray-500"
-                            ></iconify-icon>
+                            ></icon>
                         </Link>
 
                         <Link
@@ -107,19 +107,19 @@ console.log(props.stats);
                             class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
                         >
                             <span class="flex items-center gap-3">
-                                <iconify-icon
+                                <icon
                                     icon="fa-solid:medal"
                                     class="text-3xl text-gray-600"
-                                ></iconify-icon>
+                                ></icon>
                                 <span
                                     class="text-base font-medium text-gray-800"
                                     >Kelola Hadiah</span
                                 >
                             </span>
-                            <iconify-icon
+                            <icon
                                 icon="mdi:chevron-right"
                                 class="text-3xl text-gray-500"
-                            ></iconify-icon>
+                            ></icon>
                         </Link>
                     </div>
                 </div>
@@ -181,24 +181,24 @@ console.log(props.stats);
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
                 <a href="#" class="p-2">
-                    <iconify-icon
+                    <icon
                         icon="mdi:home"
                         class="text-3xl"
-                    ></iconify-icon>
+                    ></icon>
                 </a>
 
                 <a href="daftarmisi.html" class="p-2">
-                    <iconify-icon
+                    <icon
                         icon="tabler:target-arrow"
                         class="text-3xl"
-                    ></iconify-icon>
+                    ></icon>
                 </a>
 
                 <a href="daftarhadiah.html" class="p-2">
-                    <iconify-icon
+                    <icon
                         icon="mdi:gift"
                         class="text-3xl"
-                    ></iconify-icon>
+                    ></icon>
                 </a>
             </div>
         </nav>

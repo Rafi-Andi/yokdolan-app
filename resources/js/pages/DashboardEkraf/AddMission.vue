@@ -1,3 +1,7 @@
+<script setup>
+import { Icon } from '@iconify/vue';
+import { Head, Link } from '@inertiajs/vue3';
+</script>
 <template>
 
     <div class="relative min-h-screen">
@@ -5,9 +9,9 @@
         <div class="pb-60 md:pb-12">
 
             <header class="p-4 flex items-center gap-4 bg-white">
-                <a href="daftarhadiah.html" class="text-gray-800">
-                    <iconify-icon icon="mdi:arrow-left" class="text-2xl"></iconify-icon>
-                </a>
+                <Link href="/dashboard/ekraf/mission" class="text-gray-800">
+                    <icon icon="mdi:arrow-left" class="text-2xl"></icon>
+                </Link>
                 <div class="flex-grow md:ml-8">
                     <h1 class="text-xl font-bold text-gray-900">
                         Tambah Misi Baru
@@ -50,8 +54,8 @@
                                     <option value="foto">Promosi</option>
                                 </select>
                                 <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                    <iconify-icon icon="mdi:chevron-down"
-                                        class="text-xl text-gray-500 relative top-1"></iconify-icon>
+                                    <icon icon="mdi:chevron-down"
+                                        class="text-xl text-gray-500 relative top-1"></icon>
                                 </div>
                             </div>
                         </div>

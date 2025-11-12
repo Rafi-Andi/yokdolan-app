@@ -1,13 +1,17 @@
+<script setup>
+import { Icon } from '@iconify/vue';
+import { Head, Link } from '@inertiajs/vue3';
+</script>
 <template>
     <div class="relative min-h-screen">
         <div class="pb-60 md:pb-60">
             <header class="flex items-center gap-4 bg-white p-4">
-                <a href="daftarhadiah.html" class="text-gray-800">
-                    <iconify-icon
+                <Link href="/dashboard/ekraf/reward" class="text-gray-800">
+                    <icon
                         icon="mdi:arrow-left"
                         class="text-2xl"
-                    ></iconify-icon>
-                </a>
+                    ></icon>
+                </Link>
                 <div class="flex-grow md:ml-8">
                     <h1 class="text-xl font-bold text-gray-900">
                         Tambah Hadiah Baru
@@ -79,10 +83,10 @@
                                 <div
                                     class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2"
                                 >
-                                    <iconify-icon
+                                    <icon
                                         icon="mdi:chevron-down"
                                         class="relative top-1 text-xl text-gray-500"
-                                    ></iconify-icon>
+                                    ></icon>
                                 </div>
                             </div>
                         </div>
@@ -112,10 +116,10 @@
                             <div
                                 class="flex h-48 w-full flex-col items-center justify-center rounded-xl bg-gray-200"
                             >
-                                <iconify-icon
+                                <icon
                                     icon="mdi:image-outline"
                                     class="text-6xl text-gray-400"
-                                ></iconify-icon>
+                                ></icon>
                                 <p class="text-gray-600">Upload Gambar</p>
                             </div>
                         </div>
