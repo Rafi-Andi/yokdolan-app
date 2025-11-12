@@ -46,6 +46,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/ekraf/reward', [EkrafPartnerController::class, 'getAllRewards'])->name('dashboard.ekraf.reward');
     Route::get('/dashboard/ekraf/add-reward', [EkrafPartnerController::class, 'createReward'])->name('dashboard.ekraf.reward.add');
+    Route::post('/dashboard/ekraf/reward/validate-all', [EkrafPartnerController::class, 'validateAllPending'])
+        ->name('dashboard.ekraf.validate.all');
 
     Route::get('/dashboard/ekraf/mission', [EkrafPartnerController::class, 'getAllMissions'])->name('dashboard.ekraf.mission');
     Route::get('/dashboard/ekraf/add-mission', [EkrafPartnerController::class, 'createMission'])->name('dashboard.ekraf.mission.add');

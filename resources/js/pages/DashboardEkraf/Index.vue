@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Head, usePage, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import { computed, onMounted } from 'vue';
 
@@ -155,13 +155,14 @@ console.log(props.stats);
                         </div>
 
                         <div class="space-y-2 border-gray-100 pt-2">
-                            <a href="">
-                                <button
-                                    class="w-full rounded-3xl bg-gray-600 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-gray-700"
-                                >
-                                    Validasi Sekali Klik
-                                </button>
-                            </a>
+                            <Link
+                                href="/dashboard/ekraf/reward/validate-all"
+                                method="post"
+                                as="button"
+                                class="w-full rounded-3xl bg-gray-600 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-gray-700"
+                            >
+                                Validasi Sekali Klik
+                            </Link>
                             <a href="validasihadiah.html" class="block">
                                 <button
                                     class="w-full rounded-3xl border-2 border-white px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200"
@@ -181,24 +182,15 @@ console.log(props.stats);
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
                 <Link href="/dashboard/ekraf" class="p-2">
-                    <icon
-                        icon="mdi:home"
-                        class="text-3xl"
-                    ></icon>
+                    <icon icon="mdi:home" class="text-3xl"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/mission" class="p-2">
-                    <icon
-                        icon="tabler:target-arrow"
-                        class="text-3xl"
-                    ></icon>
+                    <icon icon="tabler:target-arrow" class="text-3xl"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/reward" class="p-2">
-                    <icon
-                        icon="mdi:gift"
-                        class="text-3xl"
-                    ></icon>
+                    <icon icon="mdi:gift" class="text-3xl"></icon>
                 </Link>
             </div>
         </nav>

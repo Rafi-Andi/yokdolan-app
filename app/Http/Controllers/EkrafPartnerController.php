@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RewardExchange;
 use Inertia\Inertia;
 use App\Models\Reward;
 use App\Models\Mission;
 use App\Models\EkrafPartner;
 use Illuminate\Http\Request;
+use App\Models\RewardExchange;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class EkrafPartnerController extends Controller
@@ -80,15 +81,61 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function createMission(){
+    public function createMission()
+    {
         return Inertia::render('DashboardEkraf/AddMission');
     }
-    public function createReward(){
+    public function createReward()
+    {
         return Inertia::render('DashboardEkraf/AddReward');
     }
     /**
      * Show the form for creating a new resource.
      */
+
+    public function validateAllPending(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard')->with('error', 'Akses ditolak. Anda bukan Mitra Ekraf.');
+        }
+
+        $partnerId = $user->id;
+
+        $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
+
+        if ($partnerRewardIds->isEmpty()) {
+            return back()->with('warning', 'Anda belum memiliki daftar Reward yang terdaftar.');
+        }
+
+        $count = 0;
+
+        try {
+            DB::transaction(function () use ($partnerId, $partnerRewardIds, &$count) {
+
+                $updates = RewardExchange::whereIn('reward_id', $partnerRewardIds)
+                    ->where('validation_status', 'pending')
+                    ->update([
+                        'validation_status' => 'validated',
+                        'validated_by_partner_id' => $partnerId,
+                        'validated_at' => now(),
+                    ]);
+
+                $count = $updates;
+            });
+
+            if ($count > 0) {
+                return redirect()->route('dashboard.ekraf')
+                    ->with('success', "Berhasil memvalidasi $count penukaran reward pending.");
+            } else {
+                return back()->with('info', 'Tidak ada antrian validasi reward yang tertunda saat ini.');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Validasi gagal karena masalah sistem. Coba lagi nanti.');
+        }
+    }
+
     public function create()
     {
         //
