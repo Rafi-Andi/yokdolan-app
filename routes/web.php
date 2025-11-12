@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardTouristController;
 use App\Http\Controllers\EkrafPartnerController;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -14,15 +15,20 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('home/user', function () {
     return Inertia::render('Home/User');
 });
 
 Route::prefix('/')->middleware(['auth'])->group(function () {
+    Route::get('dashboard', [DashboardTouristController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/leaderboard', [DashboardTouristController::class, 'leaderboard'])->name('dashboard.wisatawan.leaderboard');
+    Route::get('dashboard/scan', [DashboardTouristController::class, 'scan'])->name('dashboard.wisatawan.scan');
+    Route::get('dashboard/wisata', [DashboardTouristController::class, 'wisata'])->name('dashboard.wisatawan.wisata');
+    Route::get('dashboard/misi', [DashboardTouristController::class, 'misi'])->name('dashboard.wisatawan.misi');
+    Route::get('dashboard/hadiah', [DashboardTouristController::class, 'hadiah'])->name('dashboard.wisatawan.hadiah');
+    Route::get('dashboard/profile', [DashboardTouristController::class, 'profile'])->name('dashboard.wisatawan.profile');
+
+
     Route::get('/register/ekraf', [RegisterEkrafController::class, 'index'])->name('register.ekraf');
 
 

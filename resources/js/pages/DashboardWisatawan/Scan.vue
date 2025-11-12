@@ -1,0 +1,3 @@
+<template>
+    ini scan
+</template>

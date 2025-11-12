@@ -1,0 +1,3 @@
+<template>
+    Ini profile
+</template>
