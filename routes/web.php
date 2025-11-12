@@ -35,5 +35,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::post('/register/wisata', [RegisterWisataController::class, 'store']);
 
     Route::get('/dashboard/ekraf', [EkrafPartnerController::class, 'index'])->name('dashboard.ekraf');
+
+    Route::get('/dashboard/ekraf/reward', [EkrafPartnerController::class, 'getAllRewards'])->name('dashboard.ekraf.reward');
+    Route::get('/dashboard/ekraf/mission', [EkrafPartnerController::class, 'getAllMissions'])->name('dashboard.ekraf.mission');
 });
 require __DIR__ . '/settings.php';

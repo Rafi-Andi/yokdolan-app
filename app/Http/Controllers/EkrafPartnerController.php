@@ -49,6 +49,36 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
+    public function getAllRewards()
+    {
+        $user = Auth::user();
+
+        $partnerId = $user->id;
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard');
+        }
+
+        $rewards = Reward::query()->where('partner_user_id', '=', $partnerId)->orderBy('created_at', 'asc')->get();
+
+        return Inertia::render('DashboardEkraf/Rewards', [
+            "rewards" => $rewards
+        ]);
+    }
+
+    public function getAllMissions()
+    {
+        $user = Auth::user();
+
+        $partnerId = $user->id;
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard');
+        }
+
+        $missions = Mission::query()->where('partner_user_id', '=', $partnerId)->orderBy('created_at', 'asc')->get();
+        return Inertia::render('DashboardEkraf/Missions', [
+            "missions" => $missions
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

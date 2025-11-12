@@ -1,5 +1,5 @@
 <script setup>
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, Link } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import { computed, onMounted } from 'vue';
 
@@ -32,9 +32,9 @@ onMounted(() => {
 
 const props = defineProps({
     stats: Object,
-    pendingValidations: Array
+    pendingValidations: Array,
 });
-console.log(props.pendingValidations)
+console.log(props.pendingValidations);
 console.log(props.stats);
 </script>
 
@@ -81,8 +81,8 @@ console.log(props.stats);
                     </h2>
 
                     <div class="space-y-3">
-                        <a
-                            href="daftarmisi.html"
+                        <Link
+                            href="/dashboard/ekraf/mission"
                             class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
                         >
                             <span class="flex items-center gap-3">
@@ -99,10 +99,10 @@ console.log(props.stats);
                                 icon="mdi:chevron-right"
                                 class="text-3xl text-gray-500"
                             ></iconify-icon>
-                        </a>
+                        </Link>
 
-                        <a
-                            href="daftarhadiah.html"
+                        <Link
+                            href="/dashboard/ekraf/reward"
                             class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
                         >
                             <span class="flex items-center gap-3">
@@ -119,7 +119,7 @@ console.log(props.stats);
                                 icon="mdi:chevron-right"
                                 class="text-3xl text-gray-500"
                             ></iconify-icon>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -129,7 +129,11 @@ console.log(props.stats);
                     </h2>
 
                     <div class="space-y-4 rounded-xl bg-gray-300 p-4 shadow-sm">
-                        <div v-for="(reward, index) in props.pendingValidations" :key="index" class="space-y-4">
+                        <div
+                            v-for="(reward, index) in props.pendingValidations"
+                            :key="index"
+                            class="space-y-4"
+                        >
                             <div
                                 class="flex items-center gap-3 border-b-2 border-gray-500 pb-2"
                             >
@@ -142,8 +146,8 @@ console.log(props.stats);
                                     >
                                         {{ reward.reward.title }}
                                     </p>
-                                    <p class="text-black text-xs">
-                                       {{ reward.tourist.name }}
+                                    <p class="text-xs text-black">
+                                        {{ reward.tourist.name }}
                                     </p>
                                 </div>
                             </div>
