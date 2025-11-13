@@ -53,7 +53,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function TouristProfile(): HasOne
+    public function touristProfile(): HasOne
     {
         return $this->hasOne(TouristProfile::class);
     }

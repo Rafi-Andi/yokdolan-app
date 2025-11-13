@@ -20,6 +20,9 @@ Route::get('home/user', function () {
 });
 
 Route::prefix('/')->middleware(['auth'])->group(function () {
+    Route::post('/misi/validasi', [DashboardTouristController
+    ::class, 'validateScan'])
+        ->name('misi.validate');
     Route::get('dashboard', [DashboardTouristController::class, 'index'])->name('dashboard');
     Route::get('dashboard/leaderboard', [DashboardTouristController::class, 'leaderboard'])->name('dashboard.wisatawan.leaderboard');
     Route::get('dashboard/scan', [DashboardTouristController::class, 'scan'])->name('dashboard.wisatawan.scan');

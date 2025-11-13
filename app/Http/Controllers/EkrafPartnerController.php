@@ -256,7 +256,7 @@ class EkrafPartnerController extends Controller
         }
 
         $uniqueId = 'QR-' . Str::upper(Str::random(10));
-        $qrContentUrl = url("/mission/validate/{$uniqueId}");
+        $qrContentUrl = $uniqueId;
 
         $qrFileName = 'qrcodes/mission-' . $uniqueId . '.png';
         $missionPhotoPath = null;

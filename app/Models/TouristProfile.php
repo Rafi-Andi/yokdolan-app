@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TouristProfile extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $guarded = ['id'];
  
 }

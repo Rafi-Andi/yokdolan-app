@@ -3,7 +3,9 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Models\TouristProfile; // <<< 1. IMPORT MODEL TOURIST PROFILE
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash; // Tambahkan Hash jika belum ada
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -30,11 +32,17 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password' => $input['password'],
+            'password' => Hash::make($input['password']), 
             'role' => 'tourist'
         ]);
+        
+        $user->touristProfile()->create([
+            'user_id' => $user->id,
+        ]);
+
+        return $user;
     }
 }
