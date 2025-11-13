@@ -37,7 +37,7 @@ console.log(props.missions);
                 </div>
 
                 <div class="space-y-3">
-                    <a v-for="(mission, index) in missions" :key="index" href="detailmisi.html" class="block">
+                    <Link v-for="(mission, index) in missions" :key="index" :href="`/dashboard/ekraf/mission/${mission.id}`" class="block">
                         <div
                             class="flex items-start justify-between rounded-xl bg-gray-200 p-4"
                         >
@@ -61,7 +61,7 @@ console.log(props.missions);
                                 >
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </main>
         </div>
