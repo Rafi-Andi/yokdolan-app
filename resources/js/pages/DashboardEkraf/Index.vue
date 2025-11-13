@@ -41,23 +41,23 @@ console.log(props.stats);
 
 <template>
     <Head title="Dasbor Mitra Ekraf" />
-    <div class="bg-gray-100">
+    <div class="bg-[#EBF5FF]">
         <div class="pb-24">
             <main class="space-y-6 px-6 pt-12">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">
+                    <h1 class="text-2xl font-bold text-black">
                         Dasbor Mitra Ekraf
                     </h1>
-                    <p class="text-md pt-2 text-gray-500">
+                    <p class="text-md font-semibold pt-2 text-gray-600">
                         Pengelolaan Mitra untuk manajemen misi dan reward
                     </p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div
-                        class="rounded-xl border-2 border-gray-300 bg-white p-4 shadow-sm"
+                        class="rounded-xl bg-linear-to-t from-[#B1D6FF] to-[#D8EBFF] p-4 shadow-xl"
                     >
-                        <p class="text-sm font-medium text-gray-500">
+                        <p class="text-md font-semibold text-gray-700">
                             Total Poin Dikeluarkan
                         </p>
                         <p class="text-3xl font-bold text-gray-900">
@@ -65,9 +65,9 @@ console.log(props.stats);
                         </p>
                     </div>
                     <div
-                        class="rounded-xl border-2 border-gray-300 bg-white p-4 shadow-sm"
+                        class="rounded-xl bg-linear-to-t from-[#B1D6FF] to-[#D8EBFF] p-4 shadow-xl"
                     >
-                        <p class="text-sm font-medium text-gray-500">
+                        <p class="text-md font-semibold text-gray-700">
                             Total Reward Misi Selesai
                         </p>
                         <p class="text-3xl font-bold text-gray-900">
@@ -84,41 +84,41 @@ console.log(props.stats);
                     <div class="space-y-3">
                         <Link
                             href="/dashboard/ekraf/mission"
-                            class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
+                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#1485FF] to-[#A3CFFF]"
                         >
                             <span class="flex items-center gap-3">
                                 <Icon
                                     icon="tabler:target-arrow"
-                                    class="text-3xl text-gray-600"
+                                    class="text-5xl text-black"
                                 ></Icon>
                                 <span
-                                    class="text-base font-medium text-gray-800"
+                                    class="text-base font-medium text-white"
                                     >Kelola Misi</span
                                 >
                             </span>
                             <icon
                                 icon="mdi:chevron-right"
-                                class="text-3xl text-gray-500"
+                                class="text-3xl text-gray-600"
                             ></icon>
                         </Link>
 
                         <Link
                             href="/dashboard/ekraf/reward"
-                            class="flex items-center justify-between rounded-xl bg-gray-300 p-4 transition-all hover:bg-gray-400"
+                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#7467D1] to-[#9A90DE]"
                         >
                             <span class="flex items-center gap-3">
                                 <icon
                                     icon="fa-solid:medal"
-                                    class="text-3xl text-gray-600"
+                                    class="text-5xl text-black"
                                 ></icon>
                                 <span
-                                    class="text-base font-medium text-gray-800"
+                                    class="text-base font-medium text-white"
                                     >Kelola Hadiah</span
                                 >
                             </span>
                             <icon
                                 icon="mdi:chevron-right"
-                                class="text-3xl text-gray-500"
+                                class="text-3xl text-gray-600"
                             ></icon>
                         </Link>
                     </div>
@@ -129,25 +129,25 @@ console.log(props.stats);
                         Menunggu Validasi
                     </h2>
 
-                    <div class="space-y-4 rounded-xl bg-gray-300 p-4 shadow-sm">
+                    <div class="space-y-4 rounded-xl bg-[#D8EBFF] p-4">
                         <div
                             v-for="(reward, index) in props.pendingValidations"
                             :key="index"
                             class="space-y-4"
                         >
                             <div
-                                class="flex items-center gap-3 border-b-2 border-gray-500 pb-2"
+                                class="flex items-center gap-3 border-b-2 border-gray-400 pb-2"
                             >
                                 <div
                                     class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-600"
                                 ></div>
                                 <div class="flex-grow">
                                     <p
-                                        class="text-sm font-medium text-gray-900"
+                                        class="text-sm font-bold text-black"
                                     >
                                         {{ reward.reward.title }}
                                     </p>
-                                    <p class="text-xs text-black">
+                                    <p class="text-xs font-semibold text-gray-500">
                                         {{ reward.tourist.name }}
                                     </p>
                                 </div>
@@ -159,13 +159,13 @@ console.log(props.stats);
                                 href="/dashboard/ekraf/reward/validate-all"
                                 method="post"
                                 as="button"
-                                class="w-full rounded-3xl bg-gray-600 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-gray-700"
+                                class="w-full rounded-3xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-2 text-sm font-medium text-white"
                             >
                                 Validasi Sekali Klik
                             </Link>
                             <a href="validasihadiah.html" class="block">
                                 <button
-                                    class="w-full rounded-3xl border-2 border-white px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200"
+                                    class="w-full rounded-3xl border-2 bg-white px-4 py-2 text-sm font-medium text-black"
                                 >
                                     Cek Antrian Validasi
                                 </button>
@@ -176,21 +176,21 @@ console.log(props.stats);
             </main>
         </div>
         <nav
-            class="fixed right-0 bottom-0 left-0 border-t border-gray-200 bg-blue-100"
+            class="fixed right-0 bottom-0 left-0 border-t bg-white"
         >
             <div
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
                 <Link href="/dashboard/ekraf" class="p-2">
-                    <icon icon="mdi:home" class="text-3xl"></icon>
+                    <icon icon="mdi:home" class="text-3xl text-[#1485FF]"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/mission" class="p-2">
-                    <icon icon="tabler:target-arrow" class="text-3xl"></icon>
+                    <icon icon="tabler:target-arrow" class="text-3xl text-[#1485FF]"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/reward" class="p-2">
-                    <icon icon="mdi:gift" class="text-3xl"></icon>
+                    <icon icon="mdi:gift" class="text-3xl text-[#1485FF]"></icon>
                 </Link>
             </div>
         </nav>

@@ -126,6 +126,21 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
+    public function getDetailMission($id) {
+        $user = Auth::user();
+
+        $partnerId = $user->id;
+        if($user->role != 'partner'){
+            return redirect()->route('dashboard');
+        }
+
+        $mission = Mission::query()->where('partner_user_id', '=' , $partnerId)->where('id', $id)->firstOrFail();
+
+        return Inertia::render('DashboardEkraf/DetailMisi', [
+            "detail" => $mission
+        ]);
+    }
+
     public function createMission()
     {
         return Inertia::render('DashboardEkraf/AddMission');
