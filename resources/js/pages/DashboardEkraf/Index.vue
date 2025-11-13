@@ -176,7 +176,7 @@ console.log(props.stats);
             </main>
         </div>
         <nav
-            class="fixed right-0 bottom-0 left-0 border-t bg-white"
+            class="fixed right-0 bottom-0 left-0 bg-white"
         >
             <div
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
