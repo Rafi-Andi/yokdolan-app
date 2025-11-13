@@ -38,8 +38,8 @@ import { Link } from '@inertiajs/vue3';
 
         <main class="px-4 space-y-5">
             
-            <div class="w-full h-48 bg-gray-200 rounded-xl flex items-center justify-center">
-                <img src="" alt="foto misi" class="w-full">
+            <div class=" bg-gray-200 rounded-xl flex items-center justify-center">
+                 <img :src="`${url}/storage/${detail.mission_photo_path}`" alt="qrcode misi" class="w-100">
             </div>
 
             <div class="space-y-2">
@@ -82,10 +82,10 @@ import { Link } from '@inertiajs/vue3';
                 <div class="w-48 h-48 bg-gray-100 flex items-center justify-center">
                     <img :src="`${url}/storage/${detail.qr_code_path}`" alt="qrcode misi" class="w-full">
                 </div>
-                <button class="w-full bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg text-sm hover:bg-gray-400 transition-all flex items-center justify-center gap-2">
+                <a :href="`${url}/storage/${detail.qr_code_path}`" download class="w-full bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg text-sm hover:bg-gray-400 transition-all flex items-center justify-center gap-2">
                     <Icon icon="material-symbols:download" class="text-xl"></Icon>
                     Unduh QR Code
-                </button>
+                </a>
             </div>
 
         </main>
