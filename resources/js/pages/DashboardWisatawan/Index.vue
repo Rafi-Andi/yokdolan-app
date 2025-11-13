@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+const props = defineProps({
+    'user': Object
+})
 
+console.log(props.user)
 </script>
 
 <template>
@@ -17,7 +21,7 @@ import { Icon } from '@iconify/vue';
                 <div class="p-6 w-full flex items-center justify-between">
                     <div class="">
                         <h1 class="text-2xl font-bold ">Hallo!</h1>
-                        <p class="text-2xl">Habl Sankrumi</p>
+                        <p class="text-2xl">{{ user?.name }}</p>
                         <p class="text-gray-500 text-xs">Wisata Jadi Lebih Seru dengan Misi Berhadiah.</p>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 640 512"><path fill="#1485FF" d="M353.8 54.1L330.2 6.3c-3.9-8.3-16.1-8.6-20.4 0l-23.6 47.8l-52.3 7.5c-9.3 1.4-13.3 12.9-6.4 19.8l38 37l-9 52.1c-1.4 9.3 8.2 16.5 16.8 12.2l46.9-24.8l46.6 24.4c8.6 4.3 18.3-2.9 16.8-12.2l-9-52.1l38-36.6c6.8-6.8 2.9-18.3-6.4-19.8l-52.3-7.5zM256 256c-17.7 0-32 14.3-32 32v192c0 17.7 14.3 32 32 32h128c17.7 0 32-14.3 32-32V288c0-17.7-14.3-32-32-32zM32 320c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32h128c17.7 0 32-14.3 32-32V352c0-17.7-14.3-32-32-32zm416 96v64c0 17.7 14.3 32 32 32h128c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32H480c-17.7 0-32 14.3-32 32"/></svg>
@@ -33,7 +37,7 @@ import { Icon } from '@iconify/vue';
                         </div>
                         <div class="">
                             <h2 class="text-xl font-semibold mb-1">Poin Misi</h2>
-                            <p class="text-sm mb-3">400 poin</p>
+                            <p class="text-sm mb-3">{{ props.user?.tourist_profile?.point_akumulasi ?? 'Loading...' }} poin</p>
                             <div class="w-16 h-1.5 bg-yellow-400 rounded-full mb-4"></div>
                         </div>
                     </div>
@@ -50,7 +54,7 @@ import { Icon } from '@iconify/vue';
                         </div>
                         <div class="">
                             <h2 class="text-xl font-semibold mb-1">Poin Hadiah</h2>
-                            <p class="text-sm mb-3">200 poin</p>
+                            <p class="text-sm mb-3">{{ props.user?.tourist_profile?.point_value ?? 'Loading...' }} poin</p>
                             <div class="w-16 h-1.5 bg-yellow-400 rounded-full mb-4"></div>
                         </div>
                     </div>

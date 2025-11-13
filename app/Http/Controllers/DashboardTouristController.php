@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Mission;
 use Illuminate\Http\Request;
@@ -12,14 +13,19 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardTouristController extends Controller
 {
-    function index()
-    {
-        $user = Auth::user();
-        if ($user->role === 'partner') {
-            return redirect()->route('dashboard.ekraf');
-        }
 
-        return Inertia::render('DashboardWisatawan/Index');
+    function index(){
+        $userId = Auth::id();
+
+        $user = User::with('TouristProfile')->find($userId); 
+        if(!$user || $user->role === 'partner'){
+            if ($user && $user->role === 'partner') {
+                return redirect()->route('dashboard.ekraf');
+            }
+        }
+        return Inertia::render('DashboardWisatawan/Index', [
+            'user' => $user
+        ]);
     }
     function leaderboard()
     {
