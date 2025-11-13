@@ -191,20 +191,26 @@ class EkrafPartnerController extends Controller
 
         $channelId = $user->ekrafPartner->channel_id;
 
-        // 1. Validasi Input Form
         $data = $request->validate([
             'title' => 'required|string|max:128',
             'description' => 'required|string',
-            'type' => 'required|string|in:Transaksi,Interaksi,Promosi', // Asumsi tipe hanya 2 ini
+            'type' => 'required|string|in:Transaksi,Interaksi,Promosi',
             'reward_points' => 'required|integer|min:1',
+            'mission_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120' 
         ]);
 
         $uniqueId = 'QR-' . Str::upper(Str::random(10));
-        $qrContentUrl = url("/mission/validate/{$uniqueId}"); // URL endpoint validasi
-        $fileName = 'qrcodes/mission-' . $uniqueId . '.png';
+        $qrContentUrl = url("/mission/validate/{$uniqueId}");
+
+        $qrFileName = 'qrcodes/mission-' . $uniqueId . '.png';
+        $missionPhotoPath = null; 
 
         try {
-            // 2. Generate QR Code menggunakan Builder yang terbukti berhasil (Pola Named Arguments)
+            if ($request->hasFile('mission_photo')) {
+                $file = $request->file('mission_photo');
+                $missionPhotoPath = $file->store('missions', 'public');
+            }
+
             $builder = new Builder(
                 writer: new PngWriter(),
                 data: $qrContentUrl,
@@ -214,27 +220,74 @@ class EkrafPartnerController extends Controller
             );
             $result = $builder->build();
 
-            // 3. Simpan Gambar QR Code ke Storage
-            Storage::disk('public')->put($fileName, $result->getString());
+            Storage::disk('public')->put($qrFileName, $result->getString());
 
-            // 4. Buat Entri Misi di Database
             Mission::create([
                 'partner_user_id' => $user->id,
-                'channel_id' => $channelId, // Mengambil Channel ID dari form
+                'channel_id' => $channelId,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'type' => $data['type'],
                 'reward_points' => $data['reward_points'],
+                'mission_photo_path' => $missionPhotoPath,
                 'qr_code_unique_id' => $uniqueId,
-                'qr_code_path' => $fileName, // Menyimpan path file
+                'qr_code_path' => $qrFileName,
                 'is_active' => true,
             ]);
 
             return redirect()->route('dashboard.ekraf.mission')
                 ->with('success', 'Misi dan QR Code berhasil dibuat dan siap digunakan!');
         } catch (\Exception $e) {
-            // Tangani kegagalan penyimpanan QR Code (misal: ekstensi GD bermasalah)
+            if ($missionPhotoPath) {
+                Storage::disk('public')->delete($missionPhotoPath);
+            }
             return back()->with('error', 'Gagal membuat Misi. Error: ' . $e->getMessage());
+        }
+    }
+
+    public function storeReward(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard')->with('error', 'Akses ditolak.');
+        }
+
+        $partnerId = $user->id;
+
+        $data = $request->validate([
+            "title" => "required|string|min:4",
+            "description" => "required|string|min:8",
+            "type" => "required|string|in:Diskon,Gratis,Bonus",
+            "points_cost" => "required|integer|min:1",
+            "reward_photo" => "required|image|mimes:jpeg,png,jpg,webp|max:1000"
+        ]);
+
+        try {
+            $photoPath = null;
+
+            if ($request->hasFile('reward_photo')) {
+                $file = $request->file('reward_photo');
+                $photoPath = $file->store('rewards', 'public');
+            }
+
+            $reward = Reward::create([
+                'partner_user_id' => $partnerId,
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'type' => $data['type'],
+                'points_cost' => $data['points_cost'],
+                'reward_photo_path' => $photoPath,
+                'is_available' => 1,
+            ]);
+
+            return redirect()->route('dashboard.ekraf.reward')
+                ->with('success', 'Hadiah berhasil dibuat dan siap digunakan!');
+        } catch (\Exception $e) {
+            if ($photoPath) {
+                Storage::disk('public')->delete($photoPath);
+            }
+            return back()->with('error', 'Gagal membuat Hadiah. Error: ' . $e->getMessage());
         }
     }
 

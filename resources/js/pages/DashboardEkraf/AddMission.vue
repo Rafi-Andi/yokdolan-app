@@ -1,25 +1,65 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue'; // Tambahkan ref
 
+// Perbarui form state untuk mencakup foto
 const form = useForm({
     title: '',
     description: '',
     type: '',
     reward_points: null,
+    mission_photo: null, // Field untuk file foto
 });
+
+// State untuk menampilkan preview gambar
+const photoPreview = ref(null);
 
 const props = defineProps({
     channels: {
         type: Array,
         default: () => [{ id: 1, name: 'Bromo & Sekitarnya' }],
     },
+    // Pastikan errors dikirim ke komponen
+    errors: Object, 
 });
 
+// Fungsi untuk menangani upload file dan membuat preview
+const handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+        // Simpan file ke form
+        form.mission_photo = file;
+
+        // Buat preview URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photoPreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        form.mission_photo = null;
+        photoPreview.value = null;
+    }
+};
+
+// Fungsi untuk menghapus preview/file (opsional)
+const clearPhoto = () => {
+    photoPreview.value = null;
+    form.mission_photo = null;
+    // Reset file input agar bisa upload file yang sama lagi
+    document.getElementById('gambar_misi_input').value = null;
+}
+
+
 const submit = () => {
+    // Gunakan POST untuk form yang mengandung file
+    // Inertia akan otomatis menggunakan multipart/form-data
     form.post('/dashboard/ekraf/store-mission', {
         onSuccess: () => {
             form.reset();
+            clearPhoto(); // Bersihkan preview setelah sukses
         },
         onError: (errors) => {
             console.error('Error saat menyimpan misi:', errors);
@@ -63,10 +103,11 @@ const submit = () => {
                                 v-model="form.title"
                                 required
                                 class="w-full rounded-lg border-none bg-gray-100 px-4 py-3 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+                                :class="{'ring-red-500 border-red-500': form.errors.title}"
                             />
                             <span
                                 v-if="form.errors.title"
-                                class="text-xs text-red-500"
+                                class="text-xs text-red-500 mt-1"
                                 >{{ form.errors.title }}</span
                             >
                         </div>
@@ -84,13 +125,67 @@ const submit = () => {
                                 v-model="form.description"
                                 required
                                 class="w-full rounded-lg border-none bg-gray-100 px-4 py-3 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+                                :class="{'ring-red-500 border-red-500': form.errors.description}"
                             ></textarea>
                             <span
                                 v-if="form.errors.description"
-                                class="text-xs text-red-500"
+                                class="text-xs text-red-500 mt-1"
                                 >{{ form.errors.description }}</span
                             >
                         </div>
+                        
+                        <!-- BARU: GAMBAR MISI -->
+                        <div>
+                            <label
+                                for="gambar_misi_input"
+                                class="mb-1 block text-sm font-medium"
+                            >
+                                Gambar Misi (Opsional)
+                            </label>
+                            <div class="relative">
+                                <input
+                                    type="file"
+                                    id="gambar_misi_input"
+                                    @change="handlePhotoUpload"
+                                    class="absolute inset-0 z-10 h-full w-full opacity-0 cursor-pointer"
+                                    accept="image/*"
+                                />
+
+                                <div
+                                    class="flex h-48 w-full flex-col items-center justify-center rounded-xl bg-gray-200 border-2 border-dashed border-gray-400 overflow-hidden"
+                                    :class="{'border-red-500 ring-red-500': form.errors.mission_photo}"
+                                >
+                                    <div v-if="photoPreview" class="relative h-full w-full">
+                                        <!-- Preview Gambar -->
+                                        <img
+                                            :src="photoPreview"
+                                            alt="Mission Preview"
+                                            class="h-full w-full object-cover"
+                                        />
+                                        <!-- Tombol Hapus Preview -->
+                                        <button 
+                                            type="button" 
+                                            @click.stop="clearPhoto"
+                                            class="absolute top-2 right-2 bg-black/50 p-1 rounded-full text-white hover:bg-black/70 transition z-20"
+                                        >
+                                            <Icon icon="mdi:close" class="text-lg"></Icon>
+                                        </button>
+                                    </div>
+
+                                    <div v-else class="text-center">
+                                        <!-- Placeholder jika belum ada gambar -->
+                                        <Icon
+                                            icon="mdi:image-outline"
+                                            class="text-6xl text-gray-400"
+                                        ></Icon>
+                                        <p class="text-gray-600">Klik untuk Upload Gambar (Max 5MB)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <span v-if="form.errors.mission_photo" class="text-xs text-red-500 mt-1">{{ form.errors.mission_photo }}</span>
+                        </div>
+                        <!-- AKHIR GAMBAR MISI -->
+
 
                         <div>
                             <label
@@ -104,6 +199,7 @@ const submit = () => {
                                     v-model="form.type"
                                     required
                                     class="w-full appearance-none rounded-lg border-none bg-gray-100 px-4 py-3 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+                                    :class="{'ring-red-500 border-red-500': form.errors.type}"
                                 >
                                     <option value="" disabled>
                                         Pilih tipe misi
@@ -122,7 +218,7 @@ const submit = () => {
                                 </div>
                                 <span
                                     v-if="form.errors.type"
-                                    class="text-xs text-red-500"
+                                    class="text-xs text-red-500 mt-1"
                                     >{{ form.errors.type }}</span
                                 >
                             </div>
@@ -138,18 +234,17 @@ const submit = () => {
                                 type="number"
                                 id="poin"
                                 placeholder="Masukkan jumlah poin"
-                                v-model="form.reward_points"
+                                v-model.number="form.reward_points"
                                 required
                                 class="w-full rounded-lg border-none bg-gray-100 px-4 py-3 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+                                :class="{'ring-red-500 border-red-500': form.errors.reward_points}"
                             />
                             <span
                                 v-if="form.errors.reward_points"
-                                class="text-xs text-red-500"
+                                class="text-xs text-red-500 mt-1"
                                 >{{ form.errors.reward_points }}</span
                             >
                         </div>
-
-                        <input type="hidden" v-model="form.channel_id" />
                     </form>
                 </div>
             </main>
@@ -162,7 +257,7 @@ const submit = () => {
                 <button
                     @click="submit"
                     :disabled="form.processing"
-                    class="w-full rounded-xl bg-gray-700 px-4 py-3 text-base font-medium text-white transition-all hover:bg-gray-800"
+                    class="w-full rounded-xl bg-gray-700 px-4 py-3 text-base font-medium text-white transition-all hover:bg-gray-800 disabled:bg-gray-400"
                 >
                     {{
                         form.processing
