@@ -1,14 +1,24 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const form = useForm({
     title: '',
     description: '',
     type: '',
-    points_cost: '',
     reward_photo: null,
+});
+
+const props = defineProps({
+    pointMap: {
+        type: Object,
+        default: () => ({ Transaksi: 300, Interaksi: 700, Promosi: 500 }),
+    },
+});
+
+const calculatedCost = computed(() => {
+    return props.pointMap[form.type] || 0;
 });
 
 const photoPreview = ref(null);
@@ -164,29 +174,23 @@ const clearPhoto = () => {
                             </p>
                         </div>
 
-                        <div>
+                        <div v-if="form.type">
                             <label
-                                for="biaya_poin"
-                                class="mb-1 block text-sm font-medium"
+                                class="mb-1 block text-sm font-bold text-gray-700"
+                                >Biaya Poin Ditukar</label
                             >
-                                Biaya Poin
-                            </label>
-                            <input
-                                type="number"
-                                id="biaya_poin"
-                                v-model.number="form.points_cost"
-                                placeholder="Masukkan jumlah biaya poin"
-                                class="w-full rounded-lg border-none bg-gray-100 px-4 py-3 focus:ring-2 focus:ring-gray-300 focus:outline-none"
-                                :class="{
-                                    'border-red-500 ring-red-500':
-                                        form.errors.points_cost,
-                                }"
-                            />
-                            <p
-                                v-if="form.errors.points_cost"
-                                class="mt-1 text-xs text-red-500"
+                            <div
+                                class="flex items-center gap-2 rounded-lg border border-blue-300 bg-blue-100 p-3 text-lg font-extrabold text-gray-800"
                             >
-                                {{ form.errors.points_cost }}
+                                <Icon
+                                    icon="el:star-alt"
+                                    class="text-2xl text-blue-600"
+                                ></Icon>
+                                {{ calculatedCost }} Poin
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">
+                                Poin yang akan dipotong dari saldo wisatawan
+                                saat menukarkan hadiah ini.
                             </p>
                         </div>
 

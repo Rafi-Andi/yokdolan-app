@@ -126,15 +126,16 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function getDetailMission($id) {
+    public function getDetailMission($id)
+    {
         $user = Auth::user();
 
         $partnerId = $user->id;
-        if($user->role != 'partner'){
+        if ($user->role != 'partner') {
             return redirect()->route('dashboard');
         }
 
-        $mission = Mission::query()->where('partner_user_id', '=' , $partnerId)->where('id', $id)->firstOrFail();
+        $mission = Mission::query()->where('partner_user_id', '=', $partnerId)->where('id', $id)->firstOrFail();
 
         return Inertia::render('DashboardEkraf/DetailMisi', [
             "detail" => $mission
@@ -143,11 +144,26 @@ class EkrafPartnerController extends Controller
 
     public function createMission()
     {
-        return Inertia::render('DashboardEkraf/AddMission');
+        $pointMap = [
+            'Transaksi' => 300,
+            'Interaksi' => 700,
+            'Promosi' => 500,
+        ];
+        return Inertia::render('DashboardEkraf/AddMission', [
+            'pointMap' => $pointMap
+        ]);
     }
     public function createReward()
     {
-        return Inertia::render('DashboardEkraf/AddReward');
+        $pointMap = [
+            'Gratis' => 800,
+            'Diskon' => 500,
+            'Bonus' => 350,
+        ];
+
+        return Inertia::render('DashboardEkraf/AddReward', [
+            'pointMap' => $pointMap
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -196,6 +212,11 @@ class EkrafPartnerController extends Controller
         }
     }
 
+    private const REWARD_POINTS_MAP = [
+        'Interaksi' => 700,
+        'Promosi' => 500,
+        'Transaksi' => 300,
+    ];
     public function storeMission(Request $request)
     {
         $user = Auth::user();
@@ -210,15 +231,20 @@ class EkrafPartnerController extends Controller
             'title' => 'required|string|max:128',
             'description' => 'required|string',
             'type' => 'required|string|in:Transaksi,Interaksi,Promosi',
-            'reward_points' => 'required|integer|min:1',
-            'mission_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120' 
+            'mission_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
         ]);
+
+        $rewardPoints = self::REWARD_POINTS_MAP[$data['type']] ?? 0;
+
+        if ($rewardPoints === 0) {
+            return back()->with('error', 'Tipe misi yang dipilih tidak memiliki nilai poin.');
+        }
 
         $uniqueId = 'QR-' . Str::upper(Str::random(10));
         $qrContentUrl = url("/mission/validate/{$uniqueId}");
 
         $qrFileName = 'qrcodes/mission-' . $uniqueId . '.png';
-        $missionPhotoPath = null; 
+        $missionPhotoPath = null;
 
         try {
             if ($request->hasFile('mission_photo')) {
@@ -243,7 +269,7 @@ class EkrafPartnerController extends Controller
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'type' => $data['type'],
-                'reward_points' => $data['reward_points'],
+                'reward_points' => $rewardPoints,
                 'mission_photo_path' => $missionPhotoPath,
                 'qr_code_unique_id' => $uniqueId,
                 'qr_code_path' => $qrFileName,
@@ -260,6 +286,11 @@ class EkrafPartnerController extends Controller
         }
     }
 
+    private const REWARD_POINT_COST = [
+        'Gratis' => 800,
+        'Diskon' => 500,
+        'Bonus' => 350,
+    ];
     public function storeReward(Request $request)
     {
         $user = Auth::user();
@@ -274,7 +305,6 @@ class EkrafPartnerController extends Controller
             "title" => "required|string|min:4",
             "description" => "required|string|min:8",
             "type" => "required|string|in:Diskon,Gratis,Bonus",
-            "points_cost" => "required|integer|min:1",
             "reward_photo" => "required|image|mimes:jpeg,png,jpg,webp|max:1000"
         ]);
 
@@ -286,12 +316,18 @@ class EkrafPartnerController extends Controller
                 $photoPath = $file->store('rewards', 'public');
             }
 
+            $pointCost = self::REWARD_POINT_COST[$data['type']] ?? 0;
+
+            if ($pointCost === 0) {
+                return back()->with('error', 'Tipe misi yang dipilih tidak memiliki nilai poin.');
+            }
+
             $reward = Reward::create([
                 'partner_user_id' => $partnerId,
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'type' => $data['type'],
-                'points_cost' => $data['points_cost'],
+                'points_cost' => $pointCost,
                 'reward_photo_path' => $photoPath,
                 'is_available' => 1,
             ]);
