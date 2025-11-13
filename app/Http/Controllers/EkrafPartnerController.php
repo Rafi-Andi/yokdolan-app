@@ -111,6 +111,21 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
+    public function getDetailRewards($id)
+    {
+        $user = Auth::user();
+
+        $partnerId = $user->id;
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard');
+        }
+
+        $rewards = Reward::query()->where('partner_user_id', '=', $partnerId)->where('id', $id)->firstOrFail();        
+        return Inertia::render('DashboardEkraf/DetailRewards', [
+            "detail" => $rewards
+        ]);
+    }
+
     public function getAllMissions()
     {
         $user = Auth::user();

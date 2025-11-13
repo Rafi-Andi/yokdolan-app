@@ -39,7 +39,7 @@ console.log(props.rewards)
             <main class="space-y-4 px-4">
 
                 <div class="space-y-3">
-                    <a v-for="(reward, index) in rewards" :key="index" href="detailhadiah.html" class="block">
+                    <Link v-for="(reward, index) in rewards" :key="index" :href="`/dashboard/ekraf/reward/${reward.id}`" class="block">
                         <div
                             :class="[
                                 'flex items-start justify-between rounded-xl p-4', 
@@ -66,7 +66,7 @@ console.log(props.rewards)
                                 >
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </main>
         </div>
