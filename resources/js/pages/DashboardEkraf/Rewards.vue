@@ -37,7 +37,6 @@ console.log(props.rewards)
             </div>
 
             <main class="space-y-4 px-4">
-
                 <div class="space-y-3">
                     <Link v-for="(reward, index) in rewards" :key="index" :href="`/dashboard/ekraf/reward/${reward.id}`" class="block">
                         <div

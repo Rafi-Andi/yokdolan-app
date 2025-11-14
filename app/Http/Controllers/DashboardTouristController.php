@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reward;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Mission;
@@ -76,21 +77,38 @@ class DashboardTouristController extends Controller
     }
     function hadiah()
     {
-        $user = Auth::user();
-        if ($user->role === 'partner') {
-            return redirect()->route('dashboard.ekraf');
+        $userId = Auth::id();
+
+        $user = User::with('TouristProfile')->find($userId); 
+        if(!$user || $user->role === 'partner'){
+            if ($user && $user->role === 'partner') {
+                return redirect()->route('dashboard.ekraf');
+            }
         }
 
-        return Inertia::render('DashboardWisatawan/Hadiah');
+        $rewards = Reward::query()->orderBy('created_at', 'asc')->get();
+        
+        return Inertia::render('DashboardWisatawan/Hadiah', [
+            'user' => $user,
+            'reward' => $rewards
+        ]);
     }
-    function detailhadiah()
+    function detailhadiah($id)
     {
-        $user = Auth::user();
-        if ($user->role === 'partner') {
-            return redirect()->route('dashboard.ekraf');
+        $userId = Auth::id();
+
+        $user = User::with('TouristProfile')->find($userId); 
+        if(!$user || $user->role === 'partner'){
+            if ($user && $user->role === 'partner') {
+                return redirect()->route('dashboard.ekraf');
+            }
         }
 
-        return Inertia::render('DashboardWisatawan/DetailHadiah');
+        $reward = Reward::query()->where('id', $id)->firstOrFail();        
+        return Inertia::render('DashboardWisatawan/DetailHadiah',[
+            'detail_reward' => $reward,
+            'user' => $user
+        ]);
     }
     function profile()
     {
