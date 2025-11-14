@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\DashboardTouristController;
 use App\Http\Controllers\EkrafPartnerController;
 use Inertia\Inertia;
@@ -35,15 +36,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
 
     Route::get('/register/ekraf', [RegisterEkrafController::class, 'index'])->name('register.ekraf');
-
-
     Route::post('/register/ekraf', [RegisterEkrafController::class, 'store']);
-
-    Route::get('/register/wisata', function () {
-        return Inertia::render('auth/WisataRegister');
-    })->name('register.wisata');
-
-    Route::post('/register/wisata', [RegisterWisataController::class, 'store']);
 
     Route::get('/dashboard/ekraf', [EkrafPartnerController::class, 'index'])->name('dashboard.ekraf');
 
@@ -59,5 +52,10 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('/dashboard/ekraf/mission/{id}', [EkrafPartnerController::class, 'getDetailMission'])->name('dashboard.ekraf.mission.detail');
     Route::get('/dashboard/ekraf/add-mission', [EkrafPartnerController::class, 'createMission'])->name('dashboard.ekraf.mission.add');
     Route::post('/dashboard/ekraf/store-mission', [EkrafPartnerController::class, 'storeMission']);
+
+     Route::get('/register/channel', [RegisterWisataController::class, 'index'])->name('register.channel');
+    Route::post('/register/channel', [RegisterWisataController::class, 'store']);
+
+    Route::get('/dashboard/channel', [ChannelController::class, 'index'])->name('dashboard.channel');
 });
 require __DIR__ . '/settings.php';

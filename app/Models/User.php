@@ -61,4 +61,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(EkrafPartner::class);
     }
+    public function channel(): HasOne
+    {
+        return $this->hasOne(Channel::class, 'owner_user_id');
+    }
 }

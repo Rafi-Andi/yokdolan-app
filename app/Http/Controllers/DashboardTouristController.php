@@ -26,6 +26,11 @@ class DashboardTouristController extends Controller
                 return redirect()->route('dashboard.ekraf');
             }
         }
+        if (!$user || $user->role === 'channel_owner') {
+            if ($user && $user->role === 'channel_owner') {
+                return redirect()->route('dashboard.channel');
+            }
+        }
         return Inertia::render('DashboardWisatawan/Index', [
             'user' => $user
         ]);

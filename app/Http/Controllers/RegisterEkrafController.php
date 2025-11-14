@@ -16,7 +16,7 @@ class RegisterEkrafController extends Controller
 
         if ($user->role == "partner") {
             return redirect()
-                ->route('dashboard')
+                ->route('dashboard.ekraf')
                 ->with('warning', 'Anda sudah terdaftar sebagai mitra Ekraf.');
         }
 

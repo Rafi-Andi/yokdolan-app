@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Channel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChannelController extends Controller
 {
@@ -12,7 +14,14 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        if ($user->role !== 'channel_owner') {
+            return redirect()->route('dashboard')->with('warning', 'Akses ditolak. Anda bukan Pemilik Channel Wisata.');
+        }
+
+        return Inertia::render('DashboardChannel/Index', [
+            'user' => $user
+        ]);
     }
 
     /**
