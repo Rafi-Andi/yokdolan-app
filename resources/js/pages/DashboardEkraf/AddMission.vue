@@ -263,7 +263,7 @@ const submit = () => {
                 <button
                     @click="submit"
                     :disabled="form.processing"
-                    class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-medium text-white"
+                    class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-medium text-white hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all"
                 >
                     {{
                         form.processing
@@ -273,7 +273,7 @@ const submit = () => {
                 </button>
                 <Link
                     href="/dashboard/ekraf/mission"
-                    class="block w-full rounded-xl bg-white px-4 py-3 text-center text-base font-semibold text-black"
+                    class="block w-full rounded-xl bg-white px-4 py-3 text-center text-base font-semibold text-black hover:bg-gray-200 transition-all"
                 >
                     Batal
                 </Link>

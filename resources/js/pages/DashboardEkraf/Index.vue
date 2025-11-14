@@ -84,7 +84,7 @@ console.log(props.stats);
                     <div class="space-y-3">
                         <Link
                             href="/dashboard/ekraf/mission"
-                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#1485FF] to-[#A3CFFF]"
+                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#1485FF] to-[#A3CFFF] hover:from-[#0F6FCC] hover:to-[#7FB8E8] transition-all"
                         >
                             <span class="flex items-center gap-3">
                                 <Icon
@@ -104,7 +104,7 @@ console.log(props.stats);
 
                         <Link
                             href="/dashboard/ekraf/reward"
-                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#7467D1] to-[#9A90DE]"
+                            class="flex items-center justify-between rounded-xl px-4 py-2 bg-linear-to-r from-[#7467D1] to-[#9A90DE] hover:from-[#5C4BB3] hover:to-[#7F74CE] transition-all"
                         >
                             <span class="flex items-center gap-3">
                                 <icon
@@ -159,13 +159,13 @@ console.log(props.stats);
                                 href="/dashboard/ekraf/reward/validate-all"
                                 method="post"
                                 as="button"
-                                class="w-full rounded-3xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-2 text-sm font-medium text-white"
+                                class="w-full rounded-3xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-2 text-sm font-medium text-white hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all"
                             >
                                 Validasi Sekali Klik
                             </Link>
                             <Link href="/dashboard/ekraf/validation" class="block">
                                 <button
-                                    class="w-full rounded-3xl border-2 bg-white px-4 py-2 text-sm font-medium text-black"
+                                    class="w-full cursor-pointer rounded-3xl border-2 bg-white px-4 py-2 text-sm font-medium text-black hover:bg-gray-200 transition-all"
                                 >
                                     Cek Antrian Validasi
                                 </button>

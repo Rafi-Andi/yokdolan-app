@@ -1,6 +1,8 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { Head, Link } from '@inertiajs/vue3';
+
+
 </script>
 <template>
 <div class="pb-24 bg-[#EBF5FF]">

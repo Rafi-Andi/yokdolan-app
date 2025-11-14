@@ -88,7 +88,7 @@ import { Link } from '@inertiajs/vue3';
     </div> 
     <div class="fixed bottom-0 left-0 right-0 p-4">
         <div class="max-w-lg mx-auto">
-            <button class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base transition-all">
+            <button class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all ">
                 Nonaktifkan Hadiah
             </button>
         </div>
