@@ -6,24 +6,27 @@ import { Icon } from '@iconify/vue';
 <template>
     <div class="bg-[#D1E4F7]">
         <div class="pb-40">
-            <div class="h-70 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat">
-                <div class="w-full flex justify-end py-4 px-6">
-                    <img src="/images/Rectangle 61.png" alt="" class="w-10 rounded-lg">
-                </div>
+            <div class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-15">
 
-                <div class="px-6 flex gap-3 w-full">
-                    <div class="w-fit h-full object-cover flex justify-center items-center rounded-[50%]  border-[1.6px] border-white p-2">
-                        <img src="/images/Rectangle 61.png" class="rounded-[50%]" alt="">
+                <div class="px-6 gap-3 w-full flex flex-col justify-center items-center">
+                    <div class="w-fit h-full object-cover flex justify-center items-center rounded-xl  border-[1.6px] border-white p-2">
+                        <img src="/images/kajoetangan.png" class="rounded-xl" alt="">
                     </div>
 
-                    <div class="">
-                        <h2 class="font-bold text-xl">Kampoeng Heritage Kajoetangan</h2>
-                        <p class="text-sm leading-5 mt-1">Masuk dan temukan galeri seni tersembunyi, kopi legendaris, dan kriya otentik di jantung sejarah Kota Malang.</p>
+                    <div class="flex flex-col items-center justify-center">
+                        <h2 class="font-bold text-xl text-center">Kampoeng Heritage Kajoetangan</h2>
+                        <p class="text-sm leading-5 mt-1 justify-center text-center">Masuk dan temukan galeri seni tersembunyi, kopi legendaris, dan kriya otentik di jantung sejarah Kota Malang.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="px-3 -mt-12 flex flex-col gap-4">
+            <div class="flex justify-center -mt-6">
+                <div class="bg-[#01ABFF] w-fit border border-white shadow-xl py-3 px-4 rounded-[20px]">
+                    <p class="text-white font-semibold">Daftar Sebagai Mitra Ekraf</p>
+                </div>
+            </div>
+
+            <div class="px-3 mt-4 flex flex-col gap-4">
                 <div class="bg-gradient-to-br from-[#ACDD36] to-[#29A983] rounded-4xl p-6 flex gap-4 justify-between items-center shadow-xl">
                         <div class=" w-full">
                             <h2 class="text-xl font-semibold text-white">Aroma Klasik</h2>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\Reward;
 use App\Models\User;
 use Inertia\Inertia;
@@ -53,14 +54,17 @@ class DashboardTouristController extends Controller
 
         return Inertia::render('DashboardWisatawan/Scan');
     }
-    function wisata()
+function wisata()
     {
         $user = Auth::user();
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
         }
 
-        return Inertia::render('DashboardWisatawan/Wisata');
+        $wisata = Channel::query()->orderBy('created_at', 'desc')->get();
+        return Inertia::render('DashboardWisatawan/Wisata', [
+            'wisata' => $wisata
+        ]);
     }
     function misi()
     {
