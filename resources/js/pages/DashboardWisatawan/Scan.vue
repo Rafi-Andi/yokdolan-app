@@ -4,6 +4,7 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const qrCodeMessage = ref(null);
+const errorMessage = ref(null);
 let html5QrCodeScanner = null;
 const QrContainerId = 'reader';
 const validationEndpoint = '/misi/validasi';
@@ -17,6 +18,7 @@ const dynamicBoxSize = computed(() => {
     boxSizePx.value = Math.round(size);
     return boxSizePx.value;
 });
+
 
 const onScanSuccess = (decodedText) => {
     qrCodeMessage.value = 'Data berhasil discan, memproses..';
@@ -36,7 +38,8 @@ const onScanSuccess = (decodedText) => {
             },
             onError: (errors) => {
                 console.error('Validasi gagal:', errors);
-                qrCodeMessage.value = 'Validasi gagal. Coba lagi.';
+                qrCodeMessage.value = errors.qr_code || 'Terjadi kesalahan saat memvalidasi QR code.';
+
 
                 setTimeout(() => {
                     refreshScanner();

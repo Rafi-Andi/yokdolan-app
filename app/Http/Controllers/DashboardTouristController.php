@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Mission;
+use App\Models\MissionClaim;
 use Illuminate\Http\Request;
 use App\Models\TouristProfile;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,12 @@ use Illuminate\Support\Facades\Auth;
 class DashboardTouristController extends Controller
 {
 
-    function index(){
+    function index()
+    {
         $userId = Auth::id();
 
-        $user = User::with('TouristProfile')->find($userId); 
-        if(!$user || $user->role === 'partner'){
+        $user = User::with('TouristProfile')->find($userId);
+        if (!$user || $user->role === 'partner') {
             if ($user && $user->role === 'partner') {
                 return redirect()->route('dashboard.ekraf');
             }
@@ -114,20 +116,19 @@ class DashboardTouristController extends Controller
             return back()->withErrors(['qr_code' => 'Kode QR tidak valid.'])->onlyInput('qr_code');
         }
 
+        $existingClaim = MissionClaim::where('tourist_user_id', $user->id)
+            ->where('mission_id', $Mission->id)
+            ->first();
+
+        if ($existingClaim) {
+            return back()->withErrors(['qr_code' => 'Misi ini sudah pernah Anda klaim sebelumnya.'])->onlyInput('qr_code');
+        }
+
 
         $rewardPoints = (int) $Mission->reward_points;
 
         $userId = $user->id;
-
-        Log::info('Scan Debug:', [
-            'user_id' => $user->id,
-            'mission_id' => $Mission->id,
-            'reward_points_from_mission' => $rewardPoints,
-            'initial_point_akumulasi' => $touristProfile->point_akumulasi ?? 'N/A',
-            'initial_point_value' => $touristProfile->point_value ?? 'N/A',
-            'raw_query_point_value' => "point_value + " . $rewardPoints
-        ]);
-
+        DB::beginTransaction();
 
         TouristProfile::firstOrCreate(
             ['user_id' => $userId],
@@ -143,12 +144,20 @@ class DashboardTouristController extends Controller
             ]);
 
             if ($updateResult > 0) {
+                $MissionClaim = MissionClaim::create([
+                    'tourist_user_id' => $userId,
+                    'mission_id' => $Mission->id,
+                    'claimed_at' => now(),
+                ]);
 
+                db::commit();
                 return redirect()->route('dashboard')->with('message', 'Misi berhasil diselesaikan! Poin ditambahkan.');
             } else {
+                db::rollBack();
                 return back()->withErrors(['qr_code' => 'Poin tidak bertambah. Pastikan field point_value bertipe numerik.']);
             }
         } catch (\Exception $e) {
+            db::rollBack();
             Log::error('Update Poin Gagal Total:', [
                 'user_id' => $user->id,
                 'error_message' => $e->getMessage(),
@@ -159,6 +168,4 @@ class DashboardTouristController extends Controller
             return back()->withErrors(['qr_code' => 'Terjadi kesalahan sistem saat menambahkan poin. Silakan cek log server.']);
         }
     }
-
-    
 }
