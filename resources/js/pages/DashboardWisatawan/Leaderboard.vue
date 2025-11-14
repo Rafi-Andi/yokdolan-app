@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import { Link } from '@inertiajs/vue3'; // <- tambahkan ini
 import { ref } from 'vue';
 
 const leaderboardData = ref([
@@ -8,13 +9,12 @@ const leaderboardData = ref([
   { id: 3, rank: 3, name: 'James Don', points: 340, avatar: null },
   { id: 4, rank: 4, name: 'Jean K', points: 320, avatar: null },
 ]);
-
 </script>
 
 <template>
-    <div class=" bg-[#EBF5FF] min-h-screen">
-        <main class="relative">
-            <div class="w-full pb-40 rounded-b-[45px] bg-[#D8EBFF] container-header">
+  <div class="bg-[#EBF5FF] "> 
+    <main class="relative">
+        <div class="w-full pb-40 rounded-b-[45px] bg-[#D8EBFF] container-header">
                 <div class="flex w-full justify-between items-center p-6">
                     <p></p>
                     <h2 class="font-bold text-2xl text-[#1485FF]">Papan Peringkat</h2>
@@ -75,48 +75,31 @@ const leaderboardData = ref([
                     </div>
                 </div>
             </div>
+    </main>
 
-        </main>
-    </div> 
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50" style="border-radius: 30px 30px 0 0;">
+      <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
+        <Link href="/dashboard" class="p-2 flex flex-col items-center text-gray-400">
+          <Icon icon="mdi:home" class="text-3xl text-gray-400" />
+        </Link>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200" style="border-radius: 30px 30px 0 0;">
-        <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
-            
-            <a href="#" class="p-2 flex flex-col items-center text-gray-400">
-                <Icon icon="mdi:home" class="text-3xl"></Icon>
-                <span class="text-xs font-medium">Home</span>
-            </a>
-            
-            <a href="#" class="p-2 flex flex-col items-center text-[#1485FF]">
-                <Icon icon="mdi:chart-bar" class="text-3xl"></Icon>
-                <span class="text-xs font-medium">Peringkat</span>
-            </a>
+        <Link href="/dashboard/leaderboard" class="p-2 flex flex-col items-center">
+          <!-- hapus quote berlebih di bawah -->
+          <Icon icon="material-symbols:leaderboard-rounded" class="text-3xl text-[#1485FF]" />
+        </Link>
 
-            <a href="#" class="p-4 bg-[#1485FF] rounded-full -mt-10 shadow-lg">
-                <Icon icon="mdi:qrcode-scan" class="text-4xl text-white"></Icon>
-            </a>
+        <Link href="/dashboard/scan" class="p-4 bg-[#1485FF] rounded-full -mt-10 shadow-lg">
+          <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
+        </Link>
 
-            <a href="#" class="p-2 flex flex-col items-center text-gray-400">
-                <Icon icon="tabler:target-arrow" class="text-3xl"></Icon>
-                <span class="text-xs font-medium">Misi</span>
-            </a>
-            
-            <a href="#" class="p-2 flex flex-col items-center text-gray-400">
-                <Icon icon="mdi:gift" class="text-3xl"></Icon>
-                <span class="text-xs font-medium">Hadiah</span>
-            </a>
-        </div>
+        <Link href="/dashboard/wisata" class="p-2 flex flex-col items-center text-gray-400">
+          <Icon icon="streamline-flex:target-solid" class="text-3xl" />
+        </Link>
+
+        <Link href="/dashboard/hadiah" class="p-2 flex flex-col items-center text-gray-400">
+          <Icon icon="mdi:gift" class="text-3xl" />
+        </Link>
+      </div>
     </nav>
-
+  </div>
 </template>
-
-<style>
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.no-scrollbar {
-    -ms-overflow-style: none;  
-    scrollbar-width: none;  
-}
-</style>
