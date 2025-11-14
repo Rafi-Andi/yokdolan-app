@@ -1,95 +1,168 @@
-<script setup lang="ts">
+<script setup>
 import { Icon } from '@iconify/vue';
+import { Head, Link, usePage, router } from '@inertiajs/vue3'; 
 
+const props = defineProps({
+    channel: Object, 
+    missions: Object, 
+});
+
+const url = 'http://127.0.0.1:8000';
+
+const missionsData = props.missions;
+
+console.log(props.channel);
 </script>
-
 <template>
+    <Head title="Misi Mitra Ekraf"/>
     <div class="bg-[#D1E4F7]">
         <div class="pb-40">
-            <div class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-15">
-
-                <div class="px-6 gap-3 w-full flex flex-col justify-center items-center">
-                    <div class="w-fit h-full object-cover flex justify-center items-center rounded-xl  border-[1.6px] border-white p-2">
-                        <img src="/images/kajoetangan.png" class="rounded-xl" alt="">
+            <div
+                class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-15"
+            >
+                <div
+                    class="flex w-full flex-col items-center justify-center gap-3 px-6"
+                >
+                    <div
+                        class="flex h-full w-fit items-center justify-center rounded-xl border-[1.6px] border-white object-cover p-2"
+                    >
+                        <img
+                            :src="`${url}/storage/${channel.photo_url}`" 
+                            class="rounded-xl w-32 h-32 object-cover"
+                            alt="Foto Channel"
+                        />
                     </div>
 
                     <div class="flex flex-col items-center justify-center">
-                        <h2 class="font-bold text-xl text-center">Kampoeng Heritage Kajoetangan</h2>
-                        <p class="text-sm leading-5 mt-1 justify-center text-center">Masuk dan temukan galeri seni tersembunyi, kopi legendaris, dan kriya otentik di jantung sejarah Kota Malang.</p>
+                        <h2 class="text-center text-2xl font-black text-white">
+                            {{ channel.name }}
+                        </h2>
+                        <p
+                            class="mt-1 justify-center text-center text-sm leading-5 text-white"
+                        >
+                            {{ channel.location }}
+                        </p>
                     </div>
                 </div>
             </div>
-
-            <div class="flex justify-center -mt-6">
-                <div class="bg-[#01ABFF] w-fit border border-white shadow-xl py-3 px-4 rounded-[20px]">
-                    <p class="text-white font-semibold">Daftar Sebagai Mitra Ekraf</p>
+            
+            <div class="-mt-6 flex justify-center">
+                <div
+                    class="w-fit rounded-[20px] border border-white bg-[#01ABFF] px-4 py-3 shadow-xl"
+                >
+                    <p class="font-semibold text-white">
+                        Daftar Sebagai Mitra Ekraf
+                    </p>
                 </div>
             </div>
 
-            <div class="px-3 mt-4 flex flex-col gap-4">
-                <div class="bg-gradient-to-br from-[#ACDD36] to-[#29A983] rounded-4xl p-6 flex gap-4 justify-between items-center shadow-xl">
-                        <div class=" w-full">
-                            <h2 class="text-xl font-semibold text-white">Aroma Klasik</h2>
-                            <p class="text-white text-[12px] mb-4">Lakukan pembelian minimal 100gr biji kopi giling (jenis apa saja) langsung dari toko.</p>
-                            <div class=" w-full flex">
-                                <div class="border bg-white border-white w-[90%] py-2 px-6 rounded-full flex justify-center">
-                                <p class="text-xs text-[#5ABC66] font-semibold text-center">Lihat Selengkapnya</p>
-                                </div>
-                            </div>
+            <div class="mt-4 flex flex-col gap-4 px-3">
+                
+                <div
+                    v-for="(mission, index) in missions.data"
+                    :key="mission.id ?? index"
+                    :class="[
+                        'flex items-start justify-between rounded-xl p-4',
+                        index % 3 === 0
+                            ? ' from-[#ACDD36] to-[#29A983]'
+                            : index % 3 === 1
+                              ? 'from-[#54C5F0] to-[#329ED6]'
+                              : 'from-[#F0DC55] to-[#EE924C]',
+                    ]"
+                    class="flex items-center justify-between gap-4 rounded-4xl bg-gradient-to-br p-6 shadow-xl"
+                >
+                    <div class="w-full">
+                        <h2 class="text-xl font-semibold text-white">
+                            {{ mission.title }}
+                        </h2>
+                        <p class="mb-4 text-[12px] text-white">
+                            {{ mission.description }}
+                        </p>
+                        <div class="flex w-full">
+                            <Link
+                                :href="`/dashboard/misi/${mission.id}`"
+                                class="flex w-[90%] justify-center rounded-full border border-white bg-white px-6 py-2"
+                            >
+                                <p
+                                    class="text-center text-xs font-semibold text-[#5ABC66]"
+                                >
+                                    Lihat Selengkapnya
+                                </p>
+                            </Link>
                         </div>
-                        <img src="/images/Rectangle 58.png" alt="" class="rounded-2xl w-25 shadow-xl">
+                    </div>
+                    <img
+                        :src="`${url}/storage/${mission.mission_photo_path}`"
+                        alt="Foto Misi"
+                        class="w-25 rounded-2xl shadow-xl"
+                    />
                 </div>
-
-                <div class="bg-gradient-to-br from-[#54C5F0] to-[#329ED6] rounded-4xl p-6 flex gap-4 justify-between items-center shadow-xl">
-                        <div class=" w-full">
-                            <h2 class="text-xl font-semibold text-white">Aroma Klasik</h2>
-                            <p class="text-white text-[12px] mb-4">Lakukan pembelian minimal 100gr biji kopi giling (jenis apa saja) langsung dari toko.</p>
-                            <div class=" w-full flex">
-                                <div class="border bg-white border-white w-[90%] py-2 px-6 rounded-full flex justify-center">
-                                <p class="text-xs text-[#5ABC66] font-semibold">Lihat Selengkapnya</p>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="/images/Rectangle 58.png" alt="" class="rounded-2xl shadow-xl">
+                
+                <div v-if="missions.data.length > 0" class="mt-8 pt-4 pb-12 flex justify-center">
+                    <template v-for="(link, key) in missions.links" :key="key">
+                        <div
+                            v-if="link.url === null"
+                            class="mb-1 mr-1 px-3 py-2 text-gray-500 text-xs leading-4 border rounded-lg"
+                            v-html="link.label"
+                        />
+                        <Link
+                            v-else
+                            class="mb-1 mr-1 px-3 py-2 text-xs leading-4 border rounded-lg hover:bg-[#1485FF]/10 transition"
+                            :class="{ 'bg-[#1485FF] text-white border-none': link.active, 'text-black bg-white': !link.active }"
+                            :href="link.url"
+                            v-html="link.label"
+                            preserve-scroll
+                            preserve-state
+                        />
+                    </template>
                 </div>
-                <div class="bg-gradient-to-br from-[#F0DC55] to-[#EE924C] rounded-4xl p-6 flex gap-4 justify-between items-center shadow-xl">
-                        <div class=" w-full">
-                            <h2 class="text-xl font-semibold text-white">Aroma Klasik</h2>
-                            <p class="text-white text-[12px] mb-4">Lakukan pembelian minimal 100gr biji kopi giling (jenis apa saja) langsung dari toko.</p>
-                            <div class=" w-full flex">
-                                <div class="border bg-white border-white w-[90%] py-2 px-6 rounded-full flex justify-center">
-                                <p class="text-xs text-[#5ABC66] font-semibold">Lihat Selengkapnya</p>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="/images/Rectangle 58.png" alt="" class="rounded-2xl shadow-xl">
+                
+                <div v-if="missions.data.length === 0" class="text-center text-gray-700 py-10">
+                    <p>Tidak ada misi yang ditemukan di channel ini.</p>
                 </div>
             </div>
         </div>
 
-            <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200" style="border-radius: 30px 30px 0 0;">
-            <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
-                
-                <Link href="/dashboard" class="p-2 flex flex-col items-center text-gray-400">
-                    <Icon icon="mdi:home" class="text-3xl text-gray-400"></Icon>
-                </Link>
-                
-                <Link href="/dashboard/leaderboard" class="p-2 flex flex-col items-center ">
-                    <Icon icon="material-symbols:leaderboard-rounded" class="text-3xl text-gray-400 "></Icon>
-                </Link>
+        <nav
+            class="fixed right-0 bottom-0 left-0 border-t border-gray-200 bg-white"
+            style="border-radius: 30px 30px 0 0"
+        >
+           <div class="mx-auto flex h-20 max-w-lg items-center justify-around px-4">
+               <Link href="/dashboard" class="flex flex-col items-center p-2 text-gray-400">
+                   <Icon icon="mdi:home" class="text-3xl text-gray-400"></Icon>
+               </Link>
 
-                <Link href="/dashboard/scan" class="p-4 bg-[#1485FF] rounded-full -mt-10 shadow-lg">
-                    <Icon icon="mdi:qrcode-scan" class="text-4xl text-white"></Icon>
-                </Link>
+               <Link href="/dashboard/leaderboard" class="flex flex-col items-center p-2">
+                   <Icon icon="material-symbols:leaderboard-rounded" class="text-3xl text-gray-400"></Icon>
+               </Link>
 
-                <Link href="/dashboard/wisata" class="p-2 flex flex-col items-center text-gray-400">
-                    <Icon icon="streamline-flex:target-solid" class="text-3xl"></Icon>
-                </Link>
-                
-                <Link href="/dashboard/hadiah" class="p-2 flex flex-col items-center text-gray-400">
-                    <Icon icon="mdi:gift" class="text-3xl"></Icon>
-                </Link>
-            </div>
+               <Link href="/dashboard/scan" class="-mt-10 rounded-full bg-[#1485FF] p-4 shadow-lg">
+                   <Icon icon="mdi:qrcode-scan" class="text-4xl text-white"></Icon>
+               </Link>
+
+               <Link href="/dashboard/wisata" class="flex flex-col items-center p-2 text-[#1485FF]">
+                   <Icon icon="streamline-flex:target-solid" class="text-3xl"></Icon>
+               </Link>
+
+               <Link href="/dashboard/hadiah" class="flex flex-col items-center p-2 text-gray-400">
+                   <Icon icon="mdi:gift" class="text-3xl"></Icon>
+               </Link>
+           </div>
         </nav>
     </div>
 </template>
+
+<style scoped>
+.rounded-4xl {
+    border-radius: 2rem;
+}
+.h-90 {
+    height: 22.5rem; 
+}
+.pt-15 {
+    padding-top: 3.75rem; 
+}
+.w-25 {
+    width: 6.25rem; 
+}
+</style>

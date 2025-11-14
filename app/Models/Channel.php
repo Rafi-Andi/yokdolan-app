@@ -9,4 +9,9 @@ class Channel extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function missions()
+    {
+        return $this->hasMany(Mission::class);
+    }
 }

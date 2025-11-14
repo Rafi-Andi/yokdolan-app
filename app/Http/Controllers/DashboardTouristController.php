@@ -32,8 +32,11 @@ class DashboardTouristController extends Controller
                 return redirect()->route('dashboard.channel');
             }
         }
+
+        $Channel = Channel::where('is_verified', true)->withCount('missions')->orderBy('created_at', 'asc')->take(5)->get();
         return Inertia::render('DashboardWisatawan/Index', [
-            'user' => $user
+            'user' => $user,
+            'channels' => $Channel
         ]);
     }
     function leaderboard()
@@ -54,49 +57,82 @@ class DashboardTouristController extends Controller
 
         return Inertia::render('DashboardWisatawan/Scan');
     }
-function wisata()
+    public function wisata(Request $request)
     {
         $user = Auth::user();
+
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
         }
 
-        $wisata = Channel::query()->orderBy('created_at', 'desc')->get();
+        $searchQuery = $request->input('search');
+
+        $wisata = Channel::query()
+            ->where('is_verified', true)
+            ->when($searchQuery, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('location', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'asc')
+            ->paginate(5)
+            ->withQueryString();
+
         return Inertia::render('DashboardWisatawan/Wisata', [
-            'wisata' => $wisata
+            'wisata' => $wisata,
+            'filters' => ['search' => $searchQuery],
         ]);
     }
-    function misi()
+    function misi($id)
     {
         $user = Auth::user();
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
         }
 
-        return Inertia::render('DashboardWisatawan/Misi');
+        $channel = Channel::find($id);
+
+        if (!$channel) {
+            return redirect()->route('dashboard.wisatawan.wisata')->with('error', 'Channel tidak ditemukan.');
+        }
+
+        $missions = $channel->missions()
+            ->orderBy('created_at', 'desc')
+            ->paginate(5)
+            ->withQueryString();
+
+        return Inertia::render('DashboardWisatawan/Misi', [
+            'channel' => $channel,
+            'missions' => $missions,
+        ]);
     }
-    function detailmisi()
+    function detailmisi($id)
     {
         $user = Auth::user();
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
         }
 
-        return Inertia::render('DashboardWisatawan/DetailMisi');
+        $mission = Mission::with(['channel', 'ekrafPartner.ekrafPartner'])->find($id);
+
+        return Inertia::render('DashboardWisatawan/DetailMisi', [
+            'mission' => $mission,
+        ]);
     }
     function hadiah()
     {
         $userId = Auth::id();
 
-        $user = User::with('TouristProfile')->find($userId); 
-        if(!$user || $user->role === 'partner'){
+        $user = User::with('TouristProfile')->find($userId);
+        if (!$user || $user->role === 'partner') {
             if ($user && $user->role === 'partner') {
                 return redirect()->route('dashboard.ekraf');
             }
         }
 
         $rewards = Reward::query()->orderBy('created_at', 'asc')->get();
-        
+
         return Inertia::render('DashboardWisatawan/Hadiah', [
             'user' => $user,
             'reward' => $rewards
@@ -106,15 +142,15 @@ function wisata()
     {
         $userId = Auth::id();
 
-        $user = User::with('TouristProfile')->find($userId); 
-        if(!$user || $user->role === 'partner'){
+        $user = User::with('TouristProfile')->find($userId);
+        if (!$user || $user->role === 'partner') {
             if ($user && $user->role === 'partner') {
                 return redirect()->route('dashboard.ekraf');
             }
         }
 
-        $reward = Reward::query()->where('id', $id)->firstOrFail();        
-        return Inertia::render('DashboardWisatawan/DetailHadiah',[
+        $reward = Reward::query()->where('id', $id)->firstOrFail();
+        return Inertia::render('DashboardWisatawan/DetailHadiah', [
             'detail_reward' => $reward,
             'user' => $user
         ]);

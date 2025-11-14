@@ -28,8 +28,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('dashboard/leaderboard', [DashboardTouristController::class, 'leaderboard'])->name('dashboard.wisatawan.leaderboard');
     Route::get('dashboard/scan', [DashboardTouristController::class, 'scan'])->name('dashboard.wisatawan.scan');
     Route::get('dashboard/wisata', [DashboardTouristController::class, 'wisata'])->name('dashboard.wisatawan.wisata');
-    Route::get('dashboard/misi', [DashboardTouristController::class, 'misi'])->name('dashboard.wisatawan.misi');
-    Route::get('dashboard/detailmisi', [DashboardTouristController::class, 'detailmisi'])->name('dashboard.wisatawan.detailmisi');
+    Route::get('dashboard/wisata/{id}', [DashboardTouristController::class, 'misi'])->name('dashboard.wisatawan.misi');
+    Route::get('dashboard/misi/{id}', [DashboardTouristController::class, 'detailmisi'])->name('dashboard.wisatawan.detailmisi');
     Route::get('dashboard/hadiah', [DashboardTouristController::class, 'hadiah'])->name('dashboard.wisatawan.hadiah');
     Route::get('dashboard/hadiah/{id}', [DashboardTouristController::class, 'detailhadiah'])->name('dashboard.wisatawan.detailhadiah');
     Route::get('dashboard/profile', [DashboardTouristController::class, 'profile'])->name('dashboard.wisatawan.profile');
