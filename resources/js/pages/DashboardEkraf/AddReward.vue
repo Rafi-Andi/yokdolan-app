@@ -55,30 +55,34 @@ const clearPhoto = () => {
 };
 </script>
 <template>
-    <div class="relative min-h-screen">
+    <div class="relative min-h-screen bg-[#EBF5FF]">
         <Head title="Tambah Hadiah" />
-        <div class="pb-60 md:pb-60">
-            <header class="flex items-center gap-4 bg-white p-4">
-                <Link href="/dashboard/ekraf/reward" class="text-gray-800">
-                    <icon icon="mdi:arrow-left" class="text-2xl"></icon>
+        
+        <div class="pb-60">
+            
+            <header
+                class="bg-top bg-no-repeat bg-cover flex flex-col gap-8 p-4 h-fit bg-[url('/images/texture.png')] mb-6"
+            >
+                <Link href="/dashboard/ekraf/reward" class="text-white">
+                    <Icon icon="mdi:arrow-left" class="text-3xl"></Icon>
                 </Link>
                 <div class="flex-grow md:ml-8">
-                    <h1 class="text-xl font-bold text-gray-900">
+                    <h1 class="text-xl font-bold text-white">
                         Tambah Hadiah Baru
                     </h1>
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-white/80">
                         Atur Detail hadiah promosi anda
                     </p>
                 </div>
             </header>
 
             <main class="px-4">
-                <div class="mt-4 rounded-xl bg-white p-6 shadow-sm">
+                <div class="mt-4 rounded-xl bg-[#D8EBFF] p-6 shadow-sm">
                     <form @submit.prevent="submit" class="space-y-4">
                         <div>
                             <label
                                 for="nama_hadiah"
-                                class="mb-1 block text-sm font-medium"
+                                class="mb-1 block text-sm font-bold"
                             >
                                 Nama Hadiah
                             </label>
@@ -104,7 +108,7 @@ const clearPhoto = () => {
                         <div>
                             <label
                                 for="deskripsi_hadiah"
-                                class="mb-1 block text-sm font-medium"
+                                class="mb-1 block text-sm font-bold"
                             >
                                 Deskripsi Hadiah
                             </label>
@@ -130,7 +134,7 @@ const clearPhoto = () => {
                         <div>
                             <label
                                 for="tipe_hadiah"
-                                class="mb-1 block text-sm font-medium"
+                                class="mb-1 block text-sm font-bold"
                             >
                                 Tipe Hadiah
                             </label>
@@ -160,10 +164,10 @@ const clearPhoto = () => {
                                 <div
                                     class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2"
                                 >
-                                    <icon
+                                    <Icon
                                         icon="mdi:chevron-down"
                                         class="relative top-1 text-xl text-gray-500"
-                                    ></icon>
+                                    ></Icon>
                                 </div>
                             </div>
                             <p
@@ -180,7 +184,7 @@ const clearPhoto = () => {
                                 >Biaya Poin Ditukar</label
                             >
                             <div
-                                class="flex items-center gap-2 rounded-lg border border-blue-300 bg-blue-100 p-3 text-lg font-extrabold text-gray-800"
+                                class="flex items-center gap-2 rounded-lg border border-blue-300 bg-blue-100 p-3 text-lg font-extrabold text-blue-700"
                             >
                                 <Icon
                                     icon="el:star-alt"
@@ -197,7 +201,7 @@ const clearPhoto = () => {
                         <div>
                             <label
                                 for="gambar_hadiah_input"
-                                class="mb-1 block text-sm font-medium"
+                                class="mb-1 block text-sm font-bold"
                             >
                                 Gambar Hadiah
                             </label>
@@ -211,7 +215,7 @@ const clearPhoto = () => {
                                 />
 
                                 <div
-                                    class="flex h-48 w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-400 bg-gray-200"
+                                    class="flex h-48 w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-400 bg-white"
                                     :class="{
                                         'border-red-500':
                                             form.errors.reward_photo,
@@ -231,22 +235,23 @@ const clearPhoto = () => {
                                             @click.stop="clearPhoto"
                                             class="absolute top-2 right-2 rounded-full bg-black/50 p-1 text-white transition hover:bg-black/70"
                                         >
-                                            <icon
+                                            <Icon
                                                 icon="mdi:close"
                                                 class="text-lg"
-                                            ></icon>
+                                            ></Icon>
                                         </button>
                                     </div>
 
                                     <div v-else class="text-center">
-                                        <icon
-                                            icon="mdi:image-outline"
-                                            class="text-6xl text-gray-400"
-                                        ></icon>
+                                            <Icon
+                                                icon="fa6-solid:image"
+                                                class="text-6xl text-gray-400 mx-auto"
+                                            ></Icon>
                                         <p class="text-gray-600">
-                                            Klik untuk Upload Gambar (Max 2MB)
+                                            Upload Gambar (Max 5MB)
                                         </p>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <p
@@ -262,19 +267,19 @@ const clearPhoto = () => {
         </div>
 
         <div
-            class="absolute bottom-0 w-full border-t border-gray-200 bg-gray-50 p-4"
+            class="absolute bottom-0 w-full bg-[#D8EBFF] p-4"
         >
             <div class="space-y-2">
                 <button
                     @click="submit"
                     :disabled="form.processing"
-                    class="w-full rounded-xl bg-gray-700 px-4 py-3 text-base font-medium text-white transition-all hover:bg-gray-800 disabled:bg-gray-400"
+                    class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-medium text-white"
                 >
                     {{ form.processing ? 'Menyimpan...' : 'Simpan Reward' }}
                 </button>
                 <Link
                     href="/dashboard/ekraf/reward"
-                    class="block w-full rounded-xl bg-gray-200 px-4 py-3 text-center text-base font-medium text-gray-800 transition-all hover:bg-gray-300"
+                    class="block w-full rounded-xl bg-white px-4 py-3 text-center text-base font-semibold text-black"
                 >
                     Batal
                 </Link>
