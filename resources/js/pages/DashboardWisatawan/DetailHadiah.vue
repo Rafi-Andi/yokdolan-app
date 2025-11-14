@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
 
-const missionDetail = ref({
-  title: 'Toko Kopi Lonceng',
-  subtitle: 'Aroma Klasik',
-  description: 'Toko kopi legendaris yang masih menjual biji kopi yang digiling di tempat dengan mesin sangrai tua.',
-  missionType: 'Misi Transaksi',
-  points: 400,
-  address: 'Malang, Kota Malang, Jawa Timur',
-  landmark: 'sebelah gerbang masuk sebelah kanan'
-});
+const props = defineProps({
+    detail_reward : Object,
+    user : Object
+})
+
+console.log(props.detail_reward)
+const url = "http://127.0.0.1:8000"
+
+
 
 </script>
 
 <template>
-    <div class="bg-[#D6EFFF] min-h-screen">
+    <div class="bg-[#D6EFFF]">
             
             <div class="flex justify-between items-center p-6">
                 <p class="font-bold text-2xl">Tukar Poinmu!</p>
@@ -36,39 +35,38 @@ const missionDetail = ref({
                         
                         <div class="">
                             <h2 class="text-xl font-semibold mb-1">Poin Hadiah</h2>
-                            <p class="text-xl mb-3 font-medium">Anda <span class="font-bold">200 poin</span></p>
+                            <p class="text-xl mb-3 font-medium">Anda <span class="font-bold">{{ props.user?.tourist_profile?.point_value ?? 'Loading...' }} poin</span></p>
                         </div>
                     </div> 
                     <div class="w-full h-1.5 bg-yellow-400 rounded-full"></div>
                 </div>
             </div>
 
-        <div class="bg-white rounded-t-3xl p-8  shadow-2xl relative mt-30">
+        <div class="bg-white pb-20 rounded-t-3xl p-8  shadow-2xl relative mt-30">
             
             <div class="w-full max-w-sm bg-white -mt-28 rounded-xl p-5 shadow-md">
                     <h2 class="text-xl font-bold text-gray-900 leading-tight">
-                        Gratis 1 Gelas Seduhan Kopi Tubruk
+                        {{ detail_reward?.title }}
                     </h2>
                     <div class="flex justify-between items-center mt-3">
-                        <p class="text-base text-gray-700">Tipe: Gratis Produk</p>
+                        <p class="text-base text-gray-700">Tipe: {{ detail_reward?.type }}</p>
                         <div class="flex items-center space-x-1">
                         <Icon icon="mdi:star" class="text-2xl text-gray-600" />
-                        <span class="text-lg font-semibold text-gray-800">500 Poin</span>
+                        <span class="text-lg font-semibold text-gray-800">{{ detail_reward?.points_cost }} Poin</span>
                         </div>
                     </div>
             </div>
 
             <h2 class="text-3xl font-bold text-black  mt-6"></h2>
             <p class="text-gray-600 mt-2 text-base ">
-
             </p>
 
             <div class="mt-8 space-y-5">
                 <div class=" border-10 border-white rounded-2xl flex items-center justify-center mx-auto  z-10 shadow">
-                    <img src="/images/kajoetangan.png" alt="" class="w-100">
+                    <img :src="`${url}/storage/${detail_reward?.reward_photo_path}`" alt="foto hadiah" class="w-100">
                 </div>
 
-                <p class="font-semibold text-justify">Tukarkan poin untuk mendapat 1 gelas kopi tubruk (kopi apa saja) yang diseduh langsung di toko.</p>
+                <p class="font-semibold text-justify">{{ detail_reward?.description }}</p>
             </div>
 
             <div class="flex w-full mt-5  justify-between">
