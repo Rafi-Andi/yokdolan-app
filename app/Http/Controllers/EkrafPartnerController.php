@@ -120,7 +120,7 @@ class EkrafPartnerController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $rewards = Reward::query()->where('partner_user_id', '=', $partnerId)->where('id', $id)->firstOrFail();        
+        $rewards = Reward::query()->where('partner_user_id', '=', $partnerId)->where('id', $id)->firstOrFail();
         return Inertia::render('DashboardEkraf/DetailRewards', [
             "detail" => $rewards
         ]);
@@ -355,6 +355,18 @@ class EkrafPartnerController extends Controller
             }
             return back()->with('error', 'Gagal membuat Hadiah. Error: ' . $e->getMessage());
         }
+    }
+
+    public function getValidation() 
+    {   
+        $user = Auth::user();
+
+        $partnerId = $user->id;
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard');
+        }
+
+        return Inertia::render('DashboardEkraf/Validation');
     }
 
     public function create()

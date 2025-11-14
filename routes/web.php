@@ -52,8 +52,9 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('/dashboard/ekraf/mission/{id}', [EkrafPartnerController::class, 'getDetailMission'])->name('dashboard.ekraf.mission.detail');
     Route::get('/dashboard/ekraf/add-mission', [EkrafPartnerController::class, 'createMission'])->name('dashboard.ekraf.mission.add');
     Route::post('/dashboard/ekraf/store-mission', [EkrafPartnerController::class, 'storeMission']);
+    Route::get('/dashboard/ekraf/validation', [EkrafPartnerController::class, 'getValidation'])->name('dashboard.ekraf.validation');
 
-     Route::get('/register/channel', [RegisterWisataController::class, 'index'])->name('register.channel');
+    Route::get('/register/channel', [RegisterWisataController::class, 'index'])->name('register.channel');
     Route::post('/register/channel', [RegisterWisataController::class, 'store']);
 
     Route::get('/dashboard/channel', [ChannelController::class, 'index'])->name('dashboard.channel');
