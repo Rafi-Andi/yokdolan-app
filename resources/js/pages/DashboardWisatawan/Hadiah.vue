@@ -18,8 +18,6 @@ const props = defineProps<{
 
 <template>
     <div class="bg-[#D6EFFF] pb-30">
-        
-        <!-- HEADER -->
         <div class="flex justify-between items-center p-6">
             <p class="font-bold text-2xl">Katalog Hadiah</p>
 
@@ -28,7 +26,6 @@ const props = defineProps<{
             </div>
         </div>
 
-        <!-- POIN HADIAH -->
         <div class="px-6">
             <div class="w-full h-fit bg-gradient-to-b from-[#0BB6FC] to-[#5372EE]
                  rounded-3xl shadow-lg p-4 gap-4 flex flex-col text-white overflow-hidden">
@@ -57,7 +54,6 @@ const props = defineProps<{
             </div>
         </div>
 
-        <!-- SEARCH -->
         <div class="px-6 pt-4">
             <h1 class="font-bold text-2xl">Daftar Hadiah</h1>
         </div>
@@ -73,7 +69,6 @@ const props = defineProps<{
             </div>
         </div>
 
-        <!-- LIST HADIAH -->
         <div class="px-6 mt-6 flex flex-col gap-3">
 
             <Link
@@ -104,8 +99,7 @@ const props = defineProps<{
             </Link>
 
         </div>
-
-        <!-- NAVBAR -->
+        
         <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50" style="border-radius: 30px 30px 0 0;">
             <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
                 

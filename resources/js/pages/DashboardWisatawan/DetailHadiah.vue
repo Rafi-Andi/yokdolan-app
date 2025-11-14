@@ -44,7 +44,12 @@ const url = "http://127.0.0.1:8000"
 
         <div class="bg-white pb-20 rounded-t-3xl p-8  shadow-2xl relative mt-30">
             
-            <div class="w-full max-w-sm bg-white -mt-28 rounded-xl p-5 shadow-md">
+            <div :class="[
+                    'w-full max-w-sm -mt-28 rounded-xl p-5 shadow-md transition',
+                    (detail_reward?.id % 2 === 0)
+                        ? 'bg-gradient-to-r from-[#FFF2DE] to-[#FFE0B2]'
+                        : 'bg-gradient-to-r from-[#FCE4EC] to-[#F8BBD0]'
+                ]">
                     <h2 class="text-xl font-bold text-gray-900 leading-tight">
                         {{ detail_reward?.title }}
                     </h2>
