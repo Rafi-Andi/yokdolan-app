@@ -163,13 +163,13 @@ console.log(props.stats);
                             >
                                 Validasi Sekali Klik
                             </Link>
-                            <a href="validasihadiah.html" class="block">
+                            <Link href="/dashboard/ekraf/validation" class="block">
                                 <button
                                     class="w-full rounded-3xl border-2 bg-white px-4 py-2 text-sm font-medium text-black"
                                 >
                                     Cek Antrian Validasi
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
