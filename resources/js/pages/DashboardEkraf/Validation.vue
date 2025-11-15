@@ -1,15 +1,71 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
+import { computed, onMounted } from 'vue';
 
+const page = usePage();
 
+const props = defineProps({
+    pendingValidations: Array,
+});
+
+const successMessage = computed(() => page.props.flash?.success);
+const errorMessage = computed(() => page.props.flash?.error);
+const warningMessage = computed(() => page.props.flash?.warning);
+
+onMounted(() => {
+    if (successMessage.value) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: successMessage.value,
+            confirmButtonColor: '#38a169',
+        });
+        page.props.flash.success = null;
+    }
+
+    if (errorMessage.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: errorMessage.value,
+            confirmButtonColor: '#e53e3e',
+        });
+        page.props.flash.error = null;
+    }
+
+    if (warningMessage.value) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Perhatian!',
+            text: warningMessage.value,
+            confirmButtonColor: '#ed8936',
+        });
+        page.props.flash.warning = null;
+    }
+});
+
+const formatTanggal = (tanggal) => {
+    if (!tanggal) return '-';
+    const date = new Date(tanggal);
+    const options = {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    };
+    return date.toLocaleString('id-ID', options);
+};
 </script>
 <template>
-<div class="pb-24 bg-[#EBF5FF]">
+    <Head title="Validasi Transaksi" />
+    <div class="pb-24 bg-[#EBF5FF]">
         
         <header class="p-4 flex items-center gap-11">
             <Link href="/dashboard/ekraf" class="text-black">
-                <icon icon="mdi:arrow-left" class="text-3xl"></icon>
+                <Icon icon="mdi:arrow-left" class="text-3xl"></Icon>
             </Link>
             <h1 class="text-xl font-bold text-black">
                 Validasi Transaksi
@@ -20,7 +76,7 @@ import { Head, Link } from '@inertiajs/vue3';
             
             <div class="relative w-full pt-6 pb-6">
                 <div class="absolute left-2 top-8">
-                    <icon icon="mdi:search" class="text-3xl text-gray-400"></icon>
+                    <Icon icon="mdi:search" class="text-3xl text-gray-400"></Icon>
                 </div>
                 <input 
                     type="text" 
@@ -29,76 +85,67 @@ import { Head, Link } from '@inertiajs/vue3';
                 />
             </div>
 
-            <button class="w-full bg-linear-to-r from-[#176CC9] to-[#6BAFF8] text-white font-medium py-2 rounded-3xl text-base">
+            <Link
+                href="/dashboard/ekraf/reward/validate-all"
+                method="post"
+                as="button"
+                class="w-full bg-linear-to-r from-[#176CC9] to-[#6BAFF8] text-white font-medium py-2 rounded-3xl text-base"
+            >
                 Validasi Sekali Klik
-            </button>
+            </Link>
 
             <h2 class="text-xl font-semibold text-gray-900 pt-6">
                 Voucher Menunggu Validasi
             </h2>
 
             <div class="space-y-3">
-                
-                <div class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 space-y-3">
+                <div
+                    v-for="(reward, index) in props.pendingValidations"
+                    :key="index"
+                    class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 space-y-3"
+                >
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-xs text-gray-500">Voucher ID</p>
-                            <p class="font-semibold text-gray-900">EKRAF-XYZ123</p>
+                            <p class="font-semibold text-gray-900">EKRAF-{{ reward.id }}</p>
                         </div>
                         <span class="text-xs font-medium bg-white text-gray-500 px-2 py-0.5 rounded-full">Menunggu</span>
                     </div>
 
                     <div class="border-t border-gray-300 pt-3">
                         <p class="text-xs text-gray-500">Hadiah</p>
-                        <p class="text-lg font-semibold text-gray-900">Gratis 1 Gelas Seduhan Kopi Tubruk</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ reward.reward.title }}</p>
                     </div>
 
                     <div class="border-t border-gray-300 pt-3">
                         <p class="text-xs text-gray-500">Pengguna</p>
-                        <p class="font-medium text-gray-900">Randi Permana</p>
-                        <p class="text-xs text-gray-500">15 Des 2025, 15:30</p>
+                        <p class="font-medium text-gray-900">{{ reward.tourist.name }}</p>
+                        <p class="text-xs text-gray-500">{{ formatTanggal(reward.exchange_at) }}</p>
                     </div>
 
                     <div class="pt-3 grid grid-cols-2 gap-3">
-                        <button class="w-full bg-transparent border border-[#01ABFF] text-[#01ABFF] font-medium py-2 px-4 rounded-3xl text-md">
+                        <Link
+                            :href="`/dashboard/ekraf/reward/reject/${reward.id}`"
+                            method="post"
+                            as="button"
+                            class="w-full bg-transparent border border-[#01ABFF] text-[#01ABFF] font-medium py-2 px-4 rounded-3xl text-md"
+                        >
                             Tolak
-                        </button>
-                        <button class="w-full bg-[#01ABFF] text-white font-medium py-2 px-4 rounded-3xl text-md">
+                        </Link>
+                        <Link
+                            :href="`/dashboard/ekraf/reward/validate/${reward.id}`"
+                            method="post"
+                            as="button"
+                            class="w-full bg-[#01ABFF] text-white font-medium py-2 px-4 rounded-3xl text-md"
+                        >
                             Validasi
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
-                <div class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 space-y-3">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-xs text-gray-500">Voucher ID</p>
-                            <p class="font-semibold text-gray-900">EKRAF-ABC456</p>
-                        </div>
-                        <span class="text-xs font-medium bg-white text-gray-500 px-2 py-0.5 rounded-full">Menunggu</span>
-                    </div>
-
-                    <div class="border-t border-gray-300 pt-3">
-                        <p class="text-xs text-gray-500">Hadiah</p>
-                        <p class="text-lg font-semibold text-gray-900">Voucher Diskon 30%</p>
-                    </div>
-
-                    <div class="border-t border-gray-300 pt-3">
-                        <p class="text-xs text-gray-500">Pengguna</p>
-                        <p class="font-medium text-gray-900">Habl Sankrumi</p>
-                        <p class="text-xs text-gray-500">15 Des 2025, 11:10</p>
-                    </div>
-
-                    <div class="pt-3 grid grid-cols-2 gap-3">
-                        <button class="w-full bg-transparent border border-[#01ABFF] text-[#01ABFF] font-medium py-2 px-4 rounded-3xl text-md">
-                            Tolak
-                        </button>
-                        <button class="w-full bg-[#01ABFF] text-white font-medium py-2 px-4 rounded-3xl text-md">
-                            Validasi
-                        </button>
-                    </div>
+                <div v-if="props.pendingValidations.length === 0" class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 text-center">
+                    <p class="text-gray-500">Tidak ada voucher yang menunggu validasi</p>
                 </div>
-
             </div>
 
         </main>
