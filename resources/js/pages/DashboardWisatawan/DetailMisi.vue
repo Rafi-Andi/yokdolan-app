@@ -1,5 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     mission: Object,
@@ -8,6 +9,24 @@ const props = defineProps({
 const url = 'http://127.0.0.1:8000';
 
 console.log(props.mission);
+
+const goBack = () => {
+    history.back();
+};
+
+const convertTo62 = (phoneNumber) => {
+    if (typeof phoneNumber !== 'string' || !phoneNumber) {
+        return '';
+    }
+    
+    const cleanedNumber = phoneNumber.replace(/\D/g, ''); 
+
+    if (cleanedNumber.startsWith('0')) {
+        return '62' + cleanedNumber.substring(1);
+    } 
+    
+    return cleanedNumber;
+};
 </script>
 
 <template>
@@ -16,16 +35,16 @@ console.log(props.mission);
     >
         <div class="rounded-b-3xl px-6 pt-6">
             <div class="flex items-center justify-between">
-                <a href="#" class="p-1">
+                <a @click.prevent="goBack()" class="p-1">
                     <Icon icon="mdi:arrow-left" class="text-3xl text-white" />
                 </a>
-                <a href="#" class="rounded-full bg-green-500 p-2 shadow-md">
+                <a :href="`https://wa.me/${convertTo62(mission.ekraf_partner?.ekraf_partner?.phone)}`" class="rounded-full bg-green-500 p-2 shadow-md">
                     <Icon icon="mdi:whatsapp" class="text-2xl text-white" />
                 </a>
             </div>
 
             <h1 class="mt-6 text-center text-3xl font-bold text-white">
-                {{ mission.title }}
+                {{ mission.ekraf_partner?.ekraf_partner?.business_name }}
             </h1>
         </div>
 
@@ -65,7 +84,7 @@ console.log(props.mission);
                 <div>
                     <h3 class="text-lg font-bold text-black">Patokan</h3>
                     <p class="text-base text-gray-600">
-                        {{ mission.ekraf_partner.ekraf_partner.business_address }}
+                        {{ mission.ekraf_partner?.ekraf_partner?.business_address }}
                     </p>
                 </div>
             </div>
