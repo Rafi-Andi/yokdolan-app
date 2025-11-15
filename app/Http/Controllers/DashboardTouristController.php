@@ -42,11 +42,68 @@ class DashboardTouristController extends Controller
     function leaderboard()
     {
         $user = Auth::user();
+
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
         }
 
-        return Inertia::render('DashboardWisatawan/Leaderboard');
+        // --- 1. Ambil Data Leaderboard (Top 100) ---
+        $leaderboardQuery = TouristProfile::query()
+            ->join('users', 'tourist_profiles.user_id', '=', 'users.id')
+
+            // LEFT JOIN dengan mission_claims untuk menghitung misi selesai
+            ->leftJoin('mission_claims', 'tourist_profiles.user_id', '=', 'mission_claims.tourist_user_id')
+
+            // Mengelompokkan berdasarkan kolom non-agregat
+            ->groupBy(
+                'tourist_profiles.user_id',
+                'users.name',
+                'tourist_profiles.point_akumulasi',
+                'tourist_profiles.point_value'
+            )
+
+            // FILTER UTAMA: Hanya tampilkan jika ada poin (asumsi poin hanya dari klaim)
+            ->where('point_akumulasi', '>', 0)
+
+            // URUTKAN BERDASARKAN POINT AKUMULASI (sesuai permintaan)
+            ->orderBy('point_akumulasi', 'desc')
+            ->limit(100)
+
+            ->select(
+                'tourist_profiles.user_id',
+                'tourist_profiles.point_value',
+                'tourist_profiles.point_akumulasi',
+                'users.name',
+                // Hitung total misi selesai (missions_completed)
+                DB::raw('COUNT(mission_claims.id) AS missions_completed')
+            )
+            ->get();
+
+
+        // --- 2. Ambil Statistik User yang Sedang Login ---
+        $currentUserStats = TouristProfile::where('user_id', $user->id)
+            ->select('point_akumulasi', 'point_value')
+            ->first();
+
+        // Hitung total misi selesai user yang sedang login
+        $currentUserMissionsCompleted = MissionClaim::where('tourist_user_id', $user->id)->count();
+
+        // Hitung Peringkat User (berdasarkan point_akumulasi)
+        $userAkumulasiPoints = $currentUserStats->point_akumulasi ?? 0;
+        $rankQuery = TouristProfile::where('point_akumulasi', '>', $userAkumulasiPoints)->count();
+        $userRank = $rankQuery + 1;
+
+
+        return Inertia::render('DashboardWisatawan/Leaderboard', [
+            'leaderboardData' => $leaderboardQuery,
+            'currentUser' => [
+                'name' => $user->name,
+                'avatar' => $user->profile_photo_path ?? null, // Menggunakan kolom users jika ada
+                'totalPoints' => $userAkumulasiPoints,
+                'misiSelesai' => $currentUserMissionsCompleted,
+                'rank' => $userRank,
+            ]
+        ]);
     }
     function scan()
     {
