@@ -7,10 +7,11 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage; // Pastikan ini di-import
 
 class RegisterWisataController extends Controller
 {
-        public function index()
+    public function index()
     {
         $user = Auth::user();
 
@@ -28,6 +29,7 @@ class RegisterWisataController extends Controller
 
         return Inertia::render('auth/ChannelRegister');
     }
+    
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -35,7 +37,9 @@ class RegisterWisataController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:128', Rule::unique('channels', 'name')],
             'location' => ['required', 'string', 'max:50'],
-            'profile_photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'], // Wajib, gambar, maks 2MB
+            'phone' => ['required', 'string', 'max:20'], 
+            'description' => ['nullable', 'string', 'max:255'], 
+            'profile_photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
 
         $photoPath = null;
@@ -48,12 +52,17 @@ class RegisterWisataController extends Controller
             }
         }
 
+        // 3. Buat Channel
         Channel::create([
             'owner_user_id' => $user->id,
             'name' => $data['name'],
             'location' => $data['location'],
+            'phone' => $data['phone'], 
+            'description' => $data['description'], 
             'profile_photo_path' => $photoPath,
-            'is_verified' => false,
+            
+            'is_verified' => false, 
+            
             'is_active' => true,
         ]);
 

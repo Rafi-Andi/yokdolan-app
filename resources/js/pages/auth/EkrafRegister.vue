@@ -10,6 +10,8 @@ import { Head, useForm, usePage, router } from '@inertiajs/vue3';
 const form = useForm({
     business_name: '',
     business_address: '',
+    // TAMBAHAN: Field Telepon
+    phone: '', 
 });
 
 const page = usePage();
@@ -52,6 +54,23 @@ const submit = () => {
                     />
                     <InputError :message="form.errors.business_name" /> 
                 </div>
+                
+                <!-- TAMBAHAN: Input Telepon -->
+                <div class="grid gap-2">
+                    <Label for="phone">Nomor Telepon</Label>
+                    <Input
+                        id="phone"
+                        type="tel"
+                        required
+                        autocomplete="tel"
+                        name="phone"
+                        v-model="form.phone"
+                        placeholder="Cth: 081234567890"
+                    />
+                    <InputError :message="form.errors.phone" />
+                </div>
+                <!-- AKHIR TAMBAHAN -->
+
 
                 <div class="grid gap-2">
                     <Label for="business_address">Alamat Detail</Label>
@@ -64,7 +83,7 @@ const submit = () => {
                         v-model="form.business_address"
                         placeholder="Masukkan detail alamat"
                     />
-                     <InputError :message="form.errors.business_address" />
+                    <InputError :message="form.errors.business_address" />
                 </div>
 
                 <Button
