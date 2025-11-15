@@ -8,6 +8,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Mission;
 use App\Models\MissionClaim;
+use App\Models\RewardExchange;
 use Illuminate\Http\Request;
 use App\Models\TouristProfile;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,7 @@ class DashboardTouristController extends Controller
             ->groupBy(
                 'tourist_profiles.user_id',
                 'users.name',
+                'users.profile_url',
                 'tourist_profiles.point_akumulasi',
                 'tourist_profiles.point_value'
             )
@@ -99,6 +101,7 @@ class DashboardTouristController extends Controller
                 'tourist_profiles.user_id',
                 'tourist_profiles.point_value',
                 'tourist_profiles.point_akumulasi',
+                'users.profile_url',
                 'users.name',
                 DB::raw('COUNT(mission_claims.id) AS missions_completed')
             )
@@ -120,6 +123,7 @@ class DashboardTouristController extends Controller
             'leaderboardData' => $leaderboardQuery,
             'currentUser' => [
                 'name' => $user->name,
+                'profile_url' => $user->profile_url,
                 'totalPoints' => $userAkumulasiPoints,
                 'misiSelesai' => $currentUserMissionsCompleted,
                 'rank' => $userRank,
@@ -327,20 +331,20 @@ class DashboardTouristController extends Controller
         DB::beginTransaction();
         try {
             $touristProfile->decrement('point_value', $reward->points_cost);
+            $rewardExchange = RewardExchange::create([
+                'tourist_user_id' => $user->id,
+                'reward_id' => $reward->id,
+                'exchange_at' => now(),
+                'validation_status' => 'pending',
+            ]);
 
             DB::commit();
             return redirect()->route('dashboard.wisatawan.hadiah')->with('message', 'Hadiah berhasil ditukar!');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Reward Redeem Gagal:', [
-                'user_id' => $user->id,
-                'reward_id' => $reward->id,
-                'error_message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ]);
+           
 
-            return back()->withErrors(['reward' => 'Terjadi kesalahan sistem saat menukar hadiah. Silakan cek log server.']);
+            return back()->withErrors(['reward' => 'Terjadi kesalahan sistem saat menukar hadiah.' .  $e->getMessage()]);
         }
     }
 }

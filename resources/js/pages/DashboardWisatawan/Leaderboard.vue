@@ -6,9 +6,9 @@ const props = defineProps({
     leaderboardData: Array,
     currentUser: Object, 
 });
+console.log(props.leaderboardData);
 
-// Catatan: Karena kolom profile_photo_path di tabel users mungkin tidak ada, 
-// saya menggunakan fallback di template untuk avatar.
+console.log(props.currentUser);
 
 </script>
 
@@ -26,8 +26,8 @@ const props = defineProps({
             <div class="px-6 -mt-28">
                 <div class="relative bg-gradient-to-tr from-[#1485FF] to-[#6abaff] rounded-3xl shadow-lg pt-16 pb-6 px-4 text-white">
                     
-                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-gray-300 rounded-2xl border-4 border-white shadow-md overflow-hidden">
-                        <img :src="currentUser.avatar || '/images/default_avatar.png'" alt="profile" class="object-cover w-full h-full">
+                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-transparent rounded-2xl border-4 border-white shadow-md overflow-hidden">
+                        <img :src="`${currentUser.profile_url}`" alt="profile" class="object-cover w-full h-full">
                     </div>
                     
                     <h3 class="text-center text-xl font-semibold">{{ currentUser.name }}</h3>
@@ -66,8 +66,10 @@ const props = defineProps({
                     <div class="space-y-4">
                         <div v-for="(user, index) in leaderboardData" :key="user.user_id" class="flex items-center gap-4 p-2">
                             <span class="text-2xl font-bold w-8 text-left text-gray-800">{{ index + 1 }}</span>
-                            
-                            
+                            <div class="h-10 w-10 rounded-lg overflow-hidden bg-gray-200">
+                                <img :src="`${user.profile_url}`" alt="profile" class="object-cover w-full h-full">
+                                </img>
+                            </div>
                             <span class="flex-1 font-semibold text-gray-800 truncate">{{ user.name }}</span>
                             
                             <span class="font-bold text-lg text-[#1485FF]">{{ user.point_akumulasi }}</span>

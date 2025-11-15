@@ -59,9 +59,9 @@ const url = 'http://127.0.0.1:8000';
             >
                 <div class="flex w-full justify-between p-6">
                     <p class="text-lg font-bold text-[#1485FF]">YokDolan</p>
-                    <div class="h-10 w-10 overflow-hidden rounded-lg bg-black">
+                    <div class="h-10 w-10 overflow-hidden rounded-lg bg-transparent ">
                         <img
-                            src="https://i.ibb.co/6yTXMLN/image-961bf3.jpg"
+                            :src="`${user?.profile_url}`"
                             alt="profile"
                             class="h-full w-full object-cover"
                         />

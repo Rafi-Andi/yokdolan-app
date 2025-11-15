@@ -23,9 +23,10 @@ const submitExchange = () => {
             `/dashboard/hadiah/${props.detail_reward.id}`,
             {
                 onSuccess: () => {
-                    alert('Penukaran berhasil! Cek riwayat penukaran Anda.');
+                    alert('Penukaran berhasil! Kunjungi ekraf untuk detailnya.');
                 },
                 onError: (errors) => {
+                    console.log(errors)
                     const errorMessage =
                         errors.exchange || 'Gagal memproses penukaran.';
                     alert(`Gagal: ${errorMessage}`);

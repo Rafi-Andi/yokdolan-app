@@ -30,13 +30,15 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'profile_url' => ['required', 'string'],
         ])->validate();
 
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']), 
-            'role' => 'tourist'
+            'role' => 'tourist',
+            'profile_url' => $input['profile_url'],
         ]);
         
         $user->touristProfile()->create([
