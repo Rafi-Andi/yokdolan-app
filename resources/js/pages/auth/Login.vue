@@ -40,6 +40,9 @@ defineProps<{
         </div>
 
         <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                Selamat Datang Kembali
+            </h2>
             <p class=" font-bold text-gray-700 mb-6 text-sm">
                 Masuk akun pribadi anda sekarang
             </p>
@@ -101,7 +104,7 @@ defineProps<{
 
                 <Button
                     type="submit"
-                    class="mt-2 w-full h-12 text-white font-semibold rounded-full bg-gradient-to-r from-[#1485FF] to-[#79BAFF] hover:from-[#0F6FD1] hover:to-[#5A9CE6] disabled:opacity-50 flex items-center justify-center"
+                    class="cursor-pointer mt-2 w-full h-12 text-white font-semibold rounded-full bg-gradient-to-r from-[#1485FF] to-[#79BAFF] hover:from-[#0F6FD1] hover:to-[#5A9CE6] disabled:opacity-50 flex items-center justify-center"
                     :tabindex="3"
                     :disabled="processing"
                     data-test="login-button"
@@ -114,7 +117,7 @@ defineProps<{
         </div>
 
         <div
-            class="text-center text-sm text-gray-600"
+            class="text-center text-xs text-gray-600"
             v-if="canRegister"
         >
             <span>Belum memiliki akun? </span>

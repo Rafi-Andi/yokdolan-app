@@ -15,10 +15,10 @@ const goBack = () => {
 
 <template>
     <div class="min-h-screen bg-[#D8EBFF]">
-        <header class="sticky top-0 z-10 flex items-center gap-10 backdrop-blur-sm px-4 py-3 border-b border-blue-100">
+        <header class="top-0 z-10 flex items-center gap-10 backdrop-blur-sm px-4 py-3 border-b border-blue-100">
             <button
                 @click="goBack"
-                class="flex items-center justify-center w-10 h-10"
+                class="flex cursor-pointer items-center justify-center w-10 h-10"
                 aria-label="Kembali"
             >
                 <ArrowLeft class="w-7 h-7 text-black" />
