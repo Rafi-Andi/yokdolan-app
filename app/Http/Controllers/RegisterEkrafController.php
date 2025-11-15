@@ -35,14 +35,17 @@ class RegisterEkrafController extends Controller
         $data = $request->validate([
             'business_name' => ['required', 'string', 'max:128', 'unique:ekraf_partners,business_name'],
             'business_address' => ['required', 'string'],
+            'phone' => ['required', 'string', 'max:20'], 
         ]);
 
         EkrafPartner::create([
             "user_id" => $user->id,
             "business_name" => $data['business_name'],
             "business_address" => $data['business_address'],
+            "phone" => $data['phone'],
             "is_verified" => false,
         ]);
+        
 
         return redirect()->route('dashboard')
             ->with('success', 'Pendaftaran ekraf Berhasil! Mohon tunggu konfirmasi verifikasi dari Admin.');
