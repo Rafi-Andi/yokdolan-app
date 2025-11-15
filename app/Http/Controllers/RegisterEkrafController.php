@@ -13,6 +13,7 @@ class RegisterEkrafController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $channel_id = request()->query('channel_id');
 
         if ($user->role == "partner") {
             return redirect()
@@ -26,7 +27,9 @@ class RegisterEkrafController extends Controller
                 ->with('warning', 'Pendaftaran Ekraf Anda sudah diproses, menunggu verifikasi Admin.');
         }
 
-        return Inertia::render('auth/EkrafRegister');
+        return Inertia::render('auth/EkrafRegister', [
+            'channel_id' => $channel_id,
+        ]);
     }
     public function store(Request $request)
     {
@@ -36,6 +39,7 @@ class RegisterEkrafController extends Controller
             'business_name' => ['required', 'string', 'max:128', 'unique:ekraf_partners,business_name'],
             'business_address' => ['required', 'string'],
             'phone' => ['required', 'string', 'max:20'], 
+            'channel_id' => ['required','integer', 'exists:channels,id'],
         ]);
 
         EkrafPartner::create([
@@ -44,6 +48,7 @@ class RegisterEkrafController extends Controller
             "business_address" => $data['business_address'],
             "phone" => $data['phone'],
             "is_verified" => false,
+            'channel_id' => $data['channel_id'],
         ]);
         
 

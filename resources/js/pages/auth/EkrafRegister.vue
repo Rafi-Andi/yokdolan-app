@@ -9,10 +9,15 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { Store, MapPin, Phone } from 'lucide-vue-next';
 import { ref } from 'vue';  
 
+const props = defineProps({
+    channel_id: Number,
+});
+
 const form = useForm({
     business_name: '',
     business_address: '',
     phone: '', 
+    channel_id: props.channel_id,
 });
 
 const agreeToTerms = ref(false);

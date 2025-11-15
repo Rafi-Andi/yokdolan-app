@@ -35,8 +35,13 @@ watch(search, searchHandler);
                 <div>
                     <h1 class="font-bold text-3xl text-black">Ayo Jelajahi!</h1>
                     <p class="text-sm text-black">Jelajahi wisata dan selesaikan misinya!</p>
+                    <Link href="/register/channel">
+                        <div class="rounded-3xl text-black font-bold border border-black w-fit px-4 py-1 mt-2">
+                            <p>Daftar Channel Wisata</p>
+                        </div>
+
+                    </Link>
                 </div>
-                <div class="h-12 w-12 rounded-lg bg-white/20"></div>
             </div>
 
             <div class="px-6 mt-6">

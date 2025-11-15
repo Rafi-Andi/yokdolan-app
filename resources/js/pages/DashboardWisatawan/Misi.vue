@@ -47,13 +47,14 @@ console.log(props.channel);
             </div>
             
             <div class="-mt-6 flex justify-center">
-                <div
+                <Link
+                    :href="`/register/ekraf?channel_id=${channel.id}`"
                     class="w-fit rounded-[20px] border border-white bg-[#01ABFF] px-4 py-3 shadow-xl"
                 >
                     <p class="font-semibold text-white">
                         Daftar Sebagai Mitra Ekraf
                     </p>
-                </div>
+                </Link>
             </div>
 
             <div class="mt-4 flex flex-col gap-4 px-3">
