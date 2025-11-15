@@ -366,7 +366,76 @@ class EkrafPartnerController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return Inertia::render('DashboardEkraf/Validation');
+        $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
+        
+        $pendingValidations = RewardExchange::query()
+            ->whereIn('reward_id', $partnerRewardIds)->where('validation_status', '=', 'pending')
+            ->with(['reward:id,title', 'tourist:id,name'])->orderBy('exchange_at', 'asc')
+            ->get();
+
+        return Inertia::render('DashboardEkraf/Validation', [
+            'pendingValidations' => $pendingValidations
+        ]);
+    }
+
+    public function validateSingle(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard')->with('error', 'Akses ditolak. Anda bukan Mitra Ekraf.');
+        }
+
+        $partnerId = $user->id;
+        $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
+
+        try {
+            $rewardExchange = RewardExchange::where('id', $id)
+                ->whereIn('reward_id', $partnerRewardIds)
+                ->where('validation_status', 'pending')
+                ->firstOrFail();
+
+            $rewardExchange->update([
+                'validation_status' => 'validated',
+                'validated_by_partner_id' => $partnerId,
+                'validated_at' => now(),
+            ]);
+
+            return redirect()->route('dashboard.ekraf.validation')
+                ->with('success', 'Voucher berhasil divalidasi.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Validasi gagal. Voucher tidak ditemukan atau sudah divalidasi.');
+        }
+    }
+
+    public function rejectSingle(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard')->with('error', 'Akses ditolak. Anda bukan Mitra Ekraf.');
+        }
+
+        $partnerId = $user->id;
+        $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
+
+        try {
+            $rewardExchange = RewardExchange::where('id', $id)
+                ->whereIn('reward_id', $partnerRewardIds)
+                ->where('validation_status', 'pending')
+                ->firstOrFail();
+
+            $rewardExchange->update([
+                'validation_status' => 'cancelled',
+                'validated_by_partner_id' => $partnerId,
+                'validated_at' => now(),
+            ]);
+
+            return redirect()->route('dashboard.ekraf.validation')
+                ->with('success', 'Voucher berhasil ditolak.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Penolakan gagal. Voucher tidak ditemukan atau sudah diproses.');
+        }
     }
 
     public function create()
