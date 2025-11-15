@@ -154,6 +154,10 @@ console.log(props.stats);
                             </div>
                         </div>
 
+                        <div v-if="props.pendingValidations.length === 0" class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 text-center">
+                            <p class="text-gray-500">Tidak ada voucher yang menunggu validasi</p>
+                        </div>
+
                         <div class="space-y-2 border-gray-100 pt-2">
                             <Link
                                 href="/dashboard/ekraf/reward/validate-all"

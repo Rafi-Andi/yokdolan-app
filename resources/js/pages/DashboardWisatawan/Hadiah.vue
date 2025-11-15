@@ -48,9 +48,9 @@ const props = defineProps<{
 
                 <div class="w-full h-1.5 bg-yellow-400 rounded-full"></div>
 
-                <button class="bg-white text-blue-600 text-sm font-medium py-2 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
+                <Link href="/dashboard/wisata" class="flex justify-center bg-white text-blue-600 text-sm font-medium py-2 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
                     Dapatkan Poin
-                </button>
+                </Link>
             </div>
         </div>
 
@@ -69,14 +69,14 @@ const props = defineProps<{
             </div>
         </div>
 
-        <div class="px-6 mt-6 flex flex-col gap-3">
+        <div class="px-6 mt-6 flex flex-col gap-3 ">
 
             <Link
                 v-for="(rewards, index) in props.reward"
                 :key="rewards.id"
                 :href="`/dashboard/hadiah/${rewards.id}`"
                 :class="[
-                    'w-full max-w-sm rounded-xl p-5 shadow-md transition',
+                    'w-full  rounded-xl p-5 shadow-md transition',
                     index % 2 === 0
                         ? 'bg-gradient-to-r from-[#FFF2DE] to-[#FFE0B2]'
                         : 'bg-gradient-to-r from-[#FCE4EC] to-[#F8BBD0]'

@@ -1,14 +1,32 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { debounce } from 'lodash';
 
 const page = usePage();
 
 const props = defineProps({
-    pendingValidations: Array,
+    pendingValidations: Object,
+    filters: Object,
 });
+
+const search = ref(props.filters?.search || '');
+
+const searchHandler = debounce((value) => {
+    router.get(
+        '/dashboard/ekraf/validation',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true,
+        },
+    );
+}, 300);
+
+watch(search, searchHandler);
 
 const successMessage = computed(() => page.props.flash?.success);
 const errorMessage = computed(() => page.props.flash?.error);
@@ -81,6 +99,7 @@ const formatTanggal = (tanggal) => {
                 <input 
                     type="text" 
                     placeholder="Cari ID Voucher atau Nama..."
+                    v-model="search"
                     class="w-full rounded-xl border-none text-black bg-white py-3 pl-12"
                 />
             </div>
@@ -100,8 +119,8 @@ const formatTanggal = (tanggal) => {
 
             <div class="space-y-3">
                 <div
-                    v-for="(reward, index) in props.pendingValidations"
-                    :key="index"
+                    v-for="(reward, index) in props.pendingValidations.data ?? []"
+                    :key="reward.id"
                     class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 space-y-3"
                 >
                     <div class="flex justify-between items-center">
@@ -143,9 +162,28 @@ const formatTanggal = (tanggal) => {
                     </div>
                 </div>
 
-                <div v-if="props.pendingValidations.length === 0" class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 text-center">
+                <div v-if="props.pendingValidations.data && props.pendingValidations.data.length === 0" class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 text-center">
                     <p class="text-gray-500">Tidak ada voucher yang menunggu validasi</p>
                 </div>
+            </div>
+            
+            <div class="mt-8 pt-4 pb-12 flex justify-center">
+                <template v-for="(link, key) in props.pendingValidations.links" :key="key">
+                    <div
+                        v-if="link.url === null"
+                        class="mb-1 mr-1 px-3 py-2 text-gray-500 text-xs leading-4 border rounded-lg"
+                        v-html="link.label"
+                    />
+                    <Link
+                        v-else
+                        class="mb-1 mr-1 px-3 py-2 text-xs leading-4 border rounded-lg hover:bg-white/50 transition"
+                        :class="{ 'bg-[#1485FF] text-white border-none': link.active, 'text-black bg-white': !link.active }"
+                        :href="link.url"
+                        v-html="link.label"
+                        preserve-scroll
+                        preserve-state
+                    />
+                </template>
             </div>
 
         </main>

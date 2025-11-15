@@ -126,7 +126,7 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function getAllMissions()
+    public function getAllMissions(Request $request)
     {
         $user = Auth::user();
 
@@ -135,9 +135,24 @@ class EkrafPartnerController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $missions = Mission::query()->where('partner_user_id', '=', $partnerId)->orderBy('created_at', 'asc')->get();
+        $searchQuery = $request->input('search');
+
+        $missions = Mission::query()
+            ->where('partner_user_id', '=', $partnerId)
+            ->when($searchQuery, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('type', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'asc')
+            ->paginate(5)
+            ->withQueryString();
+
         return Inertia::render('DashboardEkraf/Missions', [
-            "missions" => $missions
+            "missions" => $missions,
+            "filters" => ['search' => $searchQuery],
         ]);
     }
 
@@ -357,7 +372,7 @@ class EkrafPartnerController extends Controller
         }
     }
 
-    public function getValidation() 
+    public function getValidation(Request $request) 
     {   
         $user = Auth::user();
 
@@ -366,15 +381,31 @@ class EkrafPartnerController extends Controller
             return redirect()->route('dashboard');
         }
 
+        $searchQuery = $request->input('search');
         $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
         
         $pendingValidations = RewardExchange::query()
-            ->whereIn('reward_id', $partnerRewardIds)->where('validation_status', '=', 'pending')
-            ->with(['reward:id,title', 'tourist:id,name'])->orderBy('exchange_at', 'asc')
-            ->get();
+            ->whereIn('reward_id', $partnerRewardIds)
+            ->where('validation_status', '=', 'pending')
+            ->with(['reward:id,title', 'tourist:id,name'])
+            ->when($searchQuery, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('id', 'like', '%' . $search . '%')
+                        ->orWhereHas('tourist', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        })
+                        ->orWhereHas('reward', function ($q) use ($search) {
+                            $q->where('title', 'like', '%' . $search . '%');
+                        });
+                });
+            })
+            ->orderBy('exchange_at', 'asc')
+            ->paginate(5)
+            ->withQueryString();
 
         return Inertia::render('DashboardEkraf/Validation', [
-            'pendingValidations' => $pendingValidations
+            'pendingValidations' => $pendingValidations,
+            'filters' => ['search' => $searchQuery],
         ]);
     }
 

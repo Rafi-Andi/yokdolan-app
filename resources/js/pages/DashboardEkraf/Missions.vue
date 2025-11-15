@@ -1,10 +1,29 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { debounce } from 'lodash';
+import { ref, watch } from 'vue';
+
 const props = defineProps({
-    missions: Array,
+    missions: Object,
+    filters: Object,
 });
-console.log(props.missions);
+
+const search = ref(props.filters?.search || '');
+
+const searchHandler = debounce((value) => {
+    router.get(
+        '/dashboard/ekraf/mission',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true,
+        },
+    );
+}, 300);
+
+watch(search, searchHandler);
 </script>
 
 <template>
@@ -31,6 +50,7 @@ console.log(props.missions);
                     <input
                         type="text"
                         placeholder="Cari misi..."
+                        v-model="search"
                         class="w-full rounded-xl border-none text-black bg-white py-3 pl-12"
                     />
                 </div>
@@ -38,7 +58,7 @@ console.log(props.missions);
 
             <main class="space-y-4 px-4">
                 <div class="space-y-3">
-                    <Link v-for="(mission, index) in missions" :key="index" :href="`/dashboard/ekraf/mission/${mission.id}`" class="block">
+                    <Link v-for="(mission, index) in missions.data ?? []" :key="mission.id" :href="`/dashboard/ekraf/mission/${mission.id}`" class="block">
                         <div
                             :class="[
                                 'flex items-start justify-between rounded-xl p-4', 
@@ -68,6 +88,29 @@ console.log(props.missions);
                             </div>
                         </div>
                     </Link>
+                    
+                    <div v-if="missions.data && missions.data.length === 0" class="text-center text-gray-600 py-10">
+                        <p>Tidak ada misi yang ditemukan.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-4 pb-12 flex justify-center">
+                    <template v-for="(link, key) in missions.links" :key="key">
+                        <div
+                            v-if="link.url === null"
+                            class="mb-1 mr-1 px-3 py-2 text-gray-500 text-xs leading-4 border rounded-lg"
+                            v-html="link.label"
+                        />
+                        <Link
+                            v-else
+                            class="mb-1 mr-1 px-3 py-2 text-xs leading-4 border rounded-lg hover:bg-white/50 transition"
+                            :class="{ 'bg-[#1485FF] text-white border-none': link.active, 'text-black bg-white': !link.active }"
+                            :href="link.url"
+                            v-html="link.label"
+                            preserve-scroll
+                            preserve-state
+                        />
+                    </template>
                 </div>
             </main>
         </div>
