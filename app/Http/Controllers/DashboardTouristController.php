@@ -17,26 +17,57 @@ use Illuminate\Support\Facades\Auth;
 class DashboardTouristController extends Controller
 {
 
-    function index()
+    function index(Request $request) // Inject Request
     {
         $userId = Auth::id();
+        $user = User::with('touristProfile')->find($userId);
 
-        $user = User::with('TouristProfile')->find($userId);
-        if (!$user || $user->role === 'partner') {
-            if ($user && $user->role === 'partner') {
+        if ($user && $user->role !== 'tourist') {
+            if ($user->role === 'partner') {
                 return redirect()->route('dashboard.ekraf');
             }
-        }
-        if (!$user || $user->role === 'channel_owner') {
-            if ($user && $user->role === 'channel_owner') {
+            if ($user->role === 'channel_owner') {
                 return redirect()->route('dashboard.channel');
             }
         }
 
-        $Channel = Channel::where('is_verified', true)->withCount('missions')->orderBy('created_at', 'asc')->take(5)->get();
+        $globalSearchQuery = $request->input('search');
+        $missionTypeFilter = $request->input('type');
+
+        $Channel = Channel::query()
+            ->where('is_verified', true)
+            ->when($globalSearchQuery, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            })
+            ->withCount('missions')
+            ->orderBy('created_at', 'asc')
+            ->take(5)
+            ->get();
+
+        $Missions = Mission::query()
+            ->whereHas('channel', function ($query) {
+                $query->where('is_verified', true);
+            })
+            ->with('channel')
+            ->when($globalSearchQuery, function ($query, $search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            })
+            ->when($missionTypeFilter, function ($query, $type) {
+                $query->where('type', $type);
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+
         return Inertia::render('DashboardWisatawan/Index', [
             'user' => $user,
-            'channels' => $Channel
+            'channels' => $Channel,
+            'missions' => $Missions,
+            'filters' => [
+                'search' => $globalSearchQuery,
+                'type' => $missionTypeFilter
+            ]
         ]);
     }
     function leaderboard()
@@ -47,14 +78,11 @@ class DashboardTouristController extends Controller
             return redirect()->route('dashboard.ekraf');
         }
 
-        // --- 1. Ambil Data Leaderboard (Top 100) ---
         $leaderboardQuery = TouristProfile::query()
             ->join('users', 'tourist_profiles.user_id', '=', 'users.id')
 
-            // LEFT JOIN dengan mission_claims untuk menghitung misi selesai
             ->leftJoin('mission_claims', 'tourist_profiles.user_id', '=', 'mission_claims.tourist_user_id')
 
-            // Mengelompokkan berdasarkan kolom non-agregat
             ->groupBy(
                 'tourist_profiles.user_id',
                 'users.name',
@@ -62,10 +90,8 @@ class DashboardTouristController extends Controller
                 'tourist_profiles.point_value'
             )
 
-            // FILTER UTAMA: Hanya tampilkan jika ada poin (asumsi poin hanya dari klaim)
             ->where('point_akumulasi', '>', 0)
 
-            // URUTKAN BERDASARKAN POINT AKUMULASI (sesuai permintaan)
             ->orderBy('point_akumulasi', 'desc')
             ->limit(100)
 
@@ -74,21 +100,17 @@ class DashboardTouristController extends Controller
                 'tourist_profiles.point_value',
                 'tourist_profiles.point_akumulasi',
                 'users.name',
-                // Hitung total misi selesai (missions_completed)
                 DB::raw('COUNT(mission_claims.id) AS missions_completed')
             )
             ->get();
 
 
-        // --- 2. Ambil Statistik User yang Sedang Login ---
         $currentUserStats = TouristProfile::where('user_id', $user->id)
             ->select('point_akumulasi', 'point_value')
             ->first();
 
-        // Hitung total misi selesai user yang sedang login
         $currentUserMissionsCompleted = MissionClaim::where('tourist_user_id', $user->id)->count();
 
-        // Hitung Peringkat User (berdasarkan point_akumulasi)
         $userAkumulasiPoints = $currentUserStats->point_akumulasi ?? 0;
         $rankQuery = TouristProfile::where('point_akumulasi', '>', $userAkumulasiPoints)->count();
         $userRank = $rankQuery + 1;
@@ -98,7 +120,6 @@ class DashboardTouristController extends Controller
             'leaderboardData' => $leaderboardQuery,
             'currentUser' => [
                 'name' => $user->name,
-                'avatar' => $user->profile_photo_path ?? null, // Menggunakan kolom users jika ada
                 'totalPoints' => $userAkumulasiPoints,
                 'misiSelesai' => $currentUserMissionsCompleted,
                 'rank' => $userRank,
@@ -286,6 +307,40 @@ class DashboardTouristController extends Controller
             ]);
 
             return back()->withErrors(['qr_code' => 'Terjadi kesalahan sistem saat menambahkan poin. Silakan cek log server.']);
+        }
+    }
+
+    public function rewardReedem($id)
+    {
+        $user = Auth::user();
+
+        $reward = Reward::find($id);
+        if (!$reward) {
+            return back()->withErrors(['reward' => 'Hadiah tidak ditemukan.']);
+        }
+
+        $touristProfile = TouristProfile::where('user_id', $user->id)->first();
+        if (!$touristProfile || $touristProfile->point_value < $reward->points_cost) {
+            return back()->withErrors(['reward' => 'Poin Anda tidak mencukupi untuk menukar hadiah ini.']);
+        }
+
+        DB::beginTransaction();
+        try {
+            $touristProfile->decrement('point_value', $reward->points_cost);
+
+            DB::commit();
+            return redirect()->route('dashboard.wisatawan.hadiah')->with('message', 'Hadiah berhasil ditukar!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Reward Redeem Gagal:', [
+                'user_id' => $user->id,
+                'reward_id' => $reward->id,
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+
+            return back()->withErrors(['reward' => 'Terjadi kesalahan sistem saat menukar hadiah. Silakan cek log server.']);
         }
     }
 }

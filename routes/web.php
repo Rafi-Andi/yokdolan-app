@@ -32,6 +32,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('dashboard/misi/{id}', [DashboardTouristController::class, 'detailmisi'])->name('dashboard.wisatawan.detailmisi');
     Route::get('dashboard/hadiah', [DashboardTouristController::class, 'hadiah'])->name('dashboard.wisatawan.hadiah');
     Route::get('dashboard/hadiah/{id}', [DashboardTouristController::class, 'detailhadiah'])->name('dashboard.wisatawan.detailhadiah');
+    Route::post('dashboard/hadiah/{id}', [DashboardTouristController::class, 'rewardReedem'])->name('dashboard.wisatawan.detailhadiah');
     Route::get('dashboard/profile', [DashboardTouristController::class, 'profile'])->name('dashboard.wisatawan.profile');
 
 
