@@ -142,7 +142,7 @@ const submit = () => {
                             :tabindex="3"
                             autocomplete="tel"
                             v-model="form.phone"
-                            placeholder="Masukkan nomor telepon"
+                            placeholder="Masukkan nomor telepon cth: 08123456789"
                             class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>

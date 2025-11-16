@@ -15,6 +15,12 @@ class RegisterEkrafController extends Controller
         $user = Auth::user();
         $channel_id = request()->query('channel_id');
 
+        if(!$channel_id || !DB::table('channels')->where('id', $channel_id)->exists()) {
+            return redirect()
+                ->route('dashboard')
+                ->with('error', 'Channel tidak ditemukan. Silakan coba lagi.');
+        }
+
         if ($user->role == "partner") {
             return redirect()
                 ->route('dashboard.ekraf')
