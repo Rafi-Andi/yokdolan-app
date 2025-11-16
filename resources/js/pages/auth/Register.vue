@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthMobileLayout from '@/layouts/auth/AuthMobileLayout.vue';
+import TermsModal from '@/components/TermsModal.vue';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 import { Form, Head } from '@inertiajs/vue3';
@@ -16,6 +17,7 @@ import { ref } from 'vue';
 const agreeToTerms = ref(false);
 const selectedAvatar = ref('');
 const showAvatarModal = ref(false);
+const showTermsModal = ref(false);
 
 const avatars = [
     { id: 1, url: '/images/avatar/femaleavatar(1).png', label: 'Female Avatar 1' },
@@ -197,13 +199,17 @@ const selectAvatar = (avatarUrl: string) => {
                         type="checkbox"
                         id="terms"
                         v-model="agreeToTerms"
-                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        class="cursor-pointer mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
-                    <Label
-                        for="terms"
-                        class="text-xs text-gray-600 cursor-pointer leading-relaxed"
-                    >
-                        Syarat dan Ketentuan Layanan
+                    <Label for="terms" class="text-xs text-gray-600 leading-relaxed">
+                        Saya setuju dengan 
+                        <button
+                            type="button"
+                            @click="showTermsModal = true"
+                            class="cursor-pointer text-blue-600 hover:text-blue-700 underline font-semibold"
+                        >
+                            Syarat dan Ketentuan Layanan
+                        </button>
                     </Label>
                 </div>
 
@@ -279,5 +285,9 @@ const selectAvatar = (avatarUrl: string) => {
                 </div>
             </div>
         </div>
+        <TermsModal 
+            :show="showTermsModal"
+            @close="showTermsModal = false"
+        />
     </AuthMobileLayout>
 </template>

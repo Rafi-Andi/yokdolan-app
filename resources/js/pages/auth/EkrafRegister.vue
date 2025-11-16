@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthMobileLayout from '@/layouts/auth/AuthMobileLayout.vue';
+import TermsModal from '@/components/TermsModal.vue';
 import { Head, useForm } from '@inertiajs/vue3'; 
 import { Store, MapPin, Phone } from 'lucide-vue-next';
 import { ref } from 'vue';  
@@ -21,6 +22,7 @@ const form = useForm({
 });
 
 const agreeToTerms = ref(false);
+const showTermsModal = ref(false);
 
 const submit = () => {
     form.post('/register/ekraf', {
@@ -134,13 +136,17 @@ const submit = () => {
                         type="checkbox"
                         id="terms"
                         v-model="agreeToTerms"
-                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        class="cursor-pointer mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
-                    <Label
-                        for="terms"
-                        class="text-xs text-gray-600 cursor-pointer leading-relaxed"
-                    >
-                        Syarat dan Ketentuan Layanan
+                    <Label for="terms" class="text-xs text-gray-600 leading-relaxed">
+                        Saya setuju dengan 
+                        <button
+                            type="button"
+                            @click="showTermsModal = true"
+                            class="cursor-pointer text-blue-600 hover:text-blue-700 underline font-semibold"
+                        >
+                            Syarat dan Ketentuan Layanan
+                        </button>
                     </Label>
                 </div>
 
@@ -163,5 +169,9 @@ const submit = () => {
                 Anda mendaftar sebagai Mitra Ekraf menggunakan akun yang sedang login.
             </p>
         </div>
+        <TermsModal 
+            :show="showTermsModal"
+            @close="showTermsModal = false"
+        />
     </AuthMobileLayout>
 </template>
