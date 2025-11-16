@@ -9,8 +9,7 @@ console.log(props.rewards)
 
 <template>
     <Head title="Daftar Hadiah Ekraf"/>
-    <div class="bg-[#EBF5FF]">
-        <div class="pb-100">
+    <div class="min-h-screen bg-[#EBF5FF]">
             <div class="h-fit rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat mb-6">
             <div class="flex items-center gap-19 p-4">
                 <Link href="/dashboard/ekraf" class="text-gray-800">
@@ -97,5 +96,4 @@ console.log(props.rewards)
                 </Link>
             </div>
         </nav>
-    </div>
 </template>

@@ -41,8 +41,7 @@ console.log(props.stats);
 
 <template>
     <Head title="Dasbor Mitra Ekraf" />
-    <div class="bg-[#EBF5FF]">
-        <div class="pb-24">
+    <div class="min-h-screen bg-[#EBF5FF] pb-24">
             <main class="space-y-6 px-6 pt-12">
                 <div>
                     <h1 class="text-2xl font-bold text-black">
@@ -198,5 +197,4 @@ console.log(props.stats);
                 </Link>
             </div>
         </nav>
-    </div>
 </template>

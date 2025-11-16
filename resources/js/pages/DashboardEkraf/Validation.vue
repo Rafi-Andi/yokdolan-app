@@ -79,7 +79,7 @@ const formatTanggal = (tanggal) => {
 </script>
 <template>
     <Head title="Validasi Transaksi" />
-    <div class="pb-24 bg-[#EBF5FF]">
+    <div class="min-h-screen bg-[#EBF5FF]">
         
         <header class="p-4 flex items-center gap-11">
             <Link href="/dashboard/ekraf" class="text-black">
