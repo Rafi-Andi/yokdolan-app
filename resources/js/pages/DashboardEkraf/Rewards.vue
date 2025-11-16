@@ -84,11 +84,11 @@ console.log(props.rewards)
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
             >
                 <Link href="/dashboard/ekraf" class="p-2">
-                    <icon icon="mdi:home" class="text-3xl text-[#1485FF]"></icon>
+                    <icon icon="mdi:home" class="text-3xl text-gray-400"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/mission" class="p-2">
-                    <icon icon="tabler:target-arrow" class="text-3xl text-[#1485FF]"></icon>
+                    <icon icon="tabler:target-arrow" class="text-3xl text-gray-400"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/reward" class="p-2">

@@ -189,11 +189,11 @@ console.log(props.stats);
                 </Link>
 
                 <Link href="/dashboard/ekraf/mission" class="p-2">
-                    <icon icon="tabler:target-arrow" class="text-3xl text-[#1485FF]"></icon>
+                    <icon icon="tabler:target-arrow" class="text-3xl text-gray-400"></icon>
                 </Link>
 
                 <Link href="/dashboard/ekraf/reward" class="p-2">
-                    <icon icon="mdi:gift" class="text-3xl text-[#1485FF]"></icon>
+                    <icon icon="mdi:gift" class="text-3xl text-gray-400"></icon>
                 </Link>
             </div>
         </nav>
