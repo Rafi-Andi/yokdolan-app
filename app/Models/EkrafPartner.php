@@ -14,4 +14,13 @@ class EkrafPartner extends Model
     public function channel():BelongsTo{
         return $this->belongsTo(Channel::class);
     }
+      public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function rewards()
+    {
+        return $this->hasMany(Reward::class, 'partner_user_id');
+    }
 }

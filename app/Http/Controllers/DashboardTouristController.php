@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Channel;
-use App\Models\Reward;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Reward;
+use App\Models\Channel;
 use App\Models\Mission;
+use App\Models\EkrafPartner;
 use App\Models\MissionClaim;
-use App\Models\RewardExchange;
 use Illuminate\Http\Request;
+use App\Models\RewardExchange;
 use App\Models\TouristProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -157,7 +158,7 @@ class DashboardTouristController extends Controller
                         ->orWhere('location', 'like', '%' . $search . '%');
                 });
             })
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->paginate(5)
             ->withQueryString();
 
@@ -202,22 +203,72 @@ class DashboardTouristController extends Controller
             'mission' => $mission,
         ]);
     }
-    function hadiah()
+
+    function hadiah(Request $request)
     {
         $userId = Auth::id();
+        $user = User::with('touristProfile')->find($userId);
 
-        $user = User::with('TouristProfile')->find($userId);
         if (!$user || $user->role === 'partner') {
-            if ($user && $user->role === 'partner') {
-                return redirect()->route('dashboard.ekraf');
-            }
+            return redirect()->route('dashboard.ekraf');
         }
 
-        $rewards = Reward::query()->orderBy('created_at', 'asc')->get();
+        $partnerId = $request->partner_id ? (int) $request->partner_id : null;
+        $type = $request->type ?: null;
+        $search = $request->search ?: null;
+
+        $query = Reward::query()->with(['ekrafPartner', 'partnerUser']);
+
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        if ($type) {
+            $query->where('type', $type);
+        }
+
+        if ($partnerId) {
+            $query->where('partner_user_id', $partnerId);
+        }
+
+        $rewards = $query->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
+
+        $types = Reward::select('type')
+            ->distinct()
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
+            ->pluck('type')
+            ->values()
+            ->toArray();
+
+        $partners = User::whereHas('ekrafPartner')
+            ->whereIn('id', function ($query) {
+                $query->select('partner_user_id')
+                    ->from('rewards')
+                    ->whereNotNull('partner_user_id')
+                    ->distinct();
+            })
+            ->with('ekrafPartner')
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'business_name' => $user->ekrafPartner->business_name ?? $user->name
+                ];
+            })
+            ->values()
+            ->toArray();
 
         return Inertia::render('DashboardWisatawan/Hadiah', [
             'user' => $user,
-            'reward' => $rewards
+            'reward' => $rewards, 
+            'types' => $types,
+            'partners' => $partners,
+            'filters' => [
+                'search' => $search,
+                'type' => $type,
+                'partner_id' => $partnerId,
+            ]
         ]);
     }
     function detailhadiah($id)
@@ -342,7 +393,7 @@ class DashboardTouristController extends Controller
             return redirect()->route('dashboard.wisatawan.hadiah')->with('message', 'Hadiah berhasil ditukar!');
         } catch (\Exception $e) {
             DB::rollBack();
-           
+
 
             return back()->withErrors(['reward' => 'Terjadi kesalahan sistem saat menukar hadiah.' .  $e->getMessage()]);
         }

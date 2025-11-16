@@ -372,8 +372,8 @@ class EkrafPartnerController extends Controller
         }
     }
 
-    public function getValidation(Request $request) 
-    {   
+    public function getValidation(Request $request)
+    {
         $user = Auth::user();
 
         $partnerId = $user->id;
@@ -383,7 +383,7 @@ class EkrafPartnerController extends Controller
 
         $searchQuery = $request->input('search');
         $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
-        
+
         $pendingValidations = RewardExchange::query()
             ->whereIn('reward_id', $partnerRewardIds)
             ->where('validation_status', '=', 'pending')
@@ -450,22 +450,35 @@ class EkrafPartnerController extends Controller
         $partnerId = $user->id;
         $partnerRewardIds = Reward::where('partner_user_id', $partnerId)->pluck('id');
 
+        DB::beginTransaction();
         try {
             $rewardExchange = RewardExchange::where('id', $id)
                 ->whereIn('reward_id', $partnerRewardIds)
                 ->where('validation_status', 'pending')
                 ->firstOrFail();
 
+            $touristProfile = $rewardExchange->tourist->touristProfile;
+
+            if (!$touristProfile) {
+                DB::rollBack();
+                return back()->with('error', 'Profil turis tidak ditemukan.');
+            }
+
+            $cost = $rewardExchange->reward->points_cost;
+            
+            $touristProfile->increment('point_value', $cost);
             $rewardExchange->update([
                 'validation_status' => 'cancelled',
                 'validated_by_partner_id' => $partnerId,
                 'validated_at' => now(),
             ]);
 
+            db::commit();
+
             return redirect()->route('dashboard.ekraf.validation')
-                ->with('success', 'Voucher berhasil ditolak.');
+                ->with('successMessage', 'Voucher berhasil ditolak.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Penolakan gagal. Voucher tidak ditemukan atau sudah diproses.');
+            return back()->with('errorMessage', 'Penolakan gagal. Voucher tidak ditemukan atau sudah diproses.' . $e->getMessage());
         }
     }
 
