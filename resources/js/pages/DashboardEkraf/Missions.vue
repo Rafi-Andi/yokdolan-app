@@ -124,7 +124,7 @@ watch(search, searchHandler);
         </Link>
 
         <nav
-            class="fixed right-0 bottom-0 left-0 bg-white"
+            class="right-0 bottom-0 left-0 bg-white"
         >
             <div
                 class="mx-auto flex h-16 max-w-lg items-center justify-around px-4"
