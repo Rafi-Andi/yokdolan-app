@@ -5,8 +5,8 @@ import { debounce } from 'lodash';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
-    wisata: Object, 
-    filters: Object, 
+    wisata: Object,
+    filters: Object,
 });
 
 const url = 'http://127.0.0.1:8000';
@@ -16,7 +16,7 @@ const search = ref(props.filters.search || '');
 const searchHandler = debounce((value) => {
     router.get(
         '/dashboard/wisata',
-        { search: value }, 
+        { search: value },
         {
             preserveState: true,
             replace: true,
@@ -29,75 +29,103 @@ watch(search, searchHandler);
 </script>
 
 <template>
-    <div class="bg-[#D8EBFF] text-white pb-32">
+    <div class="bg-[#D8EBFF] pb-32 text-white">
         <main class="relative">
-            <div class="flex w-full justify-between items-center p-6">
+            <div class="flex w-full items-center justify-between p-6">
                 <div>
-                    <h1 class="font-bold text-3xl text-black">Ayo Jelajahi!</h1>
-                    <p class="text-sm text-black">Jelajahi wisata dan selesaikan misinya!</p>
+                    <h1 class="text-3xl font-bold text-black">Ayo Jelajahi!</h1>
+                    <p class="text-sm text-black">
+                        Jelajahi wisata dan selesaikan misinya!
+                    </p>
                     <Link href="/register/channel">
-                        <div class="rounded-3xl text-black font-bold border border-black w-fit px-4 py-1 mt-2">
+                        <div
+                            class="mt-2 w-fit rounded-3xl border border-black px-4 py-1 font-bold text-black"
+                        >
                             <p>Daftar Channel Wisata</p>
                         </div>
-
                     </Link>
                 </div>
+                <Link
+                    as="button"
+                    href="/dashboard/profile"
+                    class="h-10 w-10 cursor-pointer overflow-hidden rounded-lg bg-transparent"
+                >
+                    <img
+                        :src="`${user?.profile_url}`"
+                        alt="profile"
+                        class="h-full w-full object-cover"
+                    />
+                </Link>
             </div>
 
-            <div class="px-6 mt-6">
+            <div class="mt-6 px-6">
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <span
+                        class="absolute inset-y-0 left-0 flex items-center pl-4"
+                    >
                         <Icon icon="mdi:magnify" class="text-2xl text-black" />
                     </span>
                     <input
                         type="text"
                         placeholder="Cari Channel Wisata disini...."
-                        v-model="search" class="w-full bg-[#EBF2FA] text-black placeholder-gray-500 rounded-xl py-3.5 pl-12 pr-4 focus:outline-none"
+                        v-model="search"
+                        class="w-full rounded-xl bg-[#EBF2FA] py-3.5 pr-4 pl-12 text-black placeholder-gray-500 focus:outline-none"
                     />
                 </div>
             </div>
 
-            <div class="px-6 mt-8 space-y-6">
+            <div class="mt-8 space-y-6 px-6">
                 <div
                     v-for="(wisatas, index) in props.wisata.data ?? []"
                     :key="wisatas?.id ?? index"
                     :class="[
-                        'rounded-4xl p-6 flex justify-between items-center shadow-lg',
+                        'flex items-center justify-between rounded-4xl p-6 shadow-lg',
                         index % 2 === 0
                             ? 'bg-gradient-to-tr from-[#5372EE] to-[#0BB6FC]'
-                            : 'bg-gradient-to-tr from-[#FA9F47] to-[#F3D16F]'
+                            : 'bg-gradient-to-tr from-[#FA9F47] to-[#F3D16F]',
                     ]"
                 >
                     <div class="w-full">
-                        <h2 class="text-xl font-semibold text-white">{{ wisatas?.name ?? '—' }}</h2>
-                        <p class="text-white">{{ wisatas?.location ?? 'Lokasi tidak tersedia' }}</p>
-                        <div class="w-full flex justify-end">
-                            <Link 
+                        <h2 class="text-xl font-semibold text-white">
+                            {{ wisatas?.name ?? '—' }}
+                        </h2>
+                        <p class="text-white">
+                            {{ wisatas?.location ?? 'Lokasi tidak tersedia' }}
+                        </p>
+                        <div class="flex w-full justify-end">
+                            <Link
                                 v-if="wisatas?.id"
-                                :href="`/dashboard/wisata/${wisatas.id}`" 
-                                class="border border-white w-fit py-1 px-6 rounded-full"
+                                :href="`/dashboard/wisata/${wisatas.id}`"
+                                class="w-fit rounded-full border border-white px-6 py-1"
                             >
                                 <p class="text-sm">Kunjungi</p>
                             </Link>
                         </div>
                     </div>
                 </div>
-                
-                <div v-if="props.wisata.data.length === 0" class="text-center text-black/70 py-10">
+
+                <div
+                    v-if="props.wisata.data.length === 0"
+                    class="py-10 text-center text-black/70"
+                >
                     <p>Tidak ada channel wisata yang ditemukan.</p>
                 </div>
-                
-                <div class="mt-8 pt-4 pb-12 flex justify-center">
+
+                <div class="mt-8 flex justify-center pt-4 pb-12">
                     <template v-for="(link, key) in wisata.links" :key="key">
                         <div
                             v-if="link.url === null"
-                            class="mb-1 mr-1 px-3 py-2 text-gray-500 border-none text-xs leading-4 border rounded-lg"
+                            class="mr-1 mb-1 rounded-lg border border-none px-3 py-2 text-xs leading-4 text-gray-500"
                             v-html="link.label"
                         />
                         <Link
                             v-else
-                            class="mb-1 mr-1 px-3 py-2 text-xs leading-4 border rounded-lg hover:bg-white/50 transition"
-                            :class="{ 'bg-[#1485FF] text-white border-none': link.active, 'text-black bg-white': !link.active }"
+                            class="mr-1 mb-1 rounded-lg border px-3 py-2 text-xs leading-4 transition hover:bg-white/50"
+                            :class="{
+                                'border-none bg-[#1485FF] text-white':
+                                    link.active,
+                                'bg-white text-black': !link.active,
+                            }"
                             :href="link.url"
                             v-html="link.label"
                             preserve-scroll
@@ -107,29 +135,55 @@ watch(search, searchHandler);
                 </div>
             </div>
         </main>
-        
+
         <nav
-            class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
-            style="border-radius: 30px 30px 0 0;"
+            class="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white"
+            style="border-radius: 30px 30px 0 0"
         >
-            <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
-                <Link href="/dashboard" class="p-2 flex flex-col items-center text-gray-400">
+            <div
+                class="mx-auto flex h-20 max-w-lg items-center justify-around px-4"
+            >
+                <Link
+                    href="/dashboard"
+                    class="flex flex-col items-center p-2 text-gray-400"
+                >
                     <Icon icon="mdi:home" class="text-3xl text-gray-400"></Icon>
                 </Link>
 
-                <Link href="/dashboard/leaderboard" class="p-2 flex flex-col items-center">
-                    <Icon icon="material-symbols:leaderboard-rounded" class="text-3xl text-gray-400"></Icon>
+                <Link
+                    href="/dashboard/leaderboard"
+                    class="flex flex-col items-center p-2"
+                >
+                    <Icon
+                        icon="material-symbols:leaderboard-rounded"
+                        class="text-3xl text-gray-400"
+                    ></Icon>
                 </Link>
 
-                <Link href="/dashboard/scan" class="p-4 bg-[#1485FF] rounded-full -mt-10 shadow-lg">
-                    <Icon icon="mdi:qrcode-scan" class="text-4xl text-white"></Icon>
+                <Link
+                    href="/dashboard/scan"
+                    class="-mt-10 rounded-full bg-[#1485FF] p-4 shadow-lg"
+                >
+                    <Icon
+                        icon="mdi:qrcode-scan"
+                        class="text-4xl text-white"
+                    ></Icon>
                 </Link>
 
-                <Link href="/dashboard/wisata" class="p-2 flex flex-col items-center text-[#1485FF]">
-                    <Icon icon="streamline-flex:target-solid" class="text-3xl"></Icon>
+                <Link
+                    href="/dashboard/wisata"
+                    class="flex flex-col items-center p-2 text-[#1485FF]"
+                >
+                    <Icon
+                        icon="streamline-flex:target-solid"
+                        class="text-3xl"
+                    ></Icon>
                 </Link>
 
-                <Link href="/dashboard/hadiah" class="p-2 flex flex-col items-center text-gray-400">
+                <Link
+                    href="/dashboard/hadiah"
+                    class="flex flex-col items-center p-2 text-gray-400"
+                >
                     <Icon icon="mdi:gift" class="text-3xl"></Icon>
                 </Link>
             </div>

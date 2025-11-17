@@ -295,7 +295,12 @@ class DashboardTouristController extends Controller
             return redirect()->route('dashboard.ekraf');
         }
 
-        return Inertia::render('DashboardWisatawan/Profile');
+        $touristProfile = TouristProfile::where('user_id', $user->id)->first();
+
+        return Inertia::render('DashboardWisatawan/Profile', [
+            "user" => $user,
+            "touristProfile" => $touristProfile
+        ]);
     }
     public function validateScan(Request $request)
     {

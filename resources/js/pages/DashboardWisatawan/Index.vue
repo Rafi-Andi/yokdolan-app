@@ -59,13 +59,13 @@ const url = 'http://127.0.0.1:8000';
             >
                 <div class="flex w-full justify-between p-6">
                     <p class="text-lg font-bold text-[#1485FF]">YokDolan</p>
-                    <div class="h-10 w-10 overflow-hidden rounded-lg bg-transparent ">
+                    <Link as="button" href="/dashboard/profile" class="cursor-pointer h-10 w-10 overflow-hidden rounded-lg bg-transparent ">
                         <img
                             :src="`${user?.profile_url}`"
                             alt="profile"
                             class="h-full w-full object-cover"
                         />
-                    </div>
+                    </Link>
                 </div>
 
                 <div class="flex w-full items-center justify-between p-6">

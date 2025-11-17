@@ -70,7 +70,7 @@ defineProps<{
                             :tabindex="1"
                             autocomplete="email"
                             placeholder="Masukkan email kamu"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="pl-10 h-12 text-black bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.email" />
@@ -96,7 +96,7 @@ defineProps<{
                             :tabindex="2"
                             autocomplete="current-password"
                             placeholder="Masukkan Password"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="text-black pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.password" />

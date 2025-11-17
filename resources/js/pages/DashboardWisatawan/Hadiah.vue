@@ -27,7 +27,7 @@ watch(search, (newValue) => {
 
 const applyFilters = () => {
     const params = {};
-    
+
     if (search.value && search.value.trim() !== '') {
         params.search = search.value;
     }
@@ -46,7 +46,7 @@ const applyFilters = () => {
         },
         onError: (errors) => {
             console.error('Filter error:', errors);
-        }
+        },
     });
 };
 
@@ -55,11 +55,15 @@ const resetFilters = () => {
     selectedType.value = '';
     selectedPartner.value = '';
     showFilterModal.value = false;
-    
-    router.get('/dashboard/hadiah', {}, {
-        preserveState: true,
-        preserveScroll: true,
-    });
+
+    router.get(
+        '/dashboard/hadiah',
+        {},
+        {
+            preserveState: true,
+            preserveScroll: true,
+        },
+    );
 };
 
 const applyModalFilters = () => {
@@ -76,112 +80,163 @@ const getPartnerName = (reward) => {
     }
     return 'Partner Tidak Tersedia';
 };
-
 </script>
 
 <template>
     <div class="bg-[#D6EFFF] pb-30">
-        <div class="flex justify-between items-center p-6">
-            <p class="font-bold text-2xl text-black">Katalog Hadiah</p>
+        <div class="flex items-center justify-between p-6">
+            <p class="text-2xl font-bold text-black">Katalog Hadiah</p>
 
-            <div class="flex justify-center items-center w-fit h-fit p-1 rounded-lg bg-[#01ABFF]">
-                <Icon icon="mdi:gift" class="text-4xl" />
-            </div>
+            <Link
+                as="button"
+                href="/dashboard/profile"
+                class="h-10 w-10 cursor-pointer overflow-hidden rounded-lg bg-transparent"
+            >
+                <img
+                    :src="`${user?.profile_url}`"
+                    alt="profile"
+                    class="h-full w-full object-cover"
+                />
+            </Link>
         </div>
 
         <div class="px-6">
-            <div class="w-full h-fit bg-gradient-to-b from-[#0BB6FC] to-[#5372EE]
-                 rounded-3xl shadow-lg p-4 gap-4 flex flex-col text-white overflow-hidden">
-
-                <div class="flex gap-4 items-center"> 
-                    <div class="bg-white bg-opacity-20 rounded-full p-2 mb-2 h-fit w-fit">
-                        <Icon icon="ic:round-stars" class="text-6xl text-[#1485FF]" />
+            <div
+                class="flex h-fit w-full flex-col gap-4 overflow-hidden rounded-3xl bg-gradient-to-b from-[#0BB6FC] to-[#5372EE] p-4 text-white shadow-lg"
+            >
+                <div class="flex items-center gap-4">
+                    <div
+                        class="bg-opacity-20 mb-2 h-fit w-fit rounded-full bg-white p-2"
+                    >
+                        <Icon
+                            icon="ic:round-stars"
+                            class="text-6xl text-[#1485FF]"
+                        />
                     </div>
 
                     <div>
-                        <h2 class="text-xl font-semibold mb-1">Poin Hadiah</h2>
-                        <p class="text-xl mb-3 font-medium">
-                            Anda 
+                        <h2 class="mb-1 text-xl font-semibold">Poin Hadiah</h2>
+                        <p class="mb-3 text-xl font-medium">
+                            Anda
                             <span class="font-bold">
-                                {{ props.user?.tourist_profile?.point_value ?? 'Loading...' }} poin
+                                {{
+                                    props.user?.tourist_profile?.point_value ??
+                                    'Loading...'
+                                }}
+                                poin
                             </span>
                         </p>
                     </div>
                 </div>
 
-                <div class="w-full h-1.5 bg-yellow-400 rounded-full"></div>
+                <div class="h-1.5 w-full rounded-full bg-yellow-400"></div>
 
-                <Link href="/dashboard/wisata" class="flex justify-center bg-white text-blue-600 text-sm font-medium py-2 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
+                <Link
+                    href="/dashboard/wisata"
+                    class="flex justify-center rounded-full bg-white px-6 py-2 text-sm font-medium text-blue-600 shadow-lg transition duration-300 hover:bg-gray-100"
+                >
                     Dapatkan Poin
                 </Link>
             </div>
         </div>
 
         <div class="px-6 pt-4">
-            <h1 class="font-bold text-2xl text-black">Daftar Hadiah</h1>
+            <h1 class="text-2xl font-bold text-black">Daftar Hadiah</h1>
         </div>
 
-        <div class="flex px-6 w-full justify-between mt-2 gap-3">
-            <div class="relative p-2 py-4 bg-white rounded-lg w-full">
-                <input 
+        <div class="mt-2 flex w-full justify-between gap-3 px-6">
+            <div class="relative w-full rounded-lg bg-white p-2 py-4">
+                <input
                     v-model="search"
-                    type="text" 
-                    placeholder="Cari hadiah..." 
-                    class="px-8 outline-none w-full text-black" 
+                    type="text"
+                    placeholder="Cari hadiah..."
+                    class="w-full px-8 text-black outline-none"
                 />
-                <Icon icon="material-symbols:search-rounded" class="absolute left-2 top-3 text-3xl text-gray-500" />
-                
-                <button 
+                <Icon
+                    icon="material-symbols:search-rounded"
+                    class="absolute top-3 left-2 text-3xl text-gray-500"
+                />
+
+                <button
                     v-if="search"
                     @click="search = ''"
-                    class="absolute right-2 top-3 text-gray-400 hover:text-gray-600"
+                    class="absolute top-3 right-2 text-gray-400 hover:text-gray-600"
                 >
                     <Icon icon="mdi:close-circle" class="text-2xl" />
                 </button>
             </div>
 
-            <button 
+            <button
                 @click="showFilterModal = true"
-                class="flex justify-center items-center w-fit h-fit p-2 rounded-lg bg-[#01ABFF] relative"
+                class="relative flex h-fit w-fit items-center justify-center rounded-lg bg-[#01ABFF] p-2"
             >
                 <Icon icon="mage:filter" class="text-4xl" />
-                <span 
+                <span
                     v-if="selectedType || selectedPartner"
-                    class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
+                    class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500"
                 ></span>
             </button>
         </div>
 
-        <div v-if="selectedType || selectedPartner" class="px-6 mt-3 flex flex-wrap gap-2">
-            <div v-if="selectedType" class="bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-sm">
-                <span class="text-sm">Tipe: {{ selectedType }}</span>
-                <button @click="selectedType = ''; applyFilters()">
-                    <Icon icon="mdi:close" class="text-lg text-gray-500" />
-                </button>
-            </div>
-            
-            <div v-if="selectedPartner" class="bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-sm">
-                <span class="text-sm">
-                    Partner: {{ partners.find(p => p.id == selectedPartner)?.business_name }}
-                </span>
-                <button @click="selectedPartner = ''; applyFilters()">
+        <div
+            v-if="selectedType || selectedPartner"
+            class="mt-3 flex flex-wrap gap-2 px-6"
+        >
+            <div
+                v-if="selectedType"
+                class="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm"
+            >
+                <span class="text-sm text-black">Tipe: {{ selectedType }}</span>
+                <button
+                    @click="
+                        selectedType = '';
+                        applyFilters();
+                    "
+                >
                     <Icon icon="mdi:close" class="text-lg text-gray-500" />
                 </button>
             </div>
 
-            <button 
+            <div
+                v-if="selectedPartner"
+                class="flex items-center text-black gap-2 rounded-full bg-white px-4 py-2 shadow-sm"
+            >
+                <span class="text-sm">
+                    Partner:
+                    {{
+                        partners.find((p) => p.id == selectedPartner)
+                            ?.business_name
+                    }}
+                </span>
+                <button
+                    @click="
+                        selectedPartner = '';
+                        applyFilters();
+                    "
+                >
+                    <Icon icon="mdi:close" class="text-lg text-gray-500" />
+                </button>
+            </div>
+
+            <button
                 @click="resetFilters"
-                class="bg-red-100 text-red-600 rounded-full px-4 py-2 text-sm font-medium"
+                class="rounded-full bg-red-100 px-4 py-2 text-sm font-medium text-red-600"
             >
                 Reset Semua
             </button>
         </div>
 
-        <div class="px-6 mt-6 flex flex-col gap-3 mb-28">
-            <div v-if="props.reward.data && props.reward.data.length === 0" class="text-center py-10">
-                <Icon icon="mdi:gift-off" class="text-6xl text-gray-400 mx-auto mb-3" />
-                <p class="text-gray-500 text-lg">Tidak ada hadiah ditemukan</p>
-                <button 
+        <div class="mt-6 mb-28 flex flex-col gap-3 px-6">
+            <div
+                v-if="props.reward.data && props.reward.data.length === 0"
+                class="py-10 text-center"
+            >
+                <Icon
+                    icon="mdi:gift-off"
+                    class="mx-auto mb-3 text-6xl text-gray-400"
+                />
+                <p class="text-lg text-gray-500">Tidak ada hadiah ditemukan</p>
+                <button
                     @click="resetFilters"
                     class="mt-4 text-blue-600 underline"
                 >
@@ -198,23 +253,28 @@ const getPartnerName = (reward) => {
                         'w-full rounded-xl p-5 shadow-md transition',
                         index % 2 === 0
                             ? 'bg-gradient-to-r from-[#FFF2DE] to-[#FFE0B2]'
-                            : 'bg-gradient-to-r from-[#FCE4EC] to-[#F8BBD0]'
+                            : 'bg-gradient-to-r from-[#FCE4EC] to-[#F8BBD0]',
                     ]"
                 >
-                    <h2 class="text-xl font-bold text-gray-900 leading-tight">
+                    <h2 class="text-xl leading-tight font-bold text-gray-900">
                         {{ rewards?.title ?? 'Loading...' }}
                     </h2>
 
-                    <div class="flex justify-between items-center mt-3">
+                    <div class=" mt-3 flex items-center justify-between">
                         <div>
-                            <p class="text-base text-gray-700">Tipe: {{ rewards?.type ?? '-' }}</p>
-                            <p class="text-sm text-gray-600 mt-1">
+                            <p class="text-base text-gray-700">
+                                Tipe: {{ rewards?.type ?? '-' }}
+                            </p>
+                            <p class="mt-1 text-sm text-gray-600">
                                 Partner: {{ getPartnerName(rewards) }}
                             </p>
                         </div>
 
                         <div class="flex items-center space-x-1">
-                            <Icon icon="mdi:star" class="text-2xl text-gray-600" />
+                            <Icon
+                                icon="mdi:star"
+                                class="text-2xl text-gray-600"
+                            />
                             <span class="text-sm font-semibold text-gray-800">
                                 {{ rewards?.points_cost ?? 0 }} Poin
                             </span>
@@ -222,104 +282,125 @@ const getPartnerName = (reward) => {
                     </div>
                 </Link>
 
-                <div v-if="props.reward.links && props.reward.links.length > 3" class="flex justify-center items-center gap-2 mt-6">
+                <div
+                    v-if="props.reward.links && props.reward.links.length > 3"
+                    class="mt-6 flex items-center justify-center gap-2"
+                >
                     <Link
                         v-for="(link, index) in props.reward.links"
                         :key="index"
                         :href="link.url || '#'"
                         :class="[
-                            'px-4 py-2 rounded-lg font-medium transition',
-                            link.active 
-                                ? 'bg-[#01ABFF] text-white' 
-                                : link.url 
-                                    ? 'bg-white text-gray-700 hover:bg-gray-100' 
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed',
-                            'flex items-center justify-center min-w-[40px]'
+                            'rounded-lg px-4 py-2 font-medium transition',
+                            link.active
+                                ? 'bg-[#01ABFF] text-white'
+                                : link.url
+                                  ? 'bg-white text-gray-700 hover:bg-gray-100'
+                                  : 'cursor-not-allowed bg-gray-100 text-gray-400',
+                            'flex min-w-[40px] items-center justify-center',
                         ]"
                         :preserve-scroll="true"
                         v-html="link.label"
                     />
                 </div>
 
-                <div v-if="props.reward.total" class="text-center text-sm text-gray-600 mt-4">
-                    Menampilkan {{ props.reward.from }} - {{ props.reward.to }} dari {{ props.reward.total }} hadiah
+                <div
+                    v-if="props.reward.total"
+                    class="mt-4 text-center text-sm text-gray-600"
+                >
+                    Menampilkan {{ props.reward.from }} -
+                    {{ props.reward.to }} dari {{ props.reward.total }} hadiah
                 </div>
             </template>
         </div>
-        
-        <div 
+
+        <div
             v-if="showFilterModal"
-            class="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-end"
+            class="bg-opacity-50 fixed inset-0 z-[60] flex items-end bg-black"
             @click.self="showFilterModal = false"
         >
-            <div class="bg-white w-full rounded-t-3xl p-6 pb-32 animate-slide-up max-h-[85vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold">Filter Hadiah</h3>
+            <div
+                class="animate-slide-up max-h-[85vh] w-full overflow-y-auto rounded-t-3xl bg-white p-6 pb-32"
+            >
+                <div class="mb-6 flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-black">Filter Hadiah</h3>
                     <button @click="showFilterModal = false" type="button">
                         <Icon icon="mdi:close" class="text-2xl text-gray-500" />
                     </button>
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tipe Hadiah</label>
-                    <select 
+                    <label class="mb-2 block text-sm font-medium text-gray-700"
+                        >Tipe Hadiah</label
+                    >
+                    <select
                         v-model="selectedType"
                         @change="console.log('Type changed to:', selectedType)"
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="text-black w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     >
                         <option value="">Semua Tipe</option>
-                        <option 
-                            v-for="(type, index) in props.types" 
-                            :key="index" 
+                        <option
+                            v-for="(type, index) in props.types"
+                            :key="index"
                             :value="type"
                         >
                             {{ type }}
                         </option>
                     </select>
-                    <p v-if="!props.types || props.types.length === 0" class="text-xs text-red-500 mt-1">
+                    <p
+                        v-if="!props.types || props.types.length === 0"
+                        class="mt-1 text-xs text-red-500"
+                    >
                         Tidak ada tipe tersedia
                     </p>
-                    <p v-else class="text-xs text-gray-500 mt-1">
+                    <p v-else class="mt-1 text-xs text-gray-500">
                         {{ props.types.length }} tipe tersedia
                     </p>
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Partner EKRAF</label>
-                    <select 
+                    <label class="mb-2 block text-sm font-medium text-gray-700"
+                        >Partner EKRAF</label
+                    >
+                    <select
                         v-model="selectedPartner"
-                        @change="console.log('Partner changed to:', selectedPartner)"
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        @change="
+                            console.log('Partner changed to:', selectedPartner)
+                        "
+                        class="text-black w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     >
                         <option value="">Semua Partner</option>
-                        <option 
-                            v-for="partner in props.partners" 
-                            :key="partner.id" 
+                        <option
+                            v-for="partner in props.partners"
+                            :key="partner.id"
                             :value="partner.id"
                         >
                             {{ partner.business_name }}
                         </option>
                     </select>
-                    <p v-if="!props.partners || props.partners.length === 0" class="text-xs text-red-500 mt-1">
+                    <p
+                        v-if="!props.partners || props.partners.length === 0"
+                        class="mt-1 text-xs text-red-500"
+                    >
                         Tidak ada partner tersedia
                     </p>
-                    <p v-else class="text-xs text-gray-500 mt-1">
+                    <p v-else class="mt-1 text-xs text-gray-500">
                         {{ props.partners.length }} partner tersedia
                     </p>
                 </div>
 
-                <div class="flex gap-3 mt-6 pb-4">
-                    <button 
+                <div class="mt-6 flex gap-3 pb-4">
+                    <button
                         @click.prevent="resetFilters"
                         type="button"
-                        class="flex-1 py-4 border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 text-base"
+                        class="flex-1 rounded-lg border-2 border-gray-300 py-4 text-base font-medium text-gray-700 hover:bg-gray-50"
                     >
                         Reset
                     </button>
-                    <button 
+                    <button
                         @click.prevent="applyModalFilters"
                         type="button"
-                        class="flex-1 py-4 bg-[#01ABFF] text-white rounded-lg font-medium hover:bg-blue-600 text-base"
+                        class="flex-1 rounded-lg bg-[#01ABFF] py-4 text-base font-medium text-white hover:bg-blue-600"
                     >
                         Terapkan
                     </button>
@@ -327,25 +408,51 @@ const getPartnerName = (reward) => {
             </div>
         </div>
 
-        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50" style="border-radius: 30px 30px 0 0;">
-            <div class="flex justify-around items-center h-20 max-w-lg mx-auto px-4">
-                <Link href="/dashboard" class="p-2 flex flex-col items-center text-gray-400">
+        <nav
+            class="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white"
+            style="border-radius: 30px 30px 0 0"
+        >
+            <div
+                class="mx-auto flex h-20 max-w-lg items-center justify-around px-4"
+            >
+                <Link
+                    href="/dashboard"
+                    class="flex flex-col items-center p-2 text-gray-400"
+                >
                     <Icon icon="mdi:home" class="text-3xl" />
                 </Link>
-                
-                <Link href="/dashboard/leaderboard" class="p-2 flex flex-col items-center">
-                    <Icon icon="material-symbols:leaderboard-rounded" class="text-3xl text-gray-400" />
+
+                <Link
+                    href="/dashboard/leaderboard"
+                    class="flex flex-col items-center p-2"
+                >
+                    <Icon
+                        icon="material-symbols:leaderboard-rounded"
+                        class="text-3xl text-gray-400"
+                    />
                 </Link>
 
-                <Link href="/dashboard/scan" class="p-4 bg-[#1485FF] rounded-full -mt-10 shadow-lg">
+                <Link
+                    href="/dashboard/scan"
+                    class="-mt-10 rounded-full bg-[#1485FF] p-4 shadow-lg"
+                >
                     <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
                 </Link>
 
-                <Link href="/dashboard/wisata" class="p-2 flex flex-col items-center text-gray-400">
-                    <Icon icon="streamline-flex:target-solid" class="text-3xl" />
+                <Link
+                    href="/dashboard/wisata"
+                    class="flex flex-col items-center p-2 text-gray-400"
+                >
+                    <Icon
+                        icon="streamline-flex:target-solid"
+                        class="text-3xl"
+                    />
                 </Link>
-                
-                <Link href="/dashboard/hadiah" class="p-2 flex flex-col items-center text-[#1485FF]">
+
+                <Link
+                    href="/dashboard/hadiah"
+                    class="flex flex-col items-center p-2 text-[#1485FF]"
+                >
                     <Icon icon="mdi:gift" class="text-3xl" />
                 </Link>
             </div>

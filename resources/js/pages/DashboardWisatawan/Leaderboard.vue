@@ -19,7 +19,13 @@ console.log(props.currentUser);
                 <div class="flex w-full justify-between items-center p-6">
                     <p></p>
                     <h2 class="font-bold text-2xl text-[#1485FF]">Papan Peringkat</h2>
-                    <div class="h-10 w-10 rounded-lg bg-gray-200"></div> 
+                    <Link as="button" href="/dashboard/profile" class="cursor-pointer h-10 w-10 overflow-hidden rounded-lg bg-transparent ">
+                        <img
+                            :src="`${user?.profile_url}`"
+                            alt="profile"
+                            class="h-full w-full object-cover"
+                        />
+                    </Link>
                 </div>
             </div>
 

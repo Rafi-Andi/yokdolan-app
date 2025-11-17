@@ -1,128 +1,96 @@
-<script setup lang="ts">
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
-import { Form, Head, Link, usePage } from '@inertiajs/vue3';
+<script setup>
+import { Icon } from '@iconify/vue';
+import { ref } from 'vue';
 
-import DeleteUser from '@/components/DeleteUser.vue';
-import HeadingSmall from '@/components/HeadingSmall.vue';
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { type BreadcrumbItem } from '@/types';
+const missionDetail = ref({
+  title: 'Toko Kopi Lonceng',
+  subtitle: 'Aroma Klasik',
+  description: 'Toko kopi legendaris yang masih menjual biji kopi yang digiling di tempat dengan mesin sangrai tua.',
+  missionType: 'Misi Transaksi',
+  points: 400,
+  address: 'Malang, Kota Malang, Jawa Timur',
+  landmark: 'sebelah gerbang masuk sebelah kanan'
+});
 
-interface Props {
-    mustVerifyEmail: boolean;
-    status?: string;
-}
+const props = defineProps({
+    user: Object,
+    toouristProfile: Object,
+});
 
-defineProps<Props>();
-
-const breadcrumbItems: BreadcrumbItem[] = [
-    {
-        title: 'Profile settings',
-        href: edit().url,
-    },
-];
-
-const page = usePage();
-const user = page.props.auth.user;
+console.log(props.user)
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Profile settings" />
-
-        <SettingsLayout>
-            <div class="flex flex-col space-y-6">
-                <HeadingSmall
-                    title="Profile information"
-                    description="Update your name and email address"
-                />
-
-                <Form
-                    v-bind="ProfileController.update.form()"
-                    class="space-y-6"
-                    v-slot="{ errors, processing, recentlySuccessful }"
-                >
-                    <div class="grid gap-2">
-                        <Label for="name">Name</Label>
-                        <Input
-                            id="name"
-                            class="mt-1 block w-full"
-                            name="name"
-                            :default-value="user.name"
-                            required
-                            autocomplete="name"
-                            placeholder="Full name"
-                        />
-                        <InputError class="mt-2" :message="errors.name" />
-                    </div>
-
-                    <div class="grid gap-2">
-                        <Label for="email">Email address</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            class="mt-1 block w-full"
-                            name="email"
-                            :default-value="user.email"
-                            required
-                            autocomplete="username"
-                            placeholder="Email address"
-                        />
-                        <InputError class="mt-2" :message="errors.email" />
-                    </div>
-
-                    <div v-if="mustVerifyEmail && !user.email_verified_at">
-                        <p class="-mt-4 text-sm text-muted-foreground">
-                            Your email address is unverified.
-                            <Link
-                                :href="send()"
-                                as="button"
-                                class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current!"
-                            >
-                                Click here to resend the verification email.
-                            </Link>
-                        </p>
-
-                        <div
-                            v-if="status === 'verification-link-sent'"
-                            class="mt-2 text-sm font-medium text-green-600"
-                        >
-                            A new verification link has been sent to your email
-                            address.
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-4">
-                        <Button
-                            :disabled="processing"
-                            data-test="update-profile-button"
-                            >Save</Button
-                        >
-
-                        <Transition
-                            enter-active-class="transition ease-in-out"
-                            enter-from-class="opacity-0"
-                            leave-active-class="transition ease-in-out"
-                            leave-to-class="opacity-0"
-                        >
-                            <p
-                                v-show="recentlySuccessful"
-                                class="text-sm text-neutral-600"
-                            >
-                                Saved.
-                            </p>
-                        </Transition>
-                    </div>
-                </Form>
+    <div class="bg-[#D6EFFF]">
+        
+        <div class="bg-[#D6EFFF]  rounded-b-3xl pt-6 px-6 h-screen">
+           
+        </div>
+        
+        <div class="fixed bottom-0 right-0 left-0 z-50 bg-white rounded-t-3xl p-8  shadow-2xl  mt-30">
+            <div class="w-fit mx-auto max-w-sm bg-white -mt-20 rounded-xl p-5 shadow-md">
+                    <Icon icon="mdi:image-outline" class="text-7xl text-gray-500" />
             </div>
 
-            <DeleteUser />
-        </SettingsLayout>
-    </AppLayout>
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="font-bold text-xl text-[#333333]">{{ user.name }}</h1>
+                <p class="text-sm">{{ user.email }}</p>
+            </div>
+
+            <div class=" w-full h-20 mt-8 flex items-center">
+                <div class="w-30">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <Icon icon="el:star-alt" class="text-2xl text-[#333333]"/>
+                        <h1 class="font-bold text-xl text-[#333333]">400</h1>
+                    </div>
+                    <p class="text-gray-600 font-medium text-sm text-center leading-4">Poin Hadiah Anda</p>
+                </div>
+                <div class="h-14 bg-gray-400 w-[0.2px]">
+
+                </div>
+                <div class="w-30">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <Icon icon="el:star-alt" class="text-2xl text-[#333333]"/>
+                        <h1 class="font-bold text-xl text-[#333333]">400</h1>
+                    </div>
+                    <p class="text-gray-600 font-medium text-sm text-center leading-4">Poin Hadiah Anda</p>
+                </div>
+                
+                <div class="w-30">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <Icon icon="el:star-alt" class="text-2xl text-[#333333]"/>
+                        <h1 class="font-bold text-xl text-[#333333]">400</h1>
+                    </div>
+                    <p class="text-gray-600 font-medium text-sm text-center leading-4">Poin Hadiah Anda</p>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="border-b-1 py-5 border-[#333333]">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-lg font-semibold text-[#333333]">Leaderboard</h1>
+                        <Icon icon="weui:arrow-filled" class="text-4xl text-[#333333]"/>
+                    </div>
+                </div>
+                <div class="border-b-1 py-5 border-[#333333]">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-lg font-semibold text-[#333333]">Daftar Misi</h1>
+                        <Icon icon="weui:arrow-filled" class="text-4xl text-[#333333]"/>
+                    </div>
+                </div>
+                <div class="border-b-1 py-5 border-[#333333]">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-lg font-semibold text-[#333333]">Klaim Hadiah</h1>
+                        <Icon icon="weui:arrow-filled" class="text-4xl text-[#333333]"/>
+                    </div>
+                </div>
+                <div class="border-b-1 py-5 border-[#333333]">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-lg font-semibold text-[#333333]">Logout</h1>
+                        <Icon icon="heroicons-outline:logout" class="text-4xl text-[#333333]"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
