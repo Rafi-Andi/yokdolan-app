@@ -82,7 +82,7 @@ const getPartnerName = (reward) => {
 <template>
     <div class="bg-[#D6EFFF] pb-30">
         <div class="flex justify-between items-center p-6">
-            <p class="font-bold text-2xl">Katalog Hadiah</p>
+            <p class="font-bold text-2xl text-black">Katalog Hadiah</p>
 
             <div class="flex justify-center items-center w-fit h-fit p-1 rounded-lg bg-[#01ABFF]">
                 <Icon icon="mdi:gift" class="text-4xl" />
@@ -118,7 +118,7 @@ const getPartnerName = (reward) => {
         </div>
 
         <div class="px-6 pt-4">
-            <h1 class="font-bold text-2xl">Daftar Hadiah</h1>
+            <h1 class="font-bold text-2xl text-black">Daftar Hadiah</h1>
         </div>
 
         <div class="flex px-6 w-full justify-between mt-2 gap-3">
@@ -127,7 +127,7 @@ const getPartnerName = (reward) => {
                     v-model="search"
                     type="text" 
                     placeholder="Cari hadiah..." 
-                    class="px-8 outline-none w-full" 
+                    class="px-8 outline-none w-full text-black" 
                 />
                 <Icon icon="material-symbols:search-rounded" class="absolute left-2 top-3 text-3xl text-gray-500" />
                 

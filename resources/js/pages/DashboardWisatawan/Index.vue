@@ -70,8 +70,8 @@ const url = 'http://127.0.0.1:8000';
 
                 <div class="flex w-full items-center justify-between p-6">
                     <div class="">
-                        <h1 class="text-2xl font-bold">Hallo!</h1>
-                        <p class="text-2xl">{{ user?.name }}</p>
+                        <h1 class="text-2xl font-bold text-black">Hallo!</h1>
+                        <p class="text-2xl text-black">{{ user?.name }}</p>
                         <p class="text-xs text-gray-500">
                             Wisata Jadi Lebih Seru dengan Misi Berhadiah.
                         </p>
@@ -188,7 +188,7 @@ const url = 'http://127.0.0.1:8000';
             </div>
 
             <div class="p-6">
-                <h2 class="text-xl font-bold">Channel Wisata</h2>
+                <h2 class="text-xl font-bold text-black">Channel Wisata</h2>
             </div>
             <div class="no-scrollbar flex gap-4 overflow-auto pl-6">
                 <div
@@ -232,7 +232,7 @@ const url = 'http://127.0.0.1:8000';
             </div>
 
             <div class="p-6">
-                <h2 class="mb-3 text-xl font-bold">Misi Terbaru</h2>
+                <h2 class="mb-3 text-xl font-bold text-black">Misi Terbaru</h2>
 
                 <div class="no-scrollbar flex gap-3 overflow-x-auto pb-4">
                     <button

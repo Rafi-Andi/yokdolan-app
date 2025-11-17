@@ -30,7 +30,6 @@ class EkrafPartnerController extends Controller
         $testContent = 'http://127.0.0.1:8000/mission/validate/' . $testId;
 
         try {
-            // ✅ KODE YANG BERHASIL: Menggunakan Builder constructor dengan named arguments
             $builder = new Builder(
                 writer: new PngWriter(),
                 data: $testContent,
@@ -39,20 +38,16 @@ class EkrafPartnerController extends Controller
                 margin: 10
             );
 
-            // ✅ 2. Build QR Code
             $result = $builder->build();
 
             $fileName = 'qrcodes/test-qr-' . $testId . '.png';
 
-            // ✅ 4. Simpan hasil QR ke storage
             Storage::disk('public')->put($fileName, $result->getString());
 
-            // ✅ 5. Pastikan symlink ada
             if (!file_exists(public_path('storage'))) {
                 Artisan::call('storage:link');
             }
 
-            // ✅ 6. Kembalikan URL hasil
             $url = asset('storage/' . $fileName);
             return response("✅ SUCCESS: QR Code berhasil dibuat dan disimpan di: 
             <a href='{$url}' target='_blank'>{$url}</a><br>
@@ -83,7 +78,7 @@ class EkrafPartnerController extends Controller
 
         $pendingValidations = RewardExchange::query()
             ->whereIn('reward_id', $partnerRewardIds)->where('validation_status', '=', 'pending')
-            ->with(['reward:id,title', 'tourist:id,name'])->orderBy('exchange_at', 'asc')
+            ->with(['reward:id,title', 'tourist:id,name,profile_url'])->orderBy('exchange_at', 'asc')
             ->get();;
 
         return Inertia::render('DashboardEkraf/Index', [

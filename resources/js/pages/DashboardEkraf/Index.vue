@@ -1,4 +1,5 @@
 <script setup>
+import { logout } from '@/routes';
 import { Icon } from '@iconify/vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
@@ -35,6 +36,10 @@ const props = defineProps({
     stats: Object,
     pendingValidations: Array,
 });
+
+props.pendingValidations.forEach(element => {
+    console.log(element.tourist.profile_url);
+});
 console.log(props.pendingValidations);
 console.log(props.stats);
 </script>
@@ -43,6 +48,10 @@ console.log(props.stats);
     <Head title="Dasbor Mitra Ekraf" />
     <div class="min-h-screen bg-[#EBF5FF] pb-24">
             <main class="space-y-6 px-6 pt-12">
+                <div class="flex justify-between">
+                    <div></div>
+                    <Link as="button" :href="logout()" class="cursor-pointer hover:text-red-700 hover:border-red-700 border-2 w-fit px-4 py-[0.5px] rounded-2xl border-red-500 text-red-500"><p>Logout</p></Link>
+                </div>
                 <div>
                     <h1 class="text-2xl font-bold text-black">
                         Dasbor Mitra Ekraf
@@ -138,8 +147,11 @@ console.log(props.stats);
                                 class="flex items-center gap-3 border-b-2 border-gray-400 pb-2"
                             >
                                 <div
-                                    class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-600"
-                                ></div>
+                                class="h-10 w-10 flex-shrink-0 rounded-full bg-transparent"
+                                >
+                                <img :src="reward.tourist.profile_url" alt="">
+                            
+                                </div>
                                 <div class="flex-grow">
                                     <p
                                         class="text-sm font-bold text-black"

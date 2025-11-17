@@ -56,7 +56,7 @@ console.log(props.currentUser);
 
                 <div class="mt-8 bg-[#C4E1FF] pb-30 rounded-t-3xl p-6 -mx-6">
                     <div class="flex justify-center items-baseline mb-8 px-1">
-                        <h3 class="text-xl font-bold">Peringkat Poin Misi</h3>
+                        <h3 class="text-xl font-bold text-black">Peringkat Poin Misi</h3>
                     </div>
                     <div class="flex justify-between items-baseline mb-4 px-1">
                         <h3 class="text-sm text-gray-500">Peringkat</h3>

@@ -91,7 +91,7 @@ watch(search, searchHandler);
                     <template v-for="(link, key) in wisata.links" :key="key">
                         <div
                             v-if="link.url === null"
-                            class="mb-1 mr-1 px-3 py-2 text-gray-500 text-xs leading-4 border rounded-lg"
+                            class="mb-1 mr-1 px-3 py-2 text-gray-500 border-none text-xs leading-4 border rounded-lg"
                             v-html="link.label"
                         />
                         <Link
