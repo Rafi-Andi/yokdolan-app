@@ -31,22 +31,27 @@ class DashboardTouristController extends Controller
             if ($user->role === 'channel_owner') {
                 return redirect()->route('dashboard.channel');
             }
+            if ($user->role === 'admin') {
+                return redirect()->route('dashboard.admin');
+            }
         }
 
         $globalSearchQuery = $request->input('search');
         $missionTypeFilter = $request->input('type');
 
         $Channel = Channel::query()
-            ->where('is_verified', true)
+            ->where('is_verified', true)->andWhere('is_active', true)
             ->when($globalSearchQuery, function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('location', 'like', '%' . $search . '%');
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('location', 'like', '%' . $search . '%');
+                });
             })
             ->withCount('missions')
             ->orderBy('created_at', 'asc')
             ->take(5)
             ->get();
-
+            
         $Missions = Mission::query()
             ->whereHas('channel', function ($query) {
                 $query->where('is_verified', true);
@@ -151,7 +156,7 @@ class DashboardTouristController extends Controller
         $searchQuery = $request->input('search');
 
         $wisata = Channel::query()
-            ->where('is_verified', true)
+            ->where('is_verified', true)->addWhere('is_active', true)
             ->when($searchQuery, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', '%' . $search . '%')
@@ -261,7 +266,7 @@ class DashboardTouristController extends Controller
 
         return Inertia::render('DashboardWisatawan/Hadiah', [
             'user' => $user,
-            'reward' => $rewards, 
+            'reward' => $rewards,
             'types' => $types,
             'partners' => $partners,
             'filters' => [

@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage; // Pastikan ini di-import
+use Illuminate\Support\Facades\Storage;
 
 class RegisterWisataController extends Controller
 {
@@ -39,7 +39,7 @@ class RegisterWisataController extends Controller
             'location' => ['required', 'string', 'max:50'],
             'phone' => ['required', 'string', 'max:20'], 
             'description' => ['nullable', 'string', 'max:255'], 
-            'profile_photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'profile_photo' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
         $photoPath = null;
@@ -52,7 +52,6 @@ class RegisterWisataController extends Controller
             }
         }
 
-        // 3. Buat Channel
         Channel::create([
             'owner_user_id' => $user->id,
             'name' => $data['name'],
@@ -63,7 +62,7 @@ class RegisterWisataController extends Controller
             
             'is_verified' => false, 
             
-            'is_active' => true,
+            'is_active' => false,
         ]);
 
         return redirect()->route('dashboard')

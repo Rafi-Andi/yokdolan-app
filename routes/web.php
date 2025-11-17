@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardTouristController;
 use App\Http\Controllers\EkrafPartnerController;
 use Inertia\Inertia;
@@ -63,5 +64,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::post('/register/channel', [RegisterWisataController::class, 'store']);
 
     Route::get('/dashboard/channel', [ChannelController::class, 'index'])->name('dashboard.channel');
+
+    Route::get('/dashboard/admin', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
+    Route::get('/dashboard/admin/wisata/{id}', [DashboardAdminController::class, 'showChannel'])->name('dashboard.admin.wisata.detail');
 });
 require __DIR__ . '/settings.php';
