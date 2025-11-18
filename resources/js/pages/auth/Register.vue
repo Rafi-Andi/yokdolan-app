@@ -116,7 +116,7 @@ const selectAvatar = (avatarUrl: string) => {
                             :tabindex="1"
                             autocomplete="name"
                             placeholder="Masukkan nama kamu"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="pl-10 h-12 bg-white text-black border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.name" />
@@ -138,7 +138,7 @@ const selectAvatar = (avatarUrl: string) => {
                             :tabindex="2"
                             autocomplete="email"
                             placeholder="Masukkan email kamu"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="text-black pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.email" />
@@ -163,7 +163,7 @@ const selectAvatar = (avatarUrl: string) => {
                             :tabindex="3"
                             autocomplete="new-password"
                             placeholder="Masukkan Password"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="text-black pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.password" />
@@ -188,7 +188,7 @@ const selectAvatar = (avatarUrl: string) => {
                             :tabindex="4"
                             autocomplete="new-password"
                             placeholder="Konfirmasi Password"
-                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                            class="text-black pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
                     <InputError :message="errors.password_confirmation" />
@@ -231,10 +231,10 @@ const selectAvatar = (avatarUrl: string) => {
             <span>Sudah mempunyai akun? </span>
             <TextLink
                 :href="login()"
-                class="font-semibold text-black hover:text-blue-700 underline"
+                class="font-semibold text-blue-800 hover:text-blue-700 underline"
                 :tabindex="6"
             >
-                Masuk
+                <span class="text-blue-500">Masuk</span>
             </TextLink>
         </div>
 

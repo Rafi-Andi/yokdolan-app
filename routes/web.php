@@ -64,6 +64,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::post('/register/channel', [RegisterWisataController::class, 'store']);
 
     Route::get('/dashboard/channel', [ChannelController::class, 'index'])->name('dashboard.channel');
+    Route::get('/dashboard/channel/ekraf/{id}', [ChannelController::class, 'showEkraf'])->name('dashboard.channel.detail');
+    Route::get('/dashboard/channel/ekraf/verify/{id}', [ChannelController::class, 'isVerified'])->name('dashboard.channel.verify');
 
     Route::get('/dashboard/admin', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
     Route::get('/dashboard/admin/wisata/{id}', [DashboardAdminController::class, 'showChannel'])->name('dashboard.admin.wisata.detail');

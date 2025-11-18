@@ -1,104 +1,139 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Link } from '@inertiajs/vue3';
 
-    const props = defineProps({
-        detail: Object
-    })
+const props = defineProps({
+    detail: Object,
+});
 
-    console.log(props.detail)
+console.log(props.detail);
 
-    const url = "http://127.0.0.1:8000"
-    
-    const formatTanggal = (tanggal) => {
+const url = 'http://127.0.0.1:8000';
+
+const formatTanggal = (tanggal) => {
     if (!tanggal) return '-';
     const date = new Date(tanggal);
     return date.toLocaleDateString('id-ID', {
-        weekday: 'long', 
+        weekday: 'long',
         day: '2-digit',
         month: 'long',
-        year: 'numeric'
+        year: 'numeric',
     });
-    };
+};
+
+
 </script>
 
-
 <template>
-    <div class="pb-32 bg-[#EBF5FF]">
-        
-        <header class="p-4 flex items-center gap-19">
-            <Link href="/dashboard/ekraf/mission" class="text-black">
+    <div class="bg-[#EBF5FF] pb-32">
+        <header class="flex items-center gap-19 p-4">
+            <button @click="goBack()" class="text-black">
                 <Icon icon="mdi:arrow-left" class="text-3xl"></Icon>
-            </Link>
-            <h1 class="text-xl font-bold text-black">
-                Detail Misi
-            </h1>
-            
+            </button>
+            <h1 class="text-xl font-bold text-black">Detail Misi</h1>
         </header>
 
-        <main class="px-4 space-y-5">
-            
-            <div class=" bg-gray-200 rounded-xl flex items-center justify-center">
-                 <img :src="`${url}/storage/${detail.mission_photo_path}`" alt="qrcode misi" class="w-100">
+        <main class="space-y-5 px-4">
+            <div
+                class="flex items-center justify-center rounded-xl bg-gray-200"
+            >
+                <img
+                    :src="`${url}/storage/${detail.mission_photo_path}`"
+                    alt="qrcode misi"
+                    class="w-100"
+                />
             </div>
 
             <div class="space-y-2">
                 <p class="text-lg font-medium">Transaksi</p>
                 <h2 class="text-2xl font-bold">{{ detail.title }}</h2>
                 <p class="text-base text-gray-700">
-                   {{ detail.description }}
+                    {{ detail.description }}
                 </p>
             </div>
 
-            <div class="bg-[#D8EBFF] rounded-xl shadow-xl p-4 space-y-3 mb-16">
-                
-                <div class="flex items-center gap-3 pb-3 border-b border-gray-400">
+            <div class="mb-16 space-y-3 rounded-xl bg-[#D8EBFF] p-4 shadow-xl">
+                <div
+                    class="flex items-center gap-3 border-b border-gray-400 pb-3"
+                >
                     <div class="flex-shrink-0 rounded-b-full bg-white p-2">
-                        <Icon icon="tabler:target-arrow" class="text-3xl text-black"></Icon>
+                        <Icon
+                            icon="tabler:target-arrow"
+                            class="text-3xl text-black"
+                        ></Icon>
                     </div>
                     <div class="flex-grow">
                         <p class="text-xs text-gray-500">Tipe Misi</p>
-                        <p class="font-semibold text-gray-900">{{ detail.type }}</p>
+                        <p class="font-semibold text-gray-900">
+                            {{ detail.type }}
+                        </p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 pb-3 border-b border-gray-400">
+                <div
+                    class="flex items-center gap-3 border-b border-gray-400 pb-3"
+                >
                     <div class="flex-shrink-0 rounded-full bg-white p-2">
-                        <Icon icon="mingcute:calendar-2-fill" class="text-3xl text-black"></Icon>
+                        <Icon
+                            icon="mingcute:calendar-2-fill"
+                            class="text-3xl text-black"
+                        ></Icon>
                     </div>
                     <div class="flex-grow">
                         <p class="text-xs text-gray-500">Tanggal Dibuat</p>
-                        <p class="font-semibold text-gray-900">{{ formatTanggal(detail.created_at) }}</p>
+                        <p class="font-semibold text-gray-900">
+                            {{ formatTanggal(detail.created_at) }}
+                        </p>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
                     <div class="flex-shrink-0 rounded-t-full bg-white p-2">
-                        <Icon icon="el:star-alt" class="text-3xl text-black"></Icon>
+                        <Icon
+                            icon="el:star-alt"
+                            class="text-3xl text-black"
+                        ></Icon>
                     </div>
                     <div class="flex-grow">
                         <p class="text-xs text-gray-500">Poin Hadiah</p>
-                        <p class="font-semibold text-gray-900">{{ detail.reward_points }} Poin</p>
+                        <p class="font-semibold text-gray-900">
+                            {{ detail.reward_points }} Poin
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white p-4 flex flex-col items-center gap-4">
-                <h2 class="text-base font-semibold text-gray-900">Kode QR Misi</h2>
-                <div class="w-48 h-48 bg-gray-100 flex items-center justify-center">
-                    <img :src="`${url}/storage/${detail.qr_code_path}`" alt="qrcode misi" class="w-full">
+            <div class="flex flex-col items-center gap-4 bg-white p-4">
+                <h2 class="text-base font-semibold text-gray-900">
+                    Kode QR Misi
+                </h2>
+                <div
+                    class="flex h-48 w-48 items-center justify-center bg-gray-100"
+                >
+                    <img
+                        :src="`${url}/storage/${detail.qr_code_path}`"
+                        alt="qrcode misi"
+                        class="w-full"
+                    />
                 </div>
-                <a :href="`${url}/storage/${detail.qr_code_path}`" download class="w-full bg-[#01ABFF] text-white font-medium py-3 px-4 rounded-lg text-sm hover:bg-gray-400 transition-all flex items-center justify-center gap-2">
-                    <Icon icon="material-symbols:download" class="text-xl"></Icon>
+                <a
+                    :href="`${url}/storage/${detail.qr_code_path}`"
+                    download
+                    class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#01ABFF] px-4 py-3 text-sm font-medium text-white transition-all hover:bg-gray-400"
+                >
+                    <Icon
+                        icon="material-symbols:download"
+                        class="text-xl"
+                    ></Icon>
                     Unduh QR Code
                 </a>
             </div>
-
         </main>
-    </div> 
-    <div class="fixed bottom-0 left-0 right-0 p-4">
-        <div class="max-w-lg mx-auto">
-            <button class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all ">
+    </div>
+    <div class="fixed right-0 bottom-0 left-0 p-4">
+        <div class="mx-auto max-w-lg">
+            <button
+                class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-semibold text-white transition-all hover:from-[#0F4F9C] hover:to-[#4C90E0]"
+            >
                 Nonaktifkan Misi
             </button>
         </div>

@@ -48,6 +48,7 @@ class DashboardAdminController extends Controller
         $channel->is_verified = true;
         $channel->is_active = true;
         $channel->owner->role = 'channel_owner';
+        $channel->owner->save();
         $channel->save();
 
         return redirect()->back()->with('success', 'Channel berhasil diverifikasi dan diaktifkan.');

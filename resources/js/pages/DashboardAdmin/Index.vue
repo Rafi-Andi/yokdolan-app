@@ -1,4 +1,6 @@
 <script setup>
+import { logout } from '@/routes';
+import { Icon } from '@iconify/vue';
 import { Head, Link } from '@inertiajs/vue3';
 const props = defineProps({
     channels: Array,
@@ -12,13 +14,13 @@ console.log(props.channels);
     <div class="relative min-h-screen bg-[#EBF5FF]">
         <div class="pb-24 md:pb-12">
             <div class="mx-auto">
-                <header class="flex items-center gap-8 p-4">
-                    <a href="dashboardadmin.html" class="text-gray-800">
-                        <icon icon="mdi:arrow-left" class="text-3xl"></icon>
-                    </a>
+                <header class="flex items-center justify-between gap-8 p-4">
                     <h1 class="text-xl font-bold text-black">
                         Manajemen Wisata
                     </h1>
+                    <Link as="button" :href="logout()" class="cursor-pointer border-2 border-red-500 px-5 rounded-2xl">
+                        <p class="text-red-500">Logout</p>
+                    </Link>
                 </header>
 
                 <main class="space-y-4 px-4">
@@ -60,7 +62,7 @@ console.log(props.channels);
                                     </p>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-2 gap-3 pt-3">
+                            <div class="grid gap-3 pt-3" :class=" channel.is_verified ? 'grid-cols-1' : 'grid-cols-2' ">
                                 <Link :href="`/dashboard/admin/wisata/${channel.id}`">
                                     <div
                                         class="text-center cursor-pointer w-full rounded-full border border-[#01ABFF] bg-transparent px-4 py-2 text-sm font-medium text-[#01ABFF] transition-all"
@@ -68,8 +70,8 @@ console.log(props.channels);
                                         Lihat Detail
                                     </div>
                                 </Link>
-                                <Link as="button" :href="`/dashboard/admin/wisata/verify/${channel.id}`"
-                                    class="w-full rounded-full bg-[#01ABFF] px-4 py-2 text-sm font-medium text-white transition-all"
+                                <Link v-if="!channel.is_verified" as="button" :href="`/dashboard/admin/wisata/verify/${channel.id}`"
+                                    class="cursor-pointer w-full rounded-full bg-[#01ABFF] px-4 py-2 text-sm font-medium text-white transition-all"
                                 >
                                     Verifikasi
                                 </Link>

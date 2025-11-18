@@ -24,6 +24,9 @@ const searchHandler = debounce((value) => {
 }, 300);
 
 watch(search, searchHandler);
+function goBack() {
+    window.history.back();
+}
 </script>
 
 <template>
@@ -31,12 +34,12 @@ watch(search, searchHandler);
     <div class="min-h-screen bg-[#EBF5FF]">
             <div class="h-fit rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat mb-6">
                 <div class="flex items-center gap-19 p-4">
-                    <Link href="/dashboard/ekraf" class="text-gray-800">
+                    <button @click="goBack()" class="text-gray-800">
                         <icon
                             icon="mdi:arrow-left"
                             class="text-2xl text-white"
                         ></icon>
-                    </Link>
+                    </button>
                     <h1 class="text-xl font-bold text-white">Daftar Misi</h1>
                 </div>
                 <div class="relative w-full pt-6 pb-12 px-6">

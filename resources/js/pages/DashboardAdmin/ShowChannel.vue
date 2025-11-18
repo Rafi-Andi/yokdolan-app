@@ -138,14 +138,14 @@ console.log(props.channel);
             <div class="mx-auto max-w-2xl space-y-2">
                 <div v-if="channel.is_active">
                     <Link as="button" :href="`/dashboard/admin/wisata/deactivate/${channel.id}`"
-                        class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
+                        class="cursor-pointer w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Nonaktifkan Wisata
                     </Link>
                     <div class="mt-3">
                         <a href="manajemenwisata.html" class="block">
                             <button
-                                class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
+                                class=" cursor-pointer w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >
                                 Kembali
                             </button>
@@ -154,15 +154,15 @@ console.log(props.channel);
                 </div>
 
                 <div v-else-if="!channel.is_verified">
-                    <button
-                        class="w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
+                    <Link as="button" :href="`/dashboard/admin/wisata/verify/${channel.id}`"
+                        class="cursor-pointer w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Verifikasi Wisata
-                    </button>
+                    </Link>
                     <div class="gap-3 mt-3">
                         <Link href="/dashboard/admin" class="block">
                             <button
-                                class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
+                                class="cursor-pointer w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >
                                 Kembali
                             </button>
@@ -171,15 +171,15 @@ console.log(props.channel);
                 </div>
 
                 <div v-else>
-                    <button
-                        class="w-full rounded-3xl bg-[#85CE4D] px-4 py-3 text-base font-medium text-white transition-all"
+                    <Link as="button" :href="`/dashboard/admin/wisata/activate/${channel.id}`"
+                        class="cursor-pointer w-full rounded-3xl bg-[#85CE4D] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Aktifkan Wisata
-                    </button>
+                    </Link>
                     <div class="grid  gap-3 mt-3">
                         <Link href="/dashboard/admin" class="block">
                             <button
-                                class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
+                                class="cursor-pointer w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >
                                 Kembali
                             </button>

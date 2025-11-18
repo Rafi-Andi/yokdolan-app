@@ -96,8 +96,8 @@ console.log(props.stats);
                         >
                             <span class="flex items-center gap-3">
                                 <Icon
-                                    icon="tabler:target-arrow"
-                                    class="text-5xl text-black"
+                                    icon="mdi:target-arrow"
+                                    class="text-5xl text-white"
                                 ></Icon>
                                 <span
                                     class="text-base font-medium text-white"
@@ -117,7 +117,7 @@ console.log(props.stats);
                             <span class="flex items-center gap-3">
                                 <icon
                                     icon="fa-solid:medal"
-                                    class="text-5xl text-black"
+                                    class="text-5xl text-white"
                                 ></icon>
                                 <span
                                     class="text-base font-medium text-white"

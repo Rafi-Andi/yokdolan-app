@@ -19,4 +19,9 @@ class Channel extends Model
     {
         return $this->belongsTo(User::class, 'owner_user_id');
     }
+
+    public function ekrafPartners()
+    {
+        return $this->hasMany(EkrafPartner::class);
+    }
 }
