@@ -40,7 +40,7 @@ class DashboardTouristController extends Controller
         $missionTypeFilter = $request->input('type');
 
         $Channel = Channel::query()
-            ->where('is_verified', true)->andWhere('is_active', true)
+            ->where('is_verified', true)->where('is_active', true)
             ->when($globalSearchQuery, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', '%' . $search . '%')
@@ -156,7 +156,7 @@ class DashboardTouristController extends Controller
         $searchQuery = $request->input('search');
 
         $wisata = Channel::query()
-            ->where('is_verified', true)->addWhere('is_active', true)
+            ->where('is_verified', true)->where('is_active', true)
             ->when($searchQuery, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', '%' . $search . '%')
