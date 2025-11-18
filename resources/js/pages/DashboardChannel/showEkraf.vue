@@ -143,6 +143,11 @@ import { Icon } from '@iconify/vue';
                         >
                             Kembali
                         </button>
+                        <button
+                            class="w-full mt-3 rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
+                        >
+                            Hapus Mitra
+                        </button>
                     </Link>
                 </div>
             </div>
