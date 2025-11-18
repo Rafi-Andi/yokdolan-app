@@ -126,14 +126,14 @@ import { Icon } from '@iconify/vue';
         >
             <div class="mx-auto max-w-2xl space-y-2">
                 
-                
-                <div class="grid gap-3" :class="ekraf.is_verified ? 'grid-cols-1' : 'grid-cols-2'">
+            
                     <button
                         v-if="ekraf.is_verified === 0"
                         class="w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Verifikasi Mitra
                     </button>
+                <div class="grid grid-cols-2 gap-3">
                     <Link
                         href="/dashboard/channel"
                         class="block"
@@ -143,12 +143,12 @@ import { Icon } from '@iconify/vue';
                         >
                             Kembali
                         </button>
+                    </Link>
                         <button
-                            class="w-full mt-3 rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
+                            class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
                         >
                             Hapus Mitra
                         </button>
-                    </Link>
                 </div>
             </div>
         </div>
