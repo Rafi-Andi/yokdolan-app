@@ -1,7 +1,7 @@
 <script setup>
 import { email } from '@/routes/password';
 import { Icon } from '@iconify/vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 const props = defineProps({
     channel: Object,
     adminEmail: String,
@@ -18,12 +18,12 @@ console.log(props.channel);
         <div class="pb-20 md:pb-6">
             <div class="mx-auto">
                 <header class="flex items-center gap-16 p-4">
-                    <a href="manajemenwisata.html" class="text-gray-800">
+                    <Link href="/dashboard/admin" class="text-gray-800">
                         <Icon
                             icon="mdi:arrow-left"
                             class="text-3xl"
                         ></Icon>
-                    </a>
+                    </Link>
                     <h1 class="text-xl font-bold text-black">Detail Wisata</h1>
                 </header>
 
@@ -119,7 +119,6 @@ console.log(props.channel);
                                 </li>
                             </ul>
 
-                            <!-- Foto Wisata -->
                             <div class="pt-2">
                                 <div
                                     class="flex h-48 w-full items-center justify-center rounded-xl"
@@ -137,13 +136,12 @@ console.log(props.channel);
             class="bottom-0 w-full p-6 md:relative md:mt-6 md:border-t-0 md:bg-transparent"
         >
             <div class="mx-auto max-w-2xl space-y-2">
-                <!-- Jika aktif: hanya tombol nonaktifkan -->
                 <div v-if="channel.is_active">
-                    <button
+                    <Link as="button" :href="`/dashboard/admin/wisata/deactivate/${channel.id}`"
                         class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Nonaktifkan Wisata
-                    </button>
+                    </Link>
                     <div class="mt-3">
                         <a href="manajemenwisata.html" class="block">
                             <button
@@ -155,49 +153,37 @@ console.log(props.channel);
                     </div>
                 </div>
 
-                <!-- Jika menunggu verifikasi (belum verified): verifikasi + hapus -->
                 <div v-else-if="!channel.is_verified">
                     <button
                         class="w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Verifikasi Wisata
                     </button>
-                    <div class="grid grid-cols-2 gap-3 mt-3">
-                        <a href="manajemenwisata.html" class="block">
+                    <div class="gap-3 mt-3">
+                        <Link href="/dashboard/admin" class="block">
                             <button
                                 class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >
                                 Kembali
                             </button>
-                        </a>
-                        <button
-                            class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
-                        >
-                            Hapus Wisata
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
-                <!-- Jika nonaktif (sudah verified tapi tidak aktif): aktifkan + hapus -->
                 <div v-else>
                     <button
                         class="w-full rounded-3xl bg-[#85CE4D] px-4 py-3 text-base font-medium text-white transition-all"
                     >
                         Aktifkan Wisata
                     </button>
-                    <div class="grid grid-cols-2 gap-3 mt-3">
-                        <a href="manajemenwisata.html" class="block">
+                    <div class="grid  gap-3 mt-3">
+                        <Link href="/dashboard/admin" class="block">
                             <button
                                 class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >
                                 Kembali
                             </button>
-                        </a>
-                        <button
-                            class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
-                        >
-                            Hapus Wisata
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
