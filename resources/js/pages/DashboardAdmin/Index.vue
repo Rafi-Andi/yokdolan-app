@@ -68,11 +68,11 @@ console.log(props.channels);
                                         Lihat Detail
                                     </div>
                                 </Link>
-                                <button
+                                <Link as="button" :href="`/dashboard/admin/wisata/verify/${channel.id}`"
                                     class="w-full rounded-full bg-[#01ABFF] px-4 py-2 text-sm font-medium text-white transition-all"
                                 >
                                     Verifikasi
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

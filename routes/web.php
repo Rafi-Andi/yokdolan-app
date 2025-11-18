@@ -67,5 +67,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/admin', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
     Route::get('/dashboard/admin/wisata/{id}', [DashboardAdminController::class, 'showChannel'])->name('dashboard.admin.wisata.detail');
+    Route::get('/dashboard/admin/wisata/verify/{id}', [DashboardAdminController::class, 'verifyChannel'])->name('dashboard.admin.wisata.verify');
+    Route::get('/dashboard/admin/wisata/deactivate/{id}', [DashboardAdminController::class, 'deactivateChannel'])->name('dashboard.admin.wisata.deactivate');
+    Route::get('/dashboard/admin/wisata/activate/{id}', [DashboardAdminController::class, 'activateChannel'])->name('dashboard.admin.wisata.activate');
 });
 require __DIR__ . '/settings.php';
