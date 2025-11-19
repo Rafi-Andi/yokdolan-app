@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
     mission: Object,
@@ -11,8 +11,9 @@ const url = 'http://127.0.0.1:8000';
 console.log(props.mission);
 
 const goBack = () => {
-    history.back();
+   history.back() || router.visit(`/dashboard/wisata/${props.mission.channel.id}`);
 };
+
 
 const convertTo62 = (phoneNumber) => {
     if (typeof phoneNumber !== 'string' || !phoneNumber) {
@@ -44,7 +45,7 @@ const convertTo62 = (phoneNumber) => {
             </div>
 
             <h1 class="mt-6 text-center text-3xl font-bold text-white">
-                {{ mission.ekraf_partner?.ekraf_partner?.business_name }}
+                {{ mission?.title }}
             </h1>
         </div>
 
@@ -90,9 +91,9 @@ const convertTo62 = (phoneNumber) => {
             </div>
 
             <div class="mt-5 flex w-full justify-end">
-                <div class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow">
+                <Link href="/dashboard/scan" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow">
                     <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
-                </div>
+                </Link>
             </div>
         </div>
     </div>

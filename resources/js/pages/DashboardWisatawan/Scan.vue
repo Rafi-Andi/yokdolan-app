@@ -19,6 +19,10 @@ const dynamicBoxSize = computed(() => {
     return boxSizePx.value;
 });
 
+const goBack = () => {
+   history.back() || router.visit('/dashboard');
+};
+
 
 const onScanSuccess = (decodedText) => {
     qrCodeMessage.value = 'Data berhasil discan, memproses..';
@@ -102,12 +106,12 @@ const refreshScanner = () => {
         <header
             class="absolute top-0 left-0 z-50 flex w-full items-center justify-between bg-black/30 px-4 py-3 backdrop-blur-md"
         >
-            <Link
-                href="/dashboard"
+            <a
+                @click.prevent="goBack()"
                 class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-bold transition-all hover:bg-white/20"
             >
                 &times;
-            </Link>
+            </a>
             <button
                 @click="refreshScanner"
                 class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold transition-all hover:bg-white/20"

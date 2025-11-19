@@ -7,7 +7,10 @@ import { ref, watch } from 'vue';
 const props = defineProps({
     wisata: Object,
     filters: Object,
+    user: Object,
 });
+
+console.log(props.user);
 
 const url = 'http://127.0.0.1:8000';
 
@@ -51,7 +54,7 @@ watch(search, searchHandler);
                     class="h-10 w-10 cursor-pointer overflow-hidden rounded-lg bg-transparent"
                 >
                     <img
-                        :src="`${user?.profile_url}`"
+                        :src="user?.profile_url "
                         alt="profile"
                         class="h-full w-full object-cover"
                     />

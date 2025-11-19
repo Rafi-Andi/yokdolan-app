@@ -167,9 +167,12 @@ class DashboardTouristController extends Controller
             ->paginate(5)
             ->withQueryString();
 
+
+
         return Inertia::render('DashboardWisatawan/Wisata', [
             'wisata' => $wisata,
             'filters' => ['search' => $searchQuery],
+            'user' =>  $user    
         ]);
     }
     function misi($id)
