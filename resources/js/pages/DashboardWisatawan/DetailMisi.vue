@@ -13,7 +13,8 @@ console.log(props.mission);
 const goBack = () => {
    history.back() || router.visit(`/dashboard/wisata/${props.mission.channel.id}`);
 };
-
+console.log('chanel')
+console.log(props.mission.ekraf_partner.ekraf_partner.business_name)
 
 const convertTo62 = (phoneNumber) => {
     if (typeof phoneNumber !== 'string' || !phoneNumber) {
@@ -45,7 +46,7 @@ const convertTo62 = (phoneNumber) => {
             </div>
 
             <h1 class="mt-6 text-center text-3xl font-bold text-white">
-                {{ mission?.title }}
+                {{ mission?.ekraf_partner?.ekraf_partner?.business_name }}
             </h1>
         </div>
 

@@ -11,6 +11,8 @@ const url = 'http://127.0.0.1:8000';
 
 const missionsData = props.missions;
 
+console.log(props.channel)
+
 const goBack = () => {
     history.back() || router.visit('/dashboard/wisata');
 };
@@ -24,7 +26,7 @@ console.log(props.channel);
     <div class="bg-[#D1E4F7]">
         <div class="pb-40">
             <div
-                class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-2"
+                class="h-fit rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-2"
             >
                 <a @click.prevent="goBack()" class="p-1">
                     <Icon icon="mdi:arrow-left" class="text-4xl text-white ml-4" />
@@ -47,9 +49,9 @@ console.log(props.channel);
                             {{ channel.name }}
                         </h2>
                         <p
-                            class="mt-1 justify-center text-center text-sm leading-5 text-white"
+                            class="mt-1 pb-10 justify-center text-center text-sm leading-5 text-white"
                         >
-                            {{ channel.location }}
+                            {{ channel.description }}
                         </p>
                     </div>
                 </div>
