@@ -29,7 +29,7 @@ console.log(props.channel);
                 class="h-fit rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-2"
             >
                 <a @click.prevent="goBack()" class="p-1">
-                    <Icon icon="mdi:arrow-left" class="text-4xl text-white ml-4" />
+                    <Icon icon="mdi:arrow-left" class="text-4xl text-white ml-4 cursor-pointer" />
                 </a>
                 <div
                     class="flex w-full flex-col items-center justify-center gap-3 px-6 pt-8"

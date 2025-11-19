@@ -170,7 +170,7 @@ const getPartnerName = (reward) => {
 
             <button
                 @click="showFilterModal = true"
-                class="relative flex h-fit w-fit items-center justify-center rounded-lg bg-[#01ABFF] p-2"
+                class="relative flex h-fit w-fit items-center justify-center rounded-lg bg-[#01ABFF] p-2 cursor-pointer"
             >
                 <Icon icon="mage:filter" class="text-4xl" />
                 <span
@@ -195,7 +195,7 @@ const getPartnerName = (reward) => {
                         applyFilters();
                     "
                 >
-                    <Icon icon="mdi:close" class="text-lg text-gray-500" />
+                    <Icon icon="mdi:close" class="text-lg text-gray-500 cursor-pointer" />
                 </button>
             </div>
 
@@ -216,13 +216,13 @@ const getPartnerName = (reward) => {
                         applyFilters();
                     "
                 >
-                    <Icon icon="mdi:close" class="text-lg text-gray-500" />
+                    <Icon icon="mdi:close" class="text-lg text-gray-500 cursor-pointer" />
                 </button>
             </div>
 
             <button
                 @click="resetFilters"
-                class="rounded-full bg-red-100 px-4 py-2 text-sm font-medium text-red-600"
+                class="rounded-full bg-red-100 px-4 py-2 text-sm font-medium text-red-600 cursor-pointer"
             >
                 Reset Semua
             </button>
@@ -327,7 +327,7 @@ const getPartnerName = (reward) => {
                 <div class="mb-6 flex items-center justify-between">
                     <h3 class="text-xl font-bold text-black">Filter Hadiah</h3>
                     <button @click="showFilterModal = false" type="button">
-                        <Icon icon="mdi:close" class="text-2xl text-gray-500" />
+                        <Icon icon="mdi:close" class="text-2xl text-gray-500 cursor-pointer" />
                     </button>
                 </div>
 
@@ -395,14 +395,14 @@ const getPartnerName = (reward) => {
                     <button
                         @click.prevent="resetFilters"
                         type="button"
-                        class="flex-1 rounded-lg border-2 border-gray-300 py-4 text-base font-medium text-gray-700 hover:bg-gray-50"
+                        class="flex-1 rounded-lg border-2 border-gray-300 py-4 text-base font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"
                     >
                         Reset
                     </button>
                     <button
                         @click.prevent="applyModalFilters"
                         type="button"
-                        class="flex-1 rounded-lg bg-[#01ABFF] py-4 text-base font-medium text-white hover:bg-blue-600"
+                        class="flex-1 rounded-lg bg-[#01ABFF] py-4 text-base font-medium text-white hover:bg-blue-600 cursor-pointer"
                     >
                         Terapkan
                     </button>

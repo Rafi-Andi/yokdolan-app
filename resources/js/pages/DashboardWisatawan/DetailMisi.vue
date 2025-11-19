@@ -38,7 +38,7 @@ const convertTo62 = (phoneNumber) => {
         <div class="rounded-b-3xl px-6 pt-6">
             <div class="flex items-center justify-between">
                 <a @click.prevent="goBack()" class="p-1">
-                    <Icon icon="mdi:arrow-left" class="text-3xl text-white" />
+                    <Icon icon="mdi:arrow-left" class="text-3xl text-white cursor-pointer" />
                 </a>
                 <a :href="`https://wa.me/${convertTo62(mission.ekraf_partner?.ekraf_partner?.phone)}`" class="rounded-full bg-green-500 p-2 shadow-md">
                     <Icon icon="mdi:whatsapp" class="text-2xl text-white" />

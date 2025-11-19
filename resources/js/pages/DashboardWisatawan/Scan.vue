@@ -108,13 +108,13 @@ const refreshScanner = () => {
         >
             <a
                 @click.prevent="goBack()"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-bold transition-all hover:bg-white/20"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-bold transition-all hover:bg-white/20 cursor-pointer"
             >
                 &times;
             </a>
             <button
                 @click="refreshScanner"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold transition-all hover:bg-white/20"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold transition-all hover:bg-white/20 cursor-pointer"
             >
                 &#x21BB;
             </button>
