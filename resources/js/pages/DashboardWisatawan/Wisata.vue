@@ -81,12 +81,13 @@ watch(search, searchHandler);
                 <div
                     v-for="(wisatas, index) in props.wisata.data ?? []"
                     :key="wisatas?.id ?? index"
-                    :class="[
-                        'flex items-center justify-between rounded-4xl p-6 shadow-lg',
-                        index % 2 === 0
-                            ? 'bg-gradient-to-tr from-[#5372EE] to-[#0BB6FC]'
-                            : 'bg-gradient-to-tr from-[#FA9F47] to-[#F3D16F]',
-                    ]"
+                            :class="[
+                                'flex items-start justify-between rounded-4xl p-6', 
+                                index % 4 === 0 ? 'bg-linear-to-r from-[#5372EE] to-[#0BB6FC]' : 
+                                index % 4 === 1 ? 'bg-linear-to-r from-[#FA9F47] to-[#F3D16F]' : 
+                                index % 4 === 2 ? 'bg-linear-to-r from-[#A38ECE] to-[#F8BCE8]' : 
+                                'bg-linear-to-r from-[#ED896C] to-[#EE6E9E]'
+                            ]"
                 >
                     <div class="w-full">
                         <h2 class="text-xl font-semibold text-white">
