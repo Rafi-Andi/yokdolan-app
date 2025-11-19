@@ -36,7 +36,7 @@ import { Link } from '@inertiajs/vue3';
         <main class="px-4 space-y-5">
             
             <div class="bg-gray-200 rounded-xl flex items-center justify-center">
-                <img :src="`${url}/storage/${detail.reward_photo_path}`" alt="qrcode misi" class="w-100 rounded-lg">
+                <img :src="`${url}/storage/${detail.reward_photo_path}`" alt="foto hadiah" class="w-100 rounded-lg">
             </div>
 
             <div class="space-y-2">

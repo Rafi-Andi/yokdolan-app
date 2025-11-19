@@ -1,10 +1,29 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { debounce } from 'lodash';
+import { ref, watch } from 'vue';
+
 const props = defineProps({
-    rewards: Array,
+    rewards: Object,
+    filters: Object,
 });
-console.log(props.rewards)
+
+const search = ref(props.filters?.search || '');
+
+const searchHandler = debounce((value) => {
+    router.get(
+        '/dashboard/ekraf/reward',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true,
+        },
+    );
+}, 300);
+
+watch(search, searchHandler);
 </script>
 
 <template>
@@ -30,6 +49,7 @@ console.log(props.rewards)
                     <input
                         type="text"
                         placeholder="Cari hadiah..."
+                        v-model="search"
                         class="w-full rounded-xl border-none text-black bg-white py-3 pl-12"
                     />
                 </div>
@@ -37,7 +57,7 @@ console.log(props.rewards)
 
             <main class="space-y-4 px-4">
                 <div class="space-y-3">
-                    <Link v-for="(reward, index) in rewards" :key="index" :href="`/dashboard/ekraf/reward/${reward.id}`" class="block">
+                    <Link v-for="(reward, index) in (rewards.data ?? [])" :key="reward.id" :href="`/dashboard/ekraf/reward/${reward.id}`" class="block">
                         <div
                             :class="[
                                 'flex items-start justify-between rounded-xl p-4', 
@@ -65,6 +85,28 @@ console.log(props.rewards)
                             </div>
                         </div>
                     </Link>
+                    <div v-if="rewards.data && rewards.data.length === 0" class="text-center text-gray-600 py-10">
+                        <p>Tidak ada hadiah yang ditemukan.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-4 pb-12 flex justify-center">
+                    <template v-for="(link, key) in rewards.links" :key="key">
+                        <div
+                            v-if="link.url === null"
+                            class="mb-1 mr-1 px-3 py-2 text-gray-500 text-xs leading-4 border rounded-lg"
+                            v-html="link.label"
+                        />
+                        <Link
+                            v-else
+                            class="mb-1 mr-1 px-3 py-2 text-xs leading-4 border rounded-lg hover:bg-white/50 transition"
+                            :class="{ 'bg-[#1485FF] text-white border-none': link.active, 'text-black bg-white': !link.active }"
+                            :href="link.url"
+                            v-html="link.label"
+                            preserve-scroll
+                            preserve-state
+                        />
+                    </template>
                 </div>
             </main>
         </div>

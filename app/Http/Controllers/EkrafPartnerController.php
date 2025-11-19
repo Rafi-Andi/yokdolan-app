@@ -90,7 +90,7 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function getAllRewards()
+    public function getAllRewards(Request $request)
     {
         $user = Auth::user();
 
@@ -99,10 +99,24 @@ class EkrafPartnerController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $rewards = Reward::query()->where('partner_user_id', '=', $partnerId)->orderBy('created_at', 'asc')->get();
+        $searchQuery = $request->input('search');
+
+        $rewards = Reward::query()
+            ->where('partner_user_id', '=', $partnerId)
+            ->when($searchQuery, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('type', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'asc')
+            ->paginate(5)
+            ->withQueryString();
 
         return Inertia::render('DashboardEkraf/Rewards', [
-            "rewards" => $rewards
+            "rewards" => $rewards,
+            "filters" => ['search' => $searchQuery],
         ]);
     }
 
@@ -142,7 +156,7 @@ class EkrafPartnerController extends Controller
                 });
             })
             ->orderBy('created_at', 'asc')
-            ->paginate(5)
+            ->paginate(6)
             ->withQueryString();
 
         return Inertia::render('DashboardEkraf/Missions', [
