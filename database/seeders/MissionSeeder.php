@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -29,7 +28,7 @@ class MissionSeeder extends Seeder
         Storage::disk('public')->makeDirectory('qrcodes');
         Storage::disk('public')->makeDirectory('missions');
 
-        $partners = User::where('role', 'partner')
+        $partners = User::with('ekrafPartner')->where('role', 'partner')
             ->whereHas('ekrafPartner')
             ->with('ekrafPartner')
             ->get();
@@ -64,11 +63,11 @@ class MissionSeeder extends Seeder
                 Mission::create([
                     'partner_user_id' => $partner->id,
                     'channel_id' => $channelId,
-                    'title' => $faker->sentence(4),
+                    'title' => "Tantangan dari ekraf {$partner->ekrafPartner->business_name} untuk $type" ,
                     'description' => $faker->paragraph(),
                     'type' => $type,
                     'reward_points' => $rewardPoints,
-                    'mission_photo_path' => 'missions/default.png',
+                    'mission_photo_path' => 'missions/' . $type . '.jpg',
                     'qr_code_unique_id' => $uniqueId,
                     'qr_code_path' => $qrFileName,
                     'is_active' => true,

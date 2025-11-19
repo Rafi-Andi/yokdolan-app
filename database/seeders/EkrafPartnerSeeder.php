@@ -14,7 +14,7 @@ class EkrafPartnerSeeder extends Seeder
 {
 public function run(): void
     {
-        $faker = Faker::create();
+        $faker = Faker::create(config('app.faker_locale'));
 
         $partners = DB::table('users')
             ->where('role', 'partner')

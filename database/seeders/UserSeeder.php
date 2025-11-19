@@ -11,15 +11,33 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        $faker = Faker::create();
+        $faker = Faker::create('id_ID');
+
+        $avatarUrls = [
+            '/images/avatar/femaleavatar(1).png',
+            '/images/avatar/femaleavatar(2).png',
+            '/images/avatar/femaleavatar(3).png',
+            '/images/avatar/femaleavatar(4).png',
+            '/images/avatar/maleavatar(1).png',
+            '/images/avatar/maleavatar(2).png',
+            '/images/avatar/maleavatar(3).png',
+            '/images/avatar/maleavatar(4).png',
+        ];
+
+        $getRandomAvatar = function () use ($avatarUrls) {
+            return $avatarUrls[array_rand($avatarUrls)];
+        };
 
         DB::table('users')->insert([
             [
                 'name' => 'Admin Utama',
                 'email' => 'admin@yokdolan.com',
-                'profile_url' => 'profiles/admin.jpg',
+                'profile_url' => $avatarUrls[4], 
                 'password' => Hash::make('password'),
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
@@ -31,7 +49,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Pemilik Channel A',
                 'email' => 'owner@yokdolan.com',
-                'profile_url' => 'profiles/owner.jpg',
+                'profile_url' => $avatarUrls[0], 
                 'password' => Hash::make('password'),
                 'two_factor_secret' => Str::random(32),
                 'two_factor_recovery_codes' => json_encode([Str::random(10), Str::random(10)]),
@@ -43,7 +61,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Partner Ekraft A',
                 'email' => 'partner@yokdolan.com',
-                'profile_url' => 'profiles/partner.jpg',
+                'profile_url' => $avatarUrls[5], 
                 'password' => Hash::make('password'),
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
@@ -55,7 +73,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'User Wisatawan',
                 'email' => 'tourist@yokdolan.com',
-                'profile_url' => 'profiles/tourist.jpg',
+                'profile_url' => $avatarUrls[1],
                 'password' => Hash::make('password'),
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
@@ -71,7 +89,7 @@ class UserSeeder extends Seeder
             $channelOwners[] = [
                 'name' => $faker->name(),
                 'email' => 'owner'.$i.'@yokdolan.com',
-                'profile_url' => 'profiles/channel_owner_'.$i.'.jpg',
+                'profile_url' => $getRandomAvatar(),
                 'password' => Hash::make('password'),
                 'two_factor_secret' => Str::random(32),
                 'two_factor_recovery_codes' => json_encode([Str::random(10), Str::random(10)]),
@@ -84,11 +102,11 @@ class UserSeeder extends Seeder
         DB::table('users')->insert($channelOwners);
 
         $partners = [];
-        for ($i = 0; $i < 15; $i++) { 
+        for ($i = 0; $i < 15; $i++) {
             $partners[] = [
                 'name' => $faker->name(),
                 'email' => 'partner'.$i.'@yokdolan.com',
-                'profile_url' => 'profiles/partner_'.$i.'.jpg',
+                'profile_url' => $getRandomAvatar(),
                 'password' => Hash::make('password'),
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
