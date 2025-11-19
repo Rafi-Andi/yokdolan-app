@@ -19,8 +19,8 @@ defineProps<{
 </script>
 
 <template>
-    <AuthMobileLayout title="Masuk akun Wisatawan">
-        <Head title="Masuk akun Wisatawan" />
+    <AuthMobileLayout title="Masuk akun Anda">
+        <Head title="Masuk Akun Anda" />
 
         <div
             v-if="status"
