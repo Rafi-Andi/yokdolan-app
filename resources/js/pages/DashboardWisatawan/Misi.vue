@@ -11,6 +11,12 @@ const url = 'http://127.0.0.1:8000';
 
 const missionsData = props.missions;
 
+const goBack = () => {
+    history.back() || router.visit('/dashboard/wisata');
+};
+
+
+
 console.log(props.channel);
 </script>
 <template>
@@ -18,16 +24,19 @@ console.log(props.channel);
     <div class="bg-[#D1E4F7]">
         <div class="pb-40">
             <div
-                class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-15"
+                class="h-90 rounded-b-[50px] bg-[url('/images/texture.png')] bg-cover bg-center bg-no-repeat pt-2"
             >
+                <a @click.prevent="goBack()" class="p-1">
+                    <Icon icon="mdi:arrow-left" class="text-4xl text-white ml-4" />
+                </a>
                 <div
-                    class="flex w-full flex-col items-center justify-center gap-3 px-6"
+                    class="flex w-full flex-col items-center justify-center gap-3 px-6 pt-8"
                 >
                     <div
                         class="flex h-full w-fit items-center justify-center rounded-xl border-[1.6px] border-white object-cover p-2"
                     >
                         <img
-                            :src="`${url}/storage/${channel.photo_url}`" 
+                            :src="`${url}/storage/${channel.profile_photo_path}`" 
                             class="rounded-xl w-32 h-32 object-cover"
                             alt="Foto Channel"
                         />

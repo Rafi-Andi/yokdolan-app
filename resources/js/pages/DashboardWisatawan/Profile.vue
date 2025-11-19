@@ -4,20 +4,14 @@ import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { logout } from '@/routes';
 
-const missionDetail = ref({
-  title: 'Toko Kopi Lonceng',
-  subtitle: 'Aroma Klasik',
-  description: 'Toko kopi legendaris yang masih menjual biji kopi yang digiling di tempat dengan mesin sangrai tua.',
-  missionType: 'Misi Transaksi',
-  points: 400,
-  address: 'Malang, Kota Malang, Jawa Timur',
-  landmark: 'sebelah gerbang masuk sebelah kanan'
-});
-
 const props = defineProps({
     user: Object,
     touristProfile: Object,
 });
+
+const goBack = () => {
+    history.back();
+};
 
 console.log(props.user)
 </script>
@@ -26,7 +20,9 @@ console.log(props.user)
     <div class="bg-[#D6EFFF]">
         
         <div class="bg-[#D6EFFF]  rounded-b-3xl pt-6 px-6 h-screen">
-           
+            <a  @click.prevent="goBack()" class="p-1">
+                <Icon icon="formkit:arrowleft"/>
+            </a>
         </div>
         
         <div class="fixed bottom-0 right-0 left-0 z-50 bg-white rounded-t-3xl p-8  shadow-2xl  mt-30">
@@ -39,7 +35,7 @@ console.log(props.user)
                 <p class="text-sm">{{ user?.email }}</p>
             </div>
 
-            <div class=" w-full h-20 mt-8 flex items-center">
+            <div class=" w-full h-20 mt-8 flex items-center justify-center">
                 <div class="w-30">
                     <div class="flex items-center justify-center gap-2 mb-2">
                         <Icon icon="el:star-alt" class="text-2xl text-yellow-400"/>

@@ -9,7 +9,7 @@ defineProps<{
 }>();
 
 const goBack = () => {
-    router.visit(home());
+    history.back()
 };
 </script>
 

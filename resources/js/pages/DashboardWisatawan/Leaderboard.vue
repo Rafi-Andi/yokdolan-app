@@ -21,7 +21,7 @@ console.log(props.currentUser);
                     <h2 class="font-bold text-2xl text-[#1485FF]">Papan Peringkat</h2>
                     <Link as="button" href="/dashboard/profile" class="cursor-pointer h-10 w-10 overflow-hidden rounded-lg bg-transparent ">
                         <img
-                            :src="`${user?.profile_url}`"
+                            :src="`${currentUser?.profile_url}`"
                             alt="profile"
                             class="h-full w-full object-cover"
                         />
