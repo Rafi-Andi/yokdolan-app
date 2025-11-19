@@ -143,7 +143,7 @@ console.log(props.channel);
                         Nonaktifkan Wisata
                     </Link>
                     <div class="mt-3">
-                        <a href="manajemenwisata.html" class="block">
+                        <a href="/dashboard/admin" class="block">
                             <button
                                 class=" cursor-pointer w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                             >

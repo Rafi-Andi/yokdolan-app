@@ -68,9 +68,9 @@ console.log(props.ekrafPartners);
 
                                     <span
                                         v-else
-                                        class="flex-shrink-0 rounded-full bg-green-500 px-3 py-0.5 text-xs font-medium text-white"
+                                        class="flex-shrink-0 rounded-full bg-[#85CE4D] px-3 py-0.5 text-xs font-medium text-white"
                                     >
-                                        Sudah Diverifikasi
+                                        Aktif
                                     </span>
 
                                     <p class="text-xs text-gray-400">
@@ -83,7 +83,10 @@ console.log(props.ekrafPartners);
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3 pt-3">
+                            <div :class="[
+                                'pt-3',
+                                partner.is_verified === 0 ? 'grid grid-cols-2 gap-3' : 'w-full'
+                            ]">
                                 <Link
                                     :href="`/dashboard/channel/ekraf/${partner.id}`"
                                     class="w-full"
