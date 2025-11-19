@@ -11,6 +11,8 @@ const props = defineProps({
     filters: Object,
 });
 
+console.log(props.user)
+
 const search = ref(props.filters?.search || '');
 const selectedType = ref(props.filters?.type || '');
 const selectedPartner = ref(props.filters?.partner_id || '');
@@ -121,8 +123,8 @@ const getPartnerName = (reward) => {
                             <span class="font-bold">
                                 {{
                                     props.user?.tourist_profile?.point_value ??
-                                    'Loading...'
-                                }}
+                                    0
+                                }}  
                                 poin
                             </span>
                         </p>
