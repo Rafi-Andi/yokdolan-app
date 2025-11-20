@@ -35,7 +35,12 @@ onMounted(() => {
 const props = defineProps({
     stats: Object,
     pendingValidations: Array,
+    channelName: String,
+    partnerName: String,
 });
+
+console.log(props.channelName)
+console.log(props.partnerName)
 
 props.pendingValidations.forEach(element => {
     console.log(element.tourist.profile_url);
@@ -54,10 +59,10 @@ console.log(props.stats);
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-black">
-                        Dasbor Mitra Ekraf
+                        Halo, {{ props.partnerName }}!
                     </h1>
                     <p class="text-md font-semibold pt-2 text-gray-600">
-                        Pengelolaan Mitra untuk manajemen misi dan reward
+                        Pengelolaan Mitra Ekraf {{ props.channelName }} untuk manajemen misi dan reward
                     </p>
                 </div>
 

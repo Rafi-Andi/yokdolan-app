@@ -194,29 +194,30 @@ const url = 'http://127.0.0.1:8000';
                 <div
                     v-for="(channel, index) in props.channels"
                     :key="index"
-                    :class="index % 2 === 0 ? 'bg-[#9DCCFF]' : 'bg-[#F4C90D]' "
-                    class="w-72 flex-shrink-0 overflow-hidden rounded-xl  shadow-md"
+                    :class="index % 2 === 0 ? 'bg-gradient-to-tr from-[#328dee] to-[#bbdbfe]' : 'bg-gradient-to-tr from-[#F4C90D] to-[#f8e799]' "
+                    class="w-72 flex-shrink-0 overflow-hidden rounded-xl  shadow-lg"
                 >
                     <Link :href="`/dashboard/wisata/${channel.id}`">
                         <div class="relative rounded-lg p-2">
                             <img
                                 :src="`${url}/storage/${channel.profile_photo_path}`"
                                 alt="Foto Channel"
-                                class="h-36 w-full object-cover"
+                                class="h-36 w-full object-cover rounded-lg"
                             />
                             <div
-                                class="absolute bottom-3 left-3 rounded-full bg-[#48A9F8] px-7 py-[2px] text-sm text-white shadow"
+                                class="absolute bottom-3 left-3 rounded-full px-7 py-[2px] text-sm text-white shadow"
+                                :class="index %2 === 0 ? 'bg-[#48A9F8]' : 'bg-[#F7B500]' "
                             >
                                 {{ channel.missions_count }} Misi
                             </div>
                         </div>
                         <div class="p-2">
                             <h3
-                                class="text-[16px] leading-tight font-semibold text-black"
+                                class="text-[16px] leading-tight font-semibold text-white"
                             >
                                 {{ channel.name }}
                             </h3>
-                            <p class="text-xs text-gray-600">
+                            <p class="text-xs text-white">
                                 {{ channel.location }}
                             </p>
                         </div>
@@ -261,12 +262,12 @@ const url = 'http://127.0.0.1:8000';
                     <div class="flex items-center gap-3">
                         <div
                             :class="[
-                                'h-10 w-10 overflow-hidden rounded-lg p-1.5',
-                                mission.type === 'transaksi'
-                                    ? 'bg-red-500'
-                                    : mission.type === 'promosi'
-                                      ? 'bg-yellow-500'
-                                      : 'bg-[#5ABC66]',
+                                'h-10 w-fit  rounded-lg p-1.5',
+                                mission.type === 'Transaksi'
+                                    ? 'bg-green-500'
+                                    : mission.type === 'Promosi'
+                                      ? 'bg-blue-500'
+                                      : 'bg-[#ff9900]',
                             ]"
                         >
                             <Icon
