@@ -84,7 +84,7 @@ class EkrafPartnerController extends Controller
 
         $channelId = $user->ekrafPartner->channel_id;
 
-        $namaPartner = $user->name;
+        $namaPartner = $user->ekrafPartner->business_name;
         $namaChannel = Channel::where('id', $channelId)->value('name');
         return Inertia::render('DashboardEkraf/Index', [
             'stats' => [
