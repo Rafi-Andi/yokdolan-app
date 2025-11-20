@@ -104,7 +104,7 @@ const url = 'http://127.0.0.1:8000';
                         >
                             <Icon
                                 icon="mdi:medal"
-                                class="text-4xl text-yellow-500"
+                                class="text-4xl text-[#1485FF]"
                             ></Icon>
                         </div>
                         <div class="">
@@ -141,7 +141,7 @@ const url = 'http://127.0.0.1:8000';
                         >
                             <Icon
                                 icon="material-symbols:stars"
-                                class="text-4xl text-blue-500"
+                                class="text-4xl text-[#7467D1]"
                             ></Icon>
                         </div>
                         <div class="">
