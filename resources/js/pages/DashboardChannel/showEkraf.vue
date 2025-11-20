@@ -6,8 +6,8 @@ const props = defineProps({
     },
 });
 console.log(props.ekraf);
-import { Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
@@ -33,7 +33,6 @@ import { Icon } from '@iconify/vue';
                             {{ ekraf.business_address }}
                         </p>
 
-                        <!-- STATUS -->
                         <div
                             class="mt-3 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-1.5 text-black"
                         >
@@ -49,15 +48,15 @@ import { Icon } from '@iconify/vue';
                             />
 
                             <span class="text-sm font-medium">
-                                {{ ekraf.is_verified === 0
-                                    ? 'Menunggu Verifikasi'
-                                    : 'Sudah Diverifikasi'
+                                {{
+                                    ekraf.is_verified === 0
+                                        ? 'Menunggu Verifikasi'
+                                        : 'Sudah Diverifikasi'
                                 }}
                             </span>
                         </div>
                     </div>
 
-                    <!-- INFORMASI KONTAK -->
                     <div class="pt-4">
                         <h3 class="mb-2 text-lg font-bold text-gray-900">
                             Informasi Kontak
@@ -67,7 +66,6 @@ import { Icon } from '@iconify/vue';
                             class="mt-4 rounded-xl bg-[#D8EBFF] px-3 py-4 shadow-lg"
                         >
                             <ul class="space-y-4">
-                                <!-- Telepon -->
                                 <li class="flex items-center gap-4">
                                     <div
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white"
@@ -82,7 +80,6 @@ import { Icon } from '@iconify/vue';
                                     </p>
                                 </li>
 
-                                <!-- Email (dari user) -->
                                 <li class="flex items-center gap-4">
                                     <div
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white"
@@ -93,13 +90,15 @@ import { Icon } from '@iconify/vue';
                                         />
                                     </div>
                                     <p
-                                        class="min-w-0 break-words font-medium text-gray-800"
+                                        class="min-w-0 font-medium break-words text-gray-800"
                                     >
-                                        {{ ekraf.user?.email ?? 'Tidak ada email' }}
+                                        {{
+                                            ekraf.user?.email ??
+                                            'Tidak ada email'
+                                        }}
                                     </p>
                                 </li>
 
-                                <!-- Alamat -->
                                 <li class="flex items-center gap-4">
                                     <div
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white"
@@ -120,35 +119,31 @@ import { Icon } from '@iconify/vue';
             </div>
         </div>
 
-        <!-- ACTION BUTTONS -->
         <div
             class="bottom-0 w-full p-6 md:relative md:mt-6 md:border-t-0 md:bg-transparent"
         >
             <div class="mx-auto max-w-2xl space-y-2">
-                
-            
-                    <button
-                        v-if="ekraf.is_verified === 0"
-                        class="w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
-                    >
-                        Verifikasi Mitra
-                    </button>
-                <div class="grid grid-cols-2 gap-3">
-                    <Link
-                        href="/dashboard/channel"
-                        class="block"
-                    >
+                <Link as="button" :href="`/dashboard/channel/ekraf/verify/${ekraf.id}`"
+                    v-if="ekraf.is_verified === 0"
+                    class="cursor-pointer w-full rounded-3xl bg-[#01ABFF] px-4 py-3 text-base font-medium text-white transition-all"
+                >
+                    Verifikasi Mitra
+                </Link>
+                <div class="grid gap-3" :class="ekraf.is_verified === 1 ? 'grid-cols-2' : 'grid-cols-1'">
+                    <Link href="/dashboard/channel" class="block">
                         <button
-                            class="w-full rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
+                            class="w-full cursor-pointer rounded-3xl border border-[#01ABFF] bg-transparent px-4 py-3 text-base font-medium text-[#01ABFF] transition-all"
                         >
                             Kembali
                         </button>
                     </Link>
-                        <button
-                            class="w-full rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
-                        >
-                            Hapus Mitra
-                        </button>
+                    <Link v-if="ekraf.is_verified === 1"
+                        as="button"
+                        :href="`/dashboard/channel/ekraf/nonactive/${ekraf.id}`"
+                        class="w-full cursor-pointer rounded-3xl bg-[#E52C2C] px-4 py-3 text-base font-medium text-white transition-all"
+                    >
+                        Nonaktifkan Mitra
+                    </Link>
                 </div>
             </div>
         </div>

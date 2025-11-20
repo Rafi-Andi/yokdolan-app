@@ -92,7 +92,7 @@ console.log(props.ekrafPartners);
                                     class="w-full"
                                 >
                                     <button
-                                        class="w-full rounded-full border border-[#01ABFF] bg-transparent px-4 py-2 text-sm font-medium text-[#01ABFF] transition-all"
+                                        class="cursor-pointer w-full rounded-full border border-[#01ABFF] bg-transparent px-4 py-2 text-sm font-medium text-[#01ABFF] transition-all"
                                     >
                                         Lihat Detail
                                     </button>

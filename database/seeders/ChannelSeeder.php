@@ -23,7 +23,7 @@ class ChannelSeeder extends Seeder
                 'phone' => '081234500001',
                 'profile_photo_path' => 'channels/bromo.jpg',
                 'is_verified' => 1,
-                'is_active' => 1,
+                'is_active' => 0,
             ],
             [
                 'name' => 'Kawah Ijen',
@@ -40,8 +40,8 @@ class ChannelSeeder extends Seeder
                 'description' => 'Pantai dengan seruling samudera dan karang eksotis.',
                 'phone' => '081234500003',
                 'profile_photo_path' => 'channels/klayar.jpg',
-                'is_verified' => 0,
-                'is_active' => 1,
+                'is_verified' => 1,
+                'is_active' => 0,
             ],
             [
                 'name' => 'Coban Rondo',
@@ -49,8 +49,8 @@ class ChannelSeeder extends Seeder
                 'description' => 'Air terjun populer dengan area hutan yang sejuk.',
                 'phone' => '081234500004',
                 'profile_photo_path' => 'channels/coban_rondo.jpg',
-                'is_verified' => 1,
-                'is_active' => 1,
+                'is_verified' => 0,
+                'is_active' => 0,
             ],
             [
                 'name' => 'Taman Nasional Baluran',

@@ -63,7 +63,26 @@ class ChannelController extends Controller
         $ekraf->user->save();
         return redirect()->back();
     }
+    
+    public function nonActive($id)
+    {
+        $user = Auth::user();
+        if ($user->role !== 'channel_owner') {
+            return redirect()->route('dashboard')->with('warning', 'Akses ditolak. Anda bukan Pemilik Channel Wisata.');
+        }
 
+        $ekraf = EkrafPartner::with('user')->findOrFail($id);
+        $channel = Channel::where('owner_user_id', $user->id)->first();
+        if (!$channel) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki channel.');
+        }
+        if ($ekraf->channel_id !== $channel->id) {
+            return redirect()->back()->with('error', 'Anda tidak berhak menonaktifkan partner dari channel lain.');
+        }
+        $ekraf->is_verified = false;
+        $ekraf->save();
+        return redirect()->back();
+    }
     /**
      * Show the form for creating a new resource.
      */
