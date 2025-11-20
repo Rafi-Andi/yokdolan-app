@@ -56,6 +56,7 @@ class DashboardTouristController extends Controller
             ->whereHas('channel', function ($query) {
                 $query->where('is_verified', true);
             })
+            ->where('is_active', true)
             ->with('channel')
             ->when($globalSearchQuery, function ($query, $search) {
                 $query->where('title', 'like', '%' . $search . '%');
@@ -189,6 +190,7 @@ class DashboardTouristController extends Controller
         }
 
         $missions = $channel->missions()
+            ->where('is_active', '=', true)
             ->orderBy('created_at', 'desc')
             ->paginate(5)
             ->withQueryString();
@@ -239,7 +241,9 @@ class DashboardTouristController extends Controller
             $query->where('partner_user_id', $partnerId);
         }
 
-        $rewards = $query->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
+        $rewards = $query
+        ->where('is_available',true)
+        ->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
 
         $types = Reward::select('type')
             ->distinct()

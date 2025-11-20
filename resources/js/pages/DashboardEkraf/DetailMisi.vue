@@ -1,9 +1,14 @@
 <script setup>
 import { Icon } from '@iconify/vue';
+import { router, usePage } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
+import { onMounted, computed, watch } from 'vue';
 
 const props = defineProps({
     detail: Object,
 });
+
+console.log(props.detail)
 
 console.log(props.detail);
 
@@ -20,13 +25,70 @@ const formatTanggal = (tanggal) => {
     });
 };
 
+const goBack = () => {
+    history.back();
+};
+
+const page = usePage();
+const successMessage = computed(() => page.props.flash?.success);
+const errorMessage = computed(() => page.props.flash?.error ?? page.props.flash?.warning ?? page.props.flash?.message);
+
+onMounted(() => {
+    if (successMessage.value) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: successMessage.value,
+            confirmButtonColor: '#38a169',
+        });
+        page.props.flash.success = null;
+    }
+
+    if (errorMessage.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: errorMessage.value,
+            confirmButtonColor: '#e53e3e',
+        });
+        if (page.props.flash.error) page.props.flash.error = null;
+        if (page.props.flash.warning) page.props.flash.warning = null;
+        if (page.props.flash.message) page.props.flash.message = null;
+    }
+});
+
+watch(successMessage, (val) => {
+    if (val) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: val,
+            confirmButtonColor: '#38a169',
+        });
+        page.props.flash.success = null;
+    }
+});
+
+watch(errorMessage, (val) => {
+    if (val) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: val,
+            confirmButtonColor: '#e53e3e',
+        });
+        if (page.props.flash.error) page.props.flash.error = null;
+        if (page.props.flash.warning) page.props.flash.warning = null;
+        if (page.props.flash.message) page.props.flash.message = null;
+    }
+});
 
 </script>
 
 <template>
     <div class="bg-[#EBF5FF] pb-32">
         <header class="flex items-center gap-19 p-4">
-            <button @click="goBack()" class="text-black">
+            <button @click.prevent="goBack()" class="text-black cursor-pointer">
                 <Icon icon="mdi:arrow-left" class="text-3xl"></Icon>
             </button>
             <h1 class="text-xl font-bold text-black">Detail Misi</h1>
@@ -131,10 +193,19 @@ const formatTanggal = (tanggal) => {
     </div>
     <div class="fixed right-0 bottom-0 left-0 p-4">
         <div class="mx-auto max-w-lg">
-            <button
+            <button 
+                v-if="detail.is_active"
+                @click="router.put(`/missions/${detail.id}/nonaktif`)"
                 class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-semibold text-white transition-all hover:from-[#0F4F9C] hover:to-[#4C90E0]"
             >
                 Nonaktifkan Misi
+            </button>
+            <button 
+                v-else
+                @click="router.put(`/missions/${detail.id}/aktif`)"
+                class="w-full rounded-xl bg-linear-to-r from-[#146AC7] to-[#75B7FD] px-4 py-3 text-base font-semibold text-white transition-all hover:from-[#0F4F9C] hover:to-[#4C90E0]"
+            >
+                Aktifkan Misi
             </button>
         </div>
     </div>

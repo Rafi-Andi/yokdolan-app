@@ -1,16 +1,20 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { Link } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 
-    const props = defineProps({
-        detail: Object
-    })
+import Swal from 'sweetalert2';
+import { onMounted, computed, watch } from 'vue';
 
-    const url = "http://127.0.0.1:8000"
+const props = defineProps({
+    detail: Object
+})
 
-    console.log(props.detail)
+const url = "http://127.0.0.1:8000"
 
-    const formatTanggal = (tanggal) => {
+console.log(props.detail)
+
+const formatTanggal = (tanggal) => {
     if (!tanggal) return '-';
     const date = new Date(tanggal);
     return date.toLocaleDateString('id-ID', {
@@ -18,8 +22,62 @@ import { Link } from '@inertiajs/vue3';
         day: '2-digit',
         month: 'long',
         year: 'numeric'
-    });
-    };
+        });
+};
+
+const page = usePage();
+const successMessage = computed(() => page.props.flash?.success);
+const errorMessage = computed(() => page.props.flash?.error ?? page.props.flash?.warning ?? page.props.flash?.message);
+
+onMounted(() => {
+    if (successMessage.value) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: successMessage.value,
+            confirmButtonColor: '#38a169',
+        });
+        page.props.flash.success = null;
+    }
+
+    if (errorMessage.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: errorMessage.value,
+            confirmButtonColor: '#e53e3e',
+        });
+        if (page.props.flash.error) page.props.flash.error = null;
+        if (page.props.flash.warning) page.props.flash.warning = null;
+        if (page.props.flash.message) page.props.flash.message = null;
+    }
+});
+
+watch(successMessage, (val) => {
+    if (val) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: val,
+            confirmButtonColor: '#38a169',
+        });
+        page.props.flash.success = null;
+    }
+});
+
+watch(errorMessage, (val) => {
+    if (val) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: val,
+            confirmButtonColor: '#e53e3e',
+        });
+        if (page.props.flash.error) page.props.flash.error = null;
+        if (page.props.flash.warning) page.props.flash.warning = null;
+        if (page.props.flash.message) page.props.flash.message = null;
+    }
+});
 </script>
 
 <template>
@@ -88,8 +146,17 @@ import { Link } from '@inertiajs/vue3';
     </div> 
     <div class="fixed bottom-0 left-0 right-0 p-4">
         <div class="max-w-lg mx-auto">
-            <button class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all ">
+            <button 
+            v-if="detail.is_available"
+            @click="router.put(`/hadiah/${detail.id}/nonaktif`)"
+            class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all ">
                 Nonaktifkan Hadiah
+            </button>
+            <button 
+            v-else
+            @click="router.put(`/hadiah/${detail.id}/aktif`)"
+            class="w-full bg-linear-to-r from-[#146AC7] to-[#75B7FD] text-white font-semibold py-3 px-4 rounded-xl text-base hover:from-[#0F4F9C] hover:to-[#4C90E0] transition-all ">
+                Aktifkan Hadiah
             </button>
         </div>
     </div>

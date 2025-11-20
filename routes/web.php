@@ -46,6 +46,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('/dashboard/ekraf/reward/{id}', [EkrafPartnerController::class, 'getDetailRewards'])->name('dashboard.ekraf.detailreward');
     Route::get('/dashboard/ekraf/add-reward', [EkrafPartnerController::class, 'createReward'])->name('dashboard.ekraf.reward.add');
     Route::post('/dashboard/ekraf/store-reward', [EkrafPartnerController::class, 'storeReward'])->name('dashboard.ekraf.reward.add');
+    Route::put('/hadiah/{id}/nonaktif', [EkrafPartnerController::class, 'nonaktifHadiah'])->name('reward.nonaktif');
+    Route::put('/hadiah/{id}/aktif', [EkrafPartnerController::class, 'aktifkanHadiah'])->name('reward.aktif');
 
     Route::post('/dashboard/ekraf/reward/validate-all', [EkrafPartnerController::class, 'validateAllPending'])
         ->name('dashboard.ekraf.validate.all');
@@ -56,6 +58,9 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/ekraf/mission', [EkrafPartnerController::class, 'getAllMissions'])->name('dashboard.ekraf.mission');
     Route::get('/dashboard/ekraf/mission/{id}', [EkrafPartnerController::class, 'getDetailMission'])->name('dashboard.ekraf.mission.detail');
+    Route::put('/missions/{id}/nonaktif', [EkrafPartnerController::class, 'nonaktifMisi'])->name('missions.nonaktif');
+    Route::put('/missions/{id}/aktif', [EkrafPartnerController::class, 'aktifkanMisi'])->name('missions.aktif');
+    Route::put('/missions/{id}/aktif', [EkrafPartnerController::class, 'aktifkanMisi'])->name('missions.aktif');
     Route::get('/dashboard/ekraf/add-mission', [EkrafPartnerController::class, 'createMission'])->name('dashboard.ekraf.mission.add');
     Route::post('/dashboard/ekraf/store-mission', [EkrafPartnerController::class, 'storeMission']);
     Route::get('/dashboard/ekraf/validation', [EkrafPartnerController::class, 'getValidation'])->name('dashboard.ekraf.validation');

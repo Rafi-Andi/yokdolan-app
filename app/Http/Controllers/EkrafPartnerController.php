@@ -135,6 +135,40 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
+    public function nonaktifHadiah($id){
+        $user = Auth::user();
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard.ekraf');
+        }
+
+        $reward = Reward::find($id);
+        if (!$reward) {
+            return redirect()->back()->with('error', 'Hadiah tidak ditemukan.');
+        }
+
+        $reward->is_available = false;
+        $reward->save();
+
+        return redirect()->route('dashboard.ekraf.detailreward', ['id' => $id])->with('success', 'Hadiah berhasil dinonaktifkan.');
+    }
+
+    public function aktifkanHadiah($id){
+        $user = Auth::user();
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard.ekraf');
+        }
+
+        $reward = Reward::find($id);
+        if (!$reward) {
+            return redirect()->back()->with('error', 'Hadiah tidak ditemukan.');
+        }
+
+        $reward->is_available = true;
+        $reward->save();
+
+        return redirect()->route('dashboard.ekraf.detailreward', ['id' => $id])->with('success', 'Hadiah berhasil diaktifkan.');
+    }
+
     public function getAllMissions(Request $request)
     {
         $user = Auth::user();
@@ -179,6 +213,40 @@ class EkrafPartnerController extends Controller
         return Inertia::render('DashboardEkraf/DetailMisi', [
             "detail" => $mission
         ]);
+    }
+
+    public function nonaktifMisi($id){
+        $user = Auth::user();
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard.ekraf');
+        }
+
+        $mission = Mission::find($id);
+        if (!$mission) {
+            return redirect()->back()->with('error', 'Misi tidak ditemukan.');
+        }
+
+        $mission->is_active = false;
+        $mission->save();
+
+        return redirect()->route('dashboard.ekraf.mission.detail', ['id' => $id])->with('success', 'Misi berhasil dinonaktifkan.');
+    }
+
+    public function aktifkanMisi($id){
+        $user = Auth::user();
+        if ($user->role !== 'partner') {
+            return redirect()->route('dashboard.ekraf');
+        }
+
+        $mission = Mission::find($id);
+        if (!$mission) {
+            return redirect()->back()->with('error', 'Misi tidak ditemukan.');
+        }
+
+        $mission->is_active = true;
+        $mission->save();
+
+        return redirect()->route('dashboard.ekraf.mission.detail', ['id' => $id])->with('success', 'Misi berhasil diaktifkan.');
     }
 
     public function createMission()

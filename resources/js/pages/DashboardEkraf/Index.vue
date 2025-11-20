@@ -46,7 +46,7 @@ console.log(props.stats);
 
 <template>
     <Head title="Dasbor Mitra Ekraf" />
-    <div class="min-h-screen pb-20 bg-[#EBF5FF] pb-24">
+    <div class="min-h-screen  bg-[#EBF5FF] pb-24">
             <main class="space-y-6 px-6 pt-12">
                 <div class="flex justify-between">
                     <div></div>
