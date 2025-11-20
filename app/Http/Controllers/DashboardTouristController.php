@@ -22,7 +22,7 @@ class DashboardTouristController extends Controller
     function index(Request $request) // Inject Request
     {
         $userId = Auth::id();
-        $user = User::with('touristProfile')->find($userId);
+        $user = User::select('id','profile_url', 'name', 'role')->with('touristProfile:point_akumulasi,point_value')->find($userId);
 
         if ($user && $user->role !== 'tourist') {
             if ($user->role === 'partner') {
@@ -39,7 +39,7 @@ class DashboardTouristController extends Controller
         $globalSearchQuery = $request->input('search');
         $missionTypeFilter = $request->input('type');
 
-        $Channel = Channel::query()
+        $Channel = Channel::query()->select('id', 'profile_photo_path', 'name', 'location')
             ->where('is_verified', true)->where('is_active', true)
             ->when($globalSearchQuery, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
@@ -52,7 +52,7 @@ class DashboardTouristController extends Controller
             ->take(5)
             ->get();
             
-        $Missions = Mission::query()
+        $Missions = Mission::query()->select('id', 'title', 'description')
             ->whereHas('channel', function ($query) {
                 $query->where('is_verified', true);
             })
@@ -148,7 +148,7 @@ class DashboardTouristController extends Controller
     }
     public function wisata(Request $request)
     {
-        $user = Auth::user();
+        $user = User::select('id','profile_url', 'role')->find(Auth::id());
 
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -156,7 +156,7 @@ class DashboardTouristController extends Controller
 
         $searchQuery = $request->input('search');
 
-        $wisata = Channel::query()
+        $wisata = Channel::query()->select('id', 'name', 'description', 'location')
             ->where('is_verified', true)->where('is_active', true)
             ->when($searchQuery, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
@@ -183,7 +183,7 @@ class DashboardTouristController extends Controller
             return redirect()->route('dashboard.ekraf');
         }
 
-        $channel = Channel::find($id);
+        $channel = Channel::select('id', 'name', 'description', 'profile_photo_path')->where('id', $id)->where('is_verified', true)->where('is_active', true)->first();
 
         if (!$channel) {
             return redirect()->route('dashboard.wisatawan.wisata')->with('error', 'Channel tidak ditemukan.');

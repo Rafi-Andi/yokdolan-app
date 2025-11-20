@@ -11,8 +11,6 @@ const url = 'http://127.0.0.1:8000';
 
 const missionsData = props.missions;
 
-console.log(props.channel)
-
 const goBack = () => {
     history.back() || router.visit('/dashboard/wisata');
 };

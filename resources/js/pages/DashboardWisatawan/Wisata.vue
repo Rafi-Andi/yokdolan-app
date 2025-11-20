@@ -10,7 +10,7 @@ const props = defineProps({
     user: Object,
 });
 
-console.log(props.user);
+console.log(props.user)
 
 const url = 'http://127.0.0.1:8000';
 
