@@ -68,6 +68,8 @@ class DashboardTouristController extends Controller
             ->take(4)
             ->get();
 
+        $touristProfile = TouristProfile::where('user_id', $user->id)->first();
+
         return Inertia::render('DashboardWisatawan/Index', [
             'user' => $user,
             'channels' => $Channel,
@@ -75,7 +77,8 @@ class DashboardTouristController extends Controller
             'filters' => [
                 'search' => $globalSearchQuery,
                 'type' => $missionTypeFilter
-            ]
+            ],
+            'touristProfile' => $touristProfile
         ]);
     }
     function leaderboard()

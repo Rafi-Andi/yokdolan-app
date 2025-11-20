@@ -9,7 +9,10 @@ const props = defineProps({
     channels: Array,
     missions: Array,
     filters: Object,
+    touristProfile: Object,
 });
+
+console.log(props.user);
 
 const globalSearch = ref(props.filters.search || '');
 const activeType = ref(props.filters.type || null);
@@ -113,8 +116,8 @@ const url = 'http://127.0.0.1:8000';
                             </h2>
                             <p class="mb-3 text-sm">
                                 {{
-                                    props.user?.tourist_profile
-                                        ?.point_akumulasi ?? '0'
+                                    touristProfile
+                                        ?.point_akumulasi ?? 0
                                 }}
                                 poin
                             </p>
@@ -150,7 +153,7 @@ const url = 'http://127.0.0.1:8000';
                             </h2>
                             <p class="mb-3 text-sm">
                                 {{
-                                    props.user?.tourist_profile?.point_value ??
+                                    touristProfile?.point_value ??
                                     '0'
                                 }}
                                 poin

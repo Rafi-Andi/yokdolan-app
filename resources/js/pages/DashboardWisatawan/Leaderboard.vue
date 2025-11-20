@@ -43,18 +43,24 @@ console.log(props.currentUser);
                     
                     <div class="mt-6 flex justify-around divide-x divide-white/30">
                         <div class="flex-1 flex flex-col items-center text-center px-2">
-                            <Icon icon="mdi:medal" class="text-3xl text-yellow-400"></Icon>
-                            <span class="text-lg font-bold mt-1">{{ currentUser.totalPoints }}</span>
+                            <div class="flex items-center gap-2">
+                            <Icon icon="mdi:medal" class="text-xl text-yellow-500"></Icon>
+                            <span class="text-[14px] font-bold mt-1">{{ currentUser.totalPoints }}</span>
+                            </div>
                             <span class="text-xs">Poin Misi</span>
                         </div>
                         <div class="flex-1 flex flex-col items-center text-center px-2">
-                            <Icon icon="tabler:target-arrow" class="text-3xl text-red-600"></Icon>
+                            <div class="flex items-center gap-2">
+                            <Icon icon="tabler:target-arrow" class="text-xl text-red-600"></Icon>
                             <span class="text-lg font-bold mt-1">{{ currentUser.misiSelesai }}</span>
+                            </div>
                             <span class="text-xs">Misi Selesai</span>
                         </div>
-                        <div class="flex-1 flex flex-col items-center text-center px-2 text-yellow-200">
-                            <Icon icon="mdi:podium" class="text-3xl"></Icon>
+                        <div class="flex-1 flex flex-col items-center text-center px-2 ">
+                            <div class="flex items-center gap-2">
+                            <Icon icon="mdi:podium" class="text-xl text-yellow-200"></Icon>
                             <span class="text-lg font-bold mt-1">{{ currentUser.rank }}</span>
+                            </div>
                             <span class="text-xs">Peringkat</span>
                         </div>
                     </div>
