@@ -1,6 +1,8 @@
 # 🎯 YokDolan App
 
-Aplikasi web modern yang dibangun dengan Laravel 12, Inertia.js, dan Vue 3 untuk pengalaman pengembangan full-stack yang mulus.
+"YokDolan" adalah solusi aplikasi web (Web App) gamifikasi yang diusulkan untuk mengatasi kesenjangan antara besarnya potensi pariwisata massal di Jawa Timur dengan pelaku ekonomi kreatif (Ekraf) lokal, khususnya UMKM. Proyek ini dikembangkan oleh tim Pemuda Sintaks dari SMK Negeri 1 Surabaya dengan tema Creative Economy and Smart Tourism.
+
+Tujuan utama aplikasi ini adalah mengubah perilaku wisatawan dari pasif (sekadar berfoto) menjadi aktif (berinteraksi dan bertransaksi) dengan pelaku Ekraf.
 
 ## 📋 Daftar Isi
 
@@ -10,16 +12,15 @@ Aplikasi web modern yang dibangun dengan Laravel 12, Inertia.js, dan Vue 3 untuk
 - [Konfigurasi](#-konfigurasi)
 - [Menjalankan Aplikasi](#-menjalankan-aplikasi)
 - [Struktur Project](#-struktur-project)
-
+  
 ## 🛠️ Stack Teknologi
 
 - **Backend:** Laravel 12
-- **Frontend:** Vue 3 (Composition API)
+- **Frontend:** Vue 3
 - **Bridge:** Inertia.js
 - **Build Tool:** Vite
 - **Styling:** Tailwind CSS
 - **Database:** MySQL
-- **Queue:** Laravel Queue Worker
 
 ## ✅ Prasyarat
 
@@ -167,29 +168,22 @@ composer run dev
 ```bash
 php artisan optimize:clear
 ```
-
-### Run Tests
-```bash
-php artisan test
-```
-
 ### Build for Production
 ```bash
 npm run build
 ```
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
 ## 👥 Authors
 
-- **Rafi Andi** - [GitHub Profile](https://github.com/Rafi-Andi)
-
+- **Rafi-Andi** - [GitHub Profile](https://github.com/Rafi-Andi)
+- **Randi-95** - [Github Profile](https://github.com/Randi-95)
+- **HablSank** - [Github Profile](https://github.com/HablSank)
+- **renrennn27** - [Github Profile](https://github.com/renrennn27)
+- **renrennn27** - [Github Profile](https://github.com/renrennn27)
+- **SkyFredoz** - [Github Profile](https://github.com/SkyFredoz)
 ---
 
-**Happy Coding! 🚀**
+**Pemuda Sintaks || SMKN 1 SURABAYA 🚀**
+
+
+
