@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use Inertia\Inertia;
 use App\Models\Reward;
 use App\Models\Mission;
@@ -81,12 +82,18 @@ class EkrafPartnerController extends Controller
             ->with(['reward:id,title', 'tourist:id,name,profile_url'])->orderBy('exchange_at', 'asc')
             ->get();;
 
+        $channelId = $user->ekrafPartner->channel_id;
+
+        $namaPartner = $user->ekrafPartner->business_name;
+        $namaChannel = Channel::where('id', $channelId)->value('name');
         return Inertia::render('DashboardEkraf/Index', [
             'stats' => [
                 'total_points_spent' => $totalPoints,
                 'total_missions_redeemed' => $totalRedeemed,
             ],
-            'pendingValidations' => $pendingValidations
+            'channelName' => $namaChannel,
+            'pendingValidations' => $pendingValidations,
+            'partnerName' => $namaPartner
         ]);
     }
 

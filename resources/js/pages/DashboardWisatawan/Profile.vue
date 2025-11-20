@@ -3,6 +3,7 @@ import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { logout } from '@/routes';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     user: Object,
@@ -10,7 +11,7 @@ const props = defineProps({
 });
 
 const goBack = () => {
-    history.back();
+    history.back() | router.visit('/dashboard');
 };
 
 console.log(props.user)
@@ -39,7 +40,7 @@ console.log(props.user)
                 <div class="w-30">
                     <div class="flex items-center justify-center gap-2 mb-2">
                         <Icon icon="el:star-alt" class="text-2xl text-yellow-400"/>
-                        <h1 class="font-bold text-xl text-[#333333]">{{ touristProfile?.point_akumulasi }}</h1>
+                        <h1 class="font-bold text-xl text-[#333333]">{{ touristProfile?.point_akumulasi ?? 0}}</h1>
                     </div>
                     <p class="text-gray-600 font-medium text-sm text-center leading-4">Poin Akumulasi</p>
                 </div>
@@ -49,7 +50,7 @@ console.log(props.user)
                 <div class="w-30">
                     <div class="flex items-center justify-center gap-2 mb-2">
                         <Icon icon="el:star-alt" class="text-2xl text-yellow-400"/>
-                        <h1 class="font-bold text-xl text-[#333333]">{{ touristProfile?.point_value  }}</h1>
+                        <h1 class="font-bold text-xl text-[#333333]">{{ touristProfile?.point_value ?? 0}}</h1>
                     </div>
                     <p class="text-gray-600 font-medium text-sm text-center leading-4">Poin Value Anda</p>
                 </div>
@@ -76,8 +77,8 @@ console.log(props.user)
                 </div>
                 <div class="border-b-1 py-5 border-[#333333]">
                     <Link as="button" :href="logout()" class="flex justify-between w-full cursor-pointer items-center">
-                        <h1 class="text-lg font-semibold text-[#333333]">Logout</h1>
-                        <Icon icon="heroicons-outline:logout" class="text-4xl text-[#333333]"/>
+                        <h1 class="text-lg font-semibold text-red-500">Logout</h1>
+                        <Icon icon="heroicons-outline:logout" class="text-4xl text-red-500"/>
                     </Link>
                 </div>
             </div>
