@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Link, useForm } from '@inertiajs/vue3'; 
+import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     detail_reward: Object,
@@ -11,7 +11,7 @@ console.log(props.detail_reward);
 const url = 'http://127.0.0.1:8000';
 
 const userPoints = props.user?.tourist_profile?.point_value ?? 0;
-const rewardCost = props.detail_reward?.points_cost ?? 999999; 
+const rewardCost = props.detail_reward?.points_cost ?? 999999;
 
 const canAfford = userPoints >= rewardCost;
 
@@ -19,20 +19,17 @@ const exchangeForm = useForm({});
 
 const submitExchange = () => {
     if (canAfford) {
-        exchangeForm.post(
-            `/dashboard/hadiah/${props.detail_reward.id}`,
-            {
-                onSuccess: () => {
-                    alert('Penukaran berhasil! Kunjungi ekraf untuk detailnya.');
-                },
-                onError: (errors) => {
-                    console.log(errors)
-                    const errorMessage =
-                        errors.exchange || 'Gagal memproses penukaran.';
-                    alert(`Gagal: ${errorMessage}`);
-                },
+        exchangeForm.post(`/dashboard/hadiah/${props.detail_reward.id}`, {
+            onSuccess: () => {
+                alert('Penukaran berhasil! Kunjungi ekraf untuk detailnya.');
             },
-        );
+            onError: (errors) => {
+                console.log(errors);
+                const errorMessage =
+                    errors.exchange || 'Gagal memproses penukaran.';
+                alert(`Gagal: ${errorMessage}`);
+            },
+        });
     } else {
         alert('Maaf, poin Anda tidak mencukupi untuk menukar hadiah ini.');
     }
@@ -85,7 +82,7 @@ const submitExchange = () => {
         >
             <div
                 :class="[
-                    'mx-auto -mt-28 w-full rounded-xl p-5 shadow-xl transition bg-gradient-to-r from-[#FFF2DE] to-[#FFE0B2]'
+                    'mx-auto -mt-28 w-full rounded-xl bg-gradient-to-r from-[#FFF2DE] to-[#FFE0B2] p-5 shadow-xl transition',
                 ]"
             >
                 <h2 class="text-xl leading-tight font-bold text-gray-900">
@@ -107,9 +104,6 @@ const submitExchange = () => {
                 </div>
             </div>
 
-            <h2 class="mt-6 text-3xl font-bold text-black">
-                {{ detail_reward?.title ?? 'Nama Hadiah' }}
-            </h2>
             <p class="mt-2 text-base text-gray-600"></p>
 
             <div class="mt-8 space-y-5">
@@ -123,12 +117,42 @@ const submitExchange = () => {
                     />
                 </div>
 
-                <p class="text-justify font-semibold text-gray-700">
-                    {{
-                        detail_reward?.description ??
-                        'Deskripsi tidak tersedia.'
-                    }}
-                </p>
+                <h2 class="mt-6 text-center text-2xl font-black text-black">
+                    {{ detail_reward?.title ?? 'Nama Hadiah' }}
+                </h2>
+                <div>
+                    <h2 class="mt-10 mb-2 text-2xl font-black text-black">
+                        Deskripsi Hadiah
+                    </h2>
+                    <p class="text-justify font-semibold text-gray-700">
+                        {{
+                            detail_reward?.description ??
+                            'Deskripsi tidak tersedia.'
+                        }}
+                    </p>
+                </div>
+                <div>
+                    <h2 class="mt-10 mb-2 text-2xl font-black text-black">
+                        Alamat Ekraf
+                    </h2>
+                    <p class="text-justify font-semibold text-gray-700">
+                        {{
+                            `${detail_reward?.ekraf_partner?.channel?.location} (${detail_reward?.ekraf_partner?.business_address})` ??
+                            'Alamat tidak tersedia.'
+                        }}
+                    </p>
+                </div>
+                <div>
+                    <h2 class="mt-10 mb-2 text-2xl font-black text-black">
+                        Nomer Telepon 
+                    </h2>
+                    <p class="text-justify font-semibold text-gray-700">
+                        {{
+                            detail_reward?.ekraf_partner?.phone ??
+                            'nomer tidak tersedia.'
+                        }}
+                    </p>
+                </div>
             </div>
 
             <div class="mt-8 flex w-full justify-between">
@@ -162,8 +186,7 @@ const submitExchange = () => {
 </template>
 
 <style scoped>
-
 .mt-30 {
-    margin-top: 7.5rem; 
+    margin-top: 7.5rem;
 }
 </style>

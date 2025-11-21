@@ -26,7 +26,6 @@ class MissionSeeder extends Seeder
         $faker = Faker::create();
 
         Storage::disk('public')->makeDirectory('qrcodes');
-        Storage::disk('public')->makeDirectory('missions');
 
         $partners = User::with('ekrafPartner')->where('role', 'partner')
             ->whereHas('ekrafPartner')

@@ -22,7 +22,7 @@ class DashboardTouristController extends Controller
     function index(Request $request) // Inject Request
     {
         $userId = Auth::id();
-        $user = User::select('id','profile_url', 'name', 'role')->with('touristProfile:point_akumulasi,point_value')->find($userId);
+        $user = User::select('id', 'profile_url', 'name', 'role')->with('touristProfile:point_akumulasi,point_value')->find($userId);
 
         if ($user && $user->role !== 'tourist') {
             if ($user->role === 'partner') {
@@ -51,7 +51,7 @@ class DashboardTouristController extends Controller
             ->orderBy('created_at', 'asc')
             ->take(5)
             ->get();
-            
+
         $Missions = Mission::query()->select('id', 'title', 'description')
             ->whereHas('channel', function ($query) {
                 $query->where('is_verified', true);
@@ -151,7 +151,7 @@ class DashboardTouristController extends Controller
     }
     public function wisata(Request $request)
     {
-        $user = User::select('id','profile_url', 'role')->find(Auth::id());
+        $user = User::select('id', 'profile_url', 'role')->find(Auth::id());
 
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -176,7 +176,7 @@ class DashboardTouristController extends Controller
         return Inertia::render('DashboardWisatawan/Wisata', [
             'wisata' => $wisata,
             'filters' => ['search' => $searchQuery],
-            'user' =>  $user    
+            'user' =>  $user
         ]);
     }
     function misi($id)
@@ -245,8 +245,8 @@ class DashboardTouristController extends Controller
         }
 
         $rewards = $query
-        ->where('is_available',true)
-        ->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
+            ->where('is_available', true)
+            ->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
 
         $types = Reward::select('type')
             ->distinct()
@@ -296,8 +296,10 @@ class DashboardTouristController extends Controller
                 return redirect()->route('dashboard.ekraf');
             }
         }
-
-        $reward = Reward::query()->where('id', $id)->firstOrFail();
+        $reward = Reward::with([
+            'ekrafPartner:user_id,business_address,phone,channel_id',
+            'ekrafPartner.channel:id,location'
+        ])->find($id);
         return Inertia::render('DashboardWisatawan/DetailHadiah', [
             'detail_reward' => $reward,
             'user' => $user
