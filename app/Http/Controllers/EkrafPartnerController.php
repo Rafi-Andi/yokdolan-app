@@ -142,7 +142,8 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function nonaktifHadiah($id){
+    public function nonaktifHadiah($id)
+    {
         $user = Auth::user();
         if ($user->role !== 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -159,7 +160,8 @@ class EkrafPartnerController extends Controller
         return redirect()->route('dashboard.ekraf.detailreward', ['id' => $id])->with('success', 'Hadiah berhasil dinonaktifkan.');
     }
 
-    public function aktifkanHadiah($id){
+    public function aktifkanHadiah($id)
+    {
         $user = Auth::user();
         if ($user->role !== 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -222,7 +224,8 @@ class EkrafPartnerController extends Controller
         ]);
     }
 
-    public function nonaktifMisi($id){
+    public function nonaktifMisi($id)
+    {
         $user = Auth::user();
         if ($user->role !== 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -239,7 +242,8 @@ class EkrafPartnerController extends Controller
         return redirect()->route('dashboard.ekraf.mission.detail', ['id' => $id])->with('success', 'Misi berhasil dinonaktifkan.');
     }
 
-    public function aktifkanMisi($id){
+    public function aktifkanMisi($id)
+    {
         $user = Auth::user();
         if ($user->role !== 'partner') {
             return redirect()->route('dashboard.ekraf');
@@ -337,6 +341,35 @@ class EkrafPartnerController extends Controller
 
         if ($user->role !== 'partner') {
             return redirect()->route('dashboard')->with('error', 'Akses ditolak.');
+        }
+
+        $monthlyMissionCount = Mission::where('partner_user_id', $user->id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
+        if ($monthlyMissionCount >= 6) {
+            return back()->with(
+                'error',
+                'Batas 6 misi per bulan telah tercapai. Coba lagi di bulan berikutnya.'
+            );
+        }
+
+        $hasReward = Reward::where('partner_user_id', $user->id)->exists();
+
+        if (!$hasReward) {
+            return back()->with(
+                'error',
+                'Anda harus memiliki minimal satu Hadiah (Reward) sebelum membuat Misi.'
+            );
+        }
+        $totalMissions = Mission::where('partner_user_id', $user->id)->where('is_active', true)->count();
+
+        if ($totalMissions >= 7) {
+            return back()->with(
+                'error',
+                'Total misi telah mencapai batas maksimal 7. Hapus atau nonaktifkan misi lama untuk membuat yang baru.'
+            );
         }
 
         $channelId = $user->ekrafPartner->channel_id;
@@ -549,7 +582,7 @@ class EkrafPartnerController extends Controller
             }
 
             $cost = $rewardExchange->reward->points_cost;
-            
+
             $touristProfile->increment('point_value', $cost);
             $rewardExchange->update([
                 'validation_status' => 'cancelled',

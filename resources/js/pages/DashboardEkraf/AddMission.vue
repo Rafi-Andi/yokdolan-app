@@ -4,6 +4,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { computed } from 'vue';
 
+
 const form = useForm({
     title: '',
     description: '',
@@ -51,6 +52,37 @@ const clearPhoto = () => {
     form.mission_photo = null;
     document.getElementById('gambar_misi_input').value = null;
 };
+import { usePage } from '@inertiajs/vue3';
+import { watch } from 'vue';
+import Swal from 'sweetalert2';
+
+const page = usePage();
+
+
+watch(
+    () => page.props.flash,
+    (flash) => {
+        if (flash.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: flash.success,
+                confirmButtonColor: '#146AC7',
+            });
+        }
+
+        if (flash.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: flash.error,
+                confirmButtonColor: '#d33',
+            });
+        }
+    }
+);
+
+
 
 const submit = () => {
     form.post('/dashboard/ekraf/store-mission', {
