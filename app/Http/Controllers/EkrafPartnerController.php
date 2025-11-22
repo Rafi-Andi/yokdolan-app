@@ -365,10 +365,10 @@ class EkrafPartnerController extends Controller
         }
         $totalMissions = Mission::where('partner_user_id', $user->id)->where('is_active', true)->count();
 
-        if ($totalMissions >= 7) {
+        if ($totalMissions >= 15) {
             return back()->with(
                 'error',
-                'Total misi telah mencapai batas maksimal 7. Hapus atau nonaktifkan misi lama untuk membuat yang baru.'
+                'Total misi telah mencapai batas maksimal 15. Hapus atau nonaktifkan misi lama untuk membuat yang baru.'
             );
         }
 
