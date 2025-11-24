@@ -11,20 +11,21 @@ const url = 'http://127.0.0.1:8000';
 console.log(props.mission);
 
 const goBack = () => {
-   history.back() || router.visit(`/dashboard/wisata/${props.mission.channel.id}`);
+    history.back() ||
+        router.visit(`/dashboard/wisata/${props.mission.channel.id}`);
 };
 
 const convertTo62 = (phoneNumber) => {
     if (typeof phoneNumber !== 'string' || !phoneNumber) {
         return '';
     }
-    
-    const cleanedNumber = phoneNumber.replace(/\D/g, ''); 
+
+    const cleanedNumber = phoneNumber.replace(/\D/g, '');
 
     if (cleanedNumber.startsWith('0')) {
         return '62' + cleanedNumber.substring(1);
-    } 
-    
+    }
+
     return cleanedNumber;
 };
 </script>
@@ -36,9 +37,15 @@ const convertTo62 = (phoneNumber) => {
         <div class="rounded-b-3xl px-6 pt-6">
             <div class="flex items-center justify-between">
                 <a @click.prevent="goBack()" class="p-1">
-                    <Icon icon="mdi:arrow-left" class="text-3xl text-white cursor-pointer" />
+                    <Icon
+                        icon="mdi:arrow-left"
+                        class="cursor-pointer text-3xl text-white"
+                    />
                 </a>
-                <a :href="`https://wa.me/${convertTo62(mission.ekraf_partner?.ekraf_partner?.phone)}`" class="rounded-full bg-green-500 p-2 shadow-md">
+                <a
+                    :href="`https://wa.me/${convertTo62(mission.ekraf_partner?.ekraf_partner?.phone)}`"
+                    class="rounded-full bg-green-500 p-2 shadow-md"
+                >
                     <Icon icon="mdi:whatsapp" class="text-2xl text-white" />
                 </a>
             </div>
@@ -69,17 +76,38 @@ const convertTo62 = (phoneNumber) => {
             <div class="mt-8 space-y-5">
                 <div>
                     <h3 class="text-lg font-bold text-black">Tipe Misi</h3>
-                    <p class="text-base text-gray-600">Misi {{ mission.type }}</p>
+                    <p class="text-base text-gray-600">
+                        Misi {{ mission.type }}
+                    </p>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-black">Tingkat Kesulitan</h3>
-                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-red-600 rounded-full bg-red-100 text-red-600">Sulit</p>
-                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-yellow-600 rounded-full bg-orange-100 text-yellow-600">Sedang</p>
-                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-green-600 rounded-full bg-green-100 text-green-600">Mudah</p>
+                    <h3 class="text-lg font-bold text-black">
+                        Tingkat Kesulitan
+                    </h3>
+                    <p
+                        v-if="mission.type === 'Interaksi'"
+                        class="mt-2 inline-block rounded-full border-2 border-red-600 bg-red-100 px-2 font-semibold text-red-600"
+                    >
+                        Sulit
+                    </p>
+                    <p
+                        v-if="mission.type === 'Promosi'"
+                        class="mt-2 inline-block rounded-full border-2 border-yellow-600 bg-orange-100 px-2 font-semibold text-yellow-600"
+                    >
+                        Sedang
+                    </p>
+                    <p
+                        v-if="mission.type === 'Transaksi'"
+                        class="mt-2 inline-block rounded-full border-2 border-green-600 bg-green-100 px-2 font-semibold text-green-600"
+                    >
+                        Mudah
+                    </p>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-black">Poin</h3>
-                    <p class="text-base text-gray-600">{{ mission.reward_points }} Poin</p>
+                    <p class="text-base text-gray-600">
+                        {{ mission.reward_points }} Poin
+                    </p>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-black">Alamat Wisata</h3>
@@ -90,19 +118,28 @@ const convertTo62 = (phoneNumber) => {
                 <div>
                     <h3 class="text-lg font-bold text-black">Patokan</h3>
                     <p class="text-base text-gray-600">
-                        {{ mission.ekraf_partner?.ekraf_partner?.business_address }}
+                        {{
+                            mission.ekraf_partner?.ekraf_partner
+                                ?.business_address
+                        }}
                     </p>
                 </div>
             </div>
 
-            <div class="flex w-full justify-between items-center mt-4">
-                    <Link href="/dashboard/profile-ekraf" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow font-bold text-white">
-                        Lihat Profile
-                    </Link>
+            <div class="mt-4 flex w-full items-center justify-between">
+                <Link
+                    href="/dashboard/profile-ekraf"
+                    class="cursor-pointer rounded-lg bg-[#1485FF] p-3 font-bold text-white shadow"
+                >
+                    Lihat Profile
+                </Link>
 
-                    <Link href="/dashboard/scan" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow">
-                        <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
-                    </Link>
+                <Link
+                    href="/dashboard/scan"
+                    class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow"
+                >
+                    <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
+                </Link>
             </div>
         </div>
     </div>
