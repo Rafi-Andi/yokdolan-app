@@ -332,8 +332,8 @@ class EkrafPartnerController extends Controller
 
     private const REWARD_POINTS_MAP = [
         'Interaksi' => 700,
-        'Promosi' => 500,
-        'Transaksi' => 300,
+        'Transaksi' => 500,
+        'Promosi' => 300,
     ];
     public function storeMission(Request $request)
     {

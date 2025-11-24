@@ -46,6 +46,7 @@ class RegisterEkrafController extends Controller
             'business_address' => ['required', 'string'],
             'phone' => ['required', 'string', 'max:20'], 
             'channel_id' => ['required','integer', 'exists:channels,id'],
+            'jarak_ekraf' => ['required', 'integer']
         ]);
 
         EkrafPartner::create([
@@ -55,6 +56,7 @@ class RegisterEkrafController extends Controller
             "phone" => $data['phone'],
             "is_verified" => false,
             'channel_id' => $data['channel_id'],
+            "jarak_ekraf" => $data['jarak_ekraf']
         ]);
         
 

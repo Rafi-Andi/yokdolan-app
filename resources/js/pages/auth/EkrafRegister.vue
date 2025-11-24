@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,9 +6,36 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthMobileLayout from '@/layouts/auth/AuthMobileLayout.vue';
 import TermsModal from '@/components/TermsModal.vue';
-import { Head, useForm } from '@inertiajs/vue3'; 
+import { Head, useForm, usePage } from '@inertiajs/vue3'; 
 import { Store, MapPin, Phone } from 'lucide-vue-next';
 import { ref } from 'vue';  
+import { watch } from 'vue';
+import Swal from 'sweetalert2';
+
+const page = usePage()
+
+watch(
+    () => page.props.flash,
+    (flash) => {
+        if (flash.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: flash.success,
+                confirmButtonColor: '#146AC7',
+            });
+        }
+
+        if (flash.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: flash.error,
+                confirmButtonColor: '#d33',
+            });
+        }
+    }
+);
 
 const props = defineProps({
     channel_id: Number,
@@ -19,6 +46,7 @@ const form = useForm({
     business_address: '',
     phone: '', 
     channel_id: props.channel_id,
+    jarak_ekraf: ''
 });
 
 const agreeToTerms = ref(false);
@@ -125,6 +153,27 @@ const submit = () => {
                             autocomplete="tel"
                             v-model="form.phone"
                             placeholder="Masukkan Nomor Telepon cth: 08123456789"
+                            class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                        />
+                    </div>
+                    <InputError :message="form.errors.phone" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <Label for="phone" class="text-sm font-medium text-black">
+                        Jarak dari Pintu Gerbang
+                    </Label>
+                    <div class="relative">
+                        <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <Phone class="w-5 h-5" />
+                        </div>
+                        <Input
+                            id="phone"
+                            type="number"
+                            name="phone"
+                            required
+                            :tabindex="3"
+                            v-model="form.jarak_ekraf"
+                            placeholder="Masukkan jarak dari pintu masuk ke lokasi anda (km)"
                             class="pl-10 h-12 bg-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
