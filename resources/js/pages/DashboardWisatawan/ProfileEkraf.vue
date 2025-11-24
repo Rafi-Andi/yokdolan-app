@@ -45,7 +45,7 @@ import { Icon } from '@iconify/vue';
             </div>
 
             <div class="mt-8 space-y-5">
-                
+
             </div>
 
             <div class="mt-5 flex w-full justify-end">
@@ -55,4 +55,14 @@ import { Icon } from '@iconify/vue';
             </div>
         </div>
     </div>
+        <div class="mt-8 p-6 gap-6">
+            <div>
+            <h1 class="text-xl font-bold">Toko Kopi Lonceng</h1>
+            <p class="font-semibold">Toko Kopi loncong adalah toko kopi jaman dahulu, dibangun sejak zaman Belanda </p>
+            </div>
+            <div class="mt-6">
+            <h1 class="text-xl font-bold">Lokasi Mitra Ekraf</h1>
+            <p class="font-semibold">Toko Kopi Lonceng terletak di Malang, Jawa Timur ( Sebelah Gerbang Selatan, berjarak 200 meter dari gerbang wisata</p>
+            </div>
+        </div>
 </template>
