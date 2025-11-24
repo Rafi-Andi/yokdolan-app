@@ -52,7 +52,7 @@ console.log(props)
             </div>
 
             <div class="mt-8 space-y-5">
-                
+
             </div>
 
             <div class="mt-5 flex w-full justify-end">
@@ -62,4 +62,27 @@ console.log(props)
             </div>
         </div>
     </div>
+        <div class="mt-8 p-6 gap-6">
+            <div>
+            <h1 class="text-xl font-bold">Toko Kopi Lonceng</h1>
+            <p class="font-semibold">Toko Kopi loncong adalah toko kopi jaman dahulu, dibangun sejak zaman Belanda </p>
+            </div>
+            <div class="mt-6">
+            <h1 class="text-xl font-bold">Lokasi Mitra Ekraf</h1>
+            <p class="font-semibold">Toko Kopi Lonceng terletak di Malang, Jawa Timur ( Sebelah Gerbang Selatan, berjarak 200 meter dari gerbang wisata)</p>
+            </div>
+            <div class="flex gap-6">
+                <div class="py-2 px-4 border-2 border-blue-300 rounded-xl shadow-lg mt-6">
+                    <h1 class="font-bold text-xl">Jumlah Misi</h1>
+                    <h2 class="font-semibold">30 Misi</h2>
+                    <button class="text-center">Lihat Misi</button>
+                </div>
+                <div class="py-2 px-4 border-2 border-blue-300 rounded-xl shadow-lg mt-6 flex flex-col">
+                    <h1 class="font-bold text-xl">Level Misi</h1>
+                    <h2 class="font-semibold border-2 px-2 mt-2 inline-block border-red-600 rounded-full bg-red-100 text-red-600">Sulit</h2>
+                    <h2 class="font-semibold border-2 px-2 mt-2 inline-block border-yellow-600 rounded-full bg-orange-100 text-yellow-600">Sedang</h2>
+                    <h2 class="font-semibold border-2 px-2 mt-2 inline-block border-green-600 rounded-full bg-green-100 text-green-600">Mudah</h2>
+                </div>
+            </div>
+        </div>
 </template>
