@@ -95,10 +95,14 @@ const convertTo62 = (phoneNumber) => {
                 </div>
             </div>
 
-            <div class="mt-5 flex w-full justify-end">
-                <Link href="/dashboard/scan" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow">
-                    <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
-                </Link>
+            <div class="flex w-full justify-between items-center mt-4">
+                    <Link href="/dashboard/profile-ekraf" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow font-bold text-white">
+                        Lihat Profile
+                    </Link>
+
+                    <Link href="/dashboard/scan" class="cursor-pointer rounded-lg bg-[#1485FF] p-3 shadow">
+                        <Icon icon="mdi:qrcode-scan" class="text-4xl text-white" />
+                    </Link>
             </div>
         </div>
     </div>

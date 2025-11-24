@@ -217,6 +217,15 @@ class DashboardTouristController extends Controller
         ]);
     }
 
+    function profileEkraf(){
+        $user = Auth::user();
+        if ($user->role === 'partner') {
+            return redirect()->route('dashboard.wisatawan.profileekraf');
+        }
+
+        return Inertia::render('DashboardWisatawan/ProfileEkraf');
+    }
+
     function hadiah(Request $request)
     {
         $userId = Auth::id();
