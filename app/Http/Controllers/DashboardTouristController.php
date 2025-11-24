@@ -217,13 +217,19 @@ class DashboardTouristController extends Controller
         ]);
     }
 
-    function profileEkraf(){
+    function profileEkraf($id){
         $user = Auth::user();
         if ($user->role === 'partner') {
             return redirect()->route('dashboard.wisatawan.profileekraf');
         }
-
-        return Inertia::render('DashboardWisatawan/ProfileEkraf');
+        $ekraf = EkrafPartner::where('user_id', $id)->get();
+        $missions = Mission::where('partner_user_id', $id);
+        $rewards = Reward::where('partner_user_id', $id);
+        return Inertia::render('DashboardWisatawan/ProfileEkraf', [
+            'ekraf' => $ekraf,
+            'missions' => $missions,
+            'rewards' => $rewards
+        ]);
     }
 
     function hadiah(Request $request)

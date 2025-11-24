@@ -1,6 +1,13 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 
+const props = defineProps({
+    missions: Object,
+    ekraf: Object,
+    rewards: Object
+})
+
+console.log(props)
 </script>
 
 <template>

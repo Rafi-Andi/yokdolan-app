@@ -6,6 +6,8 @@ const props = defineProps({
     mission: Object,
 });
 
+console.log(props.mission)
+
 const url = 'http://127.0.0.1:8000';
 
 console.log(props.mission);
@@ -128,7 +130,7 @@ const convertTo62 = (phoneNumber) => {
 
             <div class="mt-4 flex w-full items-center justify-between">
                 <Link
-                    href="/dashboard/profile-ekraf"
+                    :href="`/dashboard/profile-ekraf/${mission.partner_user_id}`"
                     class="cursor-pointer rounded-lg bg-[#1485FF] p-3 font-bold text-white shadow"
                 >
                     Lihat Profile

@@ -23,4 +23,8 @@ class EkrafPartner extends Model
     {
         return $this->hasMany(Reward::class, 'partner_user_id');
     }
+
+    public function missions() {
+        return $this->hasMany(Mission::class, 'partner_user_id');
+    }
 }
