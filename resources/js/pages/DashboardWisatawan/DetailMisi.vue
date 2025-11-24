@@ -72,6 +72,12 @@ const convertTo62 = (phoneNumber) => {
                     <p class="text-base text-gray-600">Misi {{ mission.type }}</p>
                 </div>
                 <div>
+                    <h3 class="text-lg font-bold text-black">Tingkat Kesulitan</h3>
+                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-red-600 rounded-full bg-red-100 text-red-600">Sulit</p>
+                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-yellow-600 rounded-full bg-orange-100 text-yellow-600">Sedang</p>
+                    <p class="font-semibold border-2 px-2 mt-2 inline-block border-green-600 rounded-full bg-green-100 text-green-600">Mudah</p>
+                </div>
+                <div>
                     <h3 class="text-lg font-bold text-black">Poin</h3>
                     <p class="text-base text-gray-600">{{ mission.reward_points }} Poin</p>
                 </div>

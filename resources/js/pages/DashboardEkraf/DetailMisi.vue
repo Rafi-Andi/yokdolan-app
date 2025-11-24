@@ -136,6 +136,22 @@ watch(errorMessage, (val) => {
                 >
                     <div class="flex-shrink-0 rounded-full bg-white p-2">
                         <Icon
+                            icon="carbon:skill-level-advanced"
+                            class="text-3xl text-black"
+                        ></Icon>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-xs text-gray-500">Tingkat Penyelesaian</p>
+                        <p class="font-semibold border-2 px-2 mt-2 inline-block border-red-600 rounded-full bg-red-100 text-red-600">
+                            Sulit
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="flex items-center gap-3 border-b border-gray-400 pb-3"
+                >
+                    <div class="flex-shrink-0 rounded-full bg-white p-2">
+                        <Icon
                             icon="mingcute:calendar-2-fill"
                             class="text-3xl text-black"
                         ></Icon>
