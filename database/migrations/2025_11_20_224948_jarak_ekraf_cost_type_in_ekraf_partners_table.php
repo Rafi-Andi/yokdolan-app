@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ekraf_partners', function (Blueprint $table) {
-            $table->integer('jarak_ekraf');
+            $table->integer('jarak_ekraf')->nullable();
         });
     }
 
