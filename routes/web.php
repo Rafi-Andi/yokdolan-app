@@ -34,7 +34,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::get('dashboard/profile-ekraf/{id}', [DashboardTouristController::class, 'profileEkraf'])->name('dashboard.wisatawan.profileekraf');
     Route::get('dashboard/hadiah', [DashboardTouristController::class, 'hadiah'])->name('dashboard.wisatawan.hadiah');
     Route::get('dashboard/hadiah/{id}', [DashboardTouristController::class, 'detailhadiah'])->name('dashboard.wisatawan.detailhadiah');
-    Route::post('dashboard/hadiah/{id}', [DashboardTouristController::class, 'rewardReedem'])->name('dashboard.wisatawan.detailhadiah');
+    Route::post('dashboard/hadiah/{id}', [DashboardTouristController::class, 'rewardReedem'])->name('dashboard.wisatawan.rewardReedem');
     Route::get('dashboard/profile', [DashboardTouristController::class, 'profile'])->name('dashboard.wisatawan.profile');
 
 
