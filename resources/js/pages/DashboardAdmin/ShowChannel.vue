@@ -7,7 +7,7 @@ const props = defineProps({
     adminEmail: String,
 });
 
-const url = 'http://127.0.0.1:8000';
+const url = '';
 
 console.log(props.channel);
 </script>

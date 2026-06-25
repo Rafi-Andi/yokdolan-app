@@ -7,7 +7,7 @@ const props = defineProps({
     missions: Object, 
 });
 
-const url = 'http://127.0.0.1:8000';
+const url = '';
 
 const missionsData = props.missions;
 

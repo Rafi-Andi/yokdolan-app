@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 console.log(props.detail_reward);
-const url = 'http://127.0.0.1:8000';
+const url = '';
 
 const userPoints = props.user?.tourist_profile?.point_value ?? 0;
 const rewardCost = props.detail_reward?.points_cost ?? 999999;

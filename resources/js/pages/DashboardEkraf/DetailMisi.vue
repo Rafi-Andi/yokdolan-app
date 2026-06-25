@@ -12,7 +12,7 @@ console.log(props.detail)
 
 console.log(props.detail);
 
-const url = 'http://127.0.0.1:8000';
+const url = '';
 
 const formatTanggal = (tanggal) => {
     if (!tanggal) return '-';

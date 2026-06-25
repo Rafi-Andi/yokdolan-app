@@ -12,7 +12,7 @@ const props = defineProps({
 
 console.log(props.user)
 
-const url = 'http://127.0.0.1:8000';
+const url = '';
 
 const search = ref(props.filters.search || '');
 
