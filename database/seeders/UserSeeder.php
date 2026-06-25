@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
@@ -16,8 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create('id_ID');
-
         $avatarUrls = [
             '/images/avatar/femaleavatar(1).png',
             '/images/avatar/femaleavatar(2).png',
@@ -87,7 +84,7 @@ class UserSeeder extends Seeder
         $channelOwners = [];
         for ($i = 0; $i < 10; $i++) {
             $channelOwners[] = [
-                'name' => $faker->name(),
+                'name' => 'Owner ' . $i,
                 'email' => 'owner'.$i.'@yokdolan.com',
                 'profile_url' => $getRandomAvatar(),
                 'password' => Hash::make('password'),
@@ -104,7 +101,7 @@ class UserSeeder extends Seeder
         $partners = [];
         for ($i = 0; $i < 15; $i++) {
             $partners[] = [
-                'name' => $faker->name(),
+                'name' => 'Partner ' . $i,
                 'email' => 'partner'.$i.'@yokdolan.com',
                 'profile_url' => $getRandomAvatar(),
                 'password' => Hash::make('password'),

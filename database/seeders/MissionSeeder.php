@@ -3,7 +3,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Mission;
-use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
@@ -23,8 +22,6 @@ class MissionSeeder extends Seeder
 
     public function run(): void
     {
-        $faker = Faker::create();
-
         Storage::disk('public')->makeDirectory('qrcodes');
 
         $partners = User::with('ekrafPartner')->where('role', 'partner')
@@ -40,7 +37,8 @@ class MissionSeeder extends Seeder
 
             for ($i = 0; $i < $missionCount; $i++) {
 
-                $type = $faker->randomElement(['Transaksi', 'Interaksi', 'Promosi']);
+                $types = ['Transaksi', 'Interaksi', 'Promosi'];
+                $type = $types[array_rand($types)];
                 $rewardPoints = self::REWARD_POINTS_MAP[$type];
 
                 $uniqueId = 'QR-' . strtoupper(Str::random(10));
@@ -63,7 +61,7 @@ class MissionSeeder extends Seeder
                     'partner_user_id' => $partner->id,
                     'channel_id' => $channelId,
                     'title' => "Tantangan dari ekraf {$partner->ekrafPartner->business_name} untuk $type" ,
-                    'description' => $faker->paragraph(),
+                    'description' => 'Ini adalah deskripsi misi ' . $type . ' dari ekraf ' . $partner->ekrafPartner->business_name,
                     'type' => $type,
                     'reward_points' => $rewardPoints,
                     'mission_photo_path' => 'missions/' . $type . '.jpg',
