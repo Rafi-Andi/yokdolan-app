@@ -11,7 +11,7 @@ FROM composer:2 AS backend_builder
 WORKDIR /app
 COPY composer.json composer.lock ./
 # Ignore platform requirements karena ekstensi tertentu mungkin tidak ada di alpine dasar composer
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-scripts
 
 # Stage 3: Production Image (Apache + PHP 8.2)
 FROM php:8.2-apache
