@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  yokdolan_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yokdolan_app
+    restart: unless-stopped
+    # Load konfigurasi environment dari file .env di VPS host
+    env_file:
+      - .env
+    # Container app harus gabung ke jaringan NPM dan jaringan internal database
+    networks:
+      - proxy_net
+      - yokdolan_internal
+    depends_on:
+      - yokdolan_db
+
+  yokdolan_db:
+    image: mysql:8.0
+    container_name: yokdolan_db
+    restart: unless-stopped
+    environment:
+      # Ambil kredensial dari .env (atau bisa di-hardcode jika prefer)
+      MYSQL_DATABASE: ${DB_DATABASE:-yokdolan_db}
+      MYSQL_USER: ${DB_USERNAME:-yokdolan_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-yokdolan_pass}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-yokdolan_root_pass}
+    volumes:
+      - yokdolan_db_data:/var/lib/mysql
+    networks:
+      # Database hanya bisa diakses via internal network
+      - yokdolan_internal
+
+networks:
+  # Network eksternal untuk Nginx Proxy Manager (Sudah ada di VPS)
+  proxy_net:
+    external: true
+  # Network internal khusus komunikasi Web App <-> Database
+  yokdolan_internal:
+    driver: bridge
+
+volumes:
+  # Volume untuk menyimpan data database secara persisten
+  yokdolan_db_data:
