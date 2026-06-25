@@ -14,7 +14,7 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
-        wayfinder({
+        process.env.NODE_ENV !== 'production' && wayfinder({
             formVariants: true,
         }),
         vue({
@@ -32,5 +32,6 @@ export default defineConfig({
         alias: {
             '@': fileURLToPath(new URL('./resources/js', import.meta.url))
         },
+        extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
 });
