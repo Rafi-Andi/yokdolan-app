@@ -1,17 +1,27 @@
-# Stage 1: Build Frontend (Vue/Vite)
-FROM node:18-alpine AS frontend_builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-# Stage 2: Build Backend (Laravel Composer Dependencies)
+# Stage 1: Build Backend (Laravel Composer Dependencies)
 FROM composer:2 AS backend_builder
 WORKDIR /app
 COPY composer.json composer.lock ./
-# Ignore platform requirements karena ekstensi tertentu mungkin tidak ada di alpine dasar composer
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-scripts
+
+# Stage 2: Build Frontend (Vue/Vite)
+FROM php:8.2-cli AS frontend_builder
+WORKDIR /app
+
+# Install Node.js 22 (Vite membutuhkan Node >= 20.19)
+RUN apt-get update && apt-get install -y curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy seluruh file project untuk keperluan build frontend
+COPY . .
+
+# Copy vendor dari tahap pertama (karena Vite plugin Wayfinder menjalankan command artisan yang butuh PHP & Vendor)
+COPY --from=backend_builder /app/vendor ./vendor
+
+# Install NPM dependencies & jalankan build
+RUN npm ci && npm run build
 
 # Stage 3: Production Image (Apache + PHP 8.2)
 FROM php:8.2-apache
