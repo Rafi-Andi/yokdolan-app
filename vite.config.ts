@@ -4,14 +4,9 @@ import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import { defineConfig } from 'vite';
 
+import { fileURLToPath, URL } from 'node:url';
+
 export default defineConfig({
-    // server: {
-    //     host: '0.0.0.0', 
-    //     cors: true,
-    //     hmr: {
-    //         host: '192.168.68.102',
-    //     },
-    // },
     plugins: [
         laravel({
             input: ['resources/js/app.ts'],
@@ -33,4 +28,9 @@ export default defineConfig({
         
     ],
     base: '/',
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./resources/js', import.meta.url))
+        },
+    },
 });
