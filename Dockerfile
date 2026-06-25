@@ -21,7 +21,10 @@ COPY . .
 COPY --from=backend_builder /app/vendor ./vendor
 
 # Generate Wayfinder routes and actions sebelum build agar Vite bisa menemukannya
-RUN php artisan wayfinder:generate --with-form || true
+# Kita membuat file .env sementara agar artisan tidak gagal booting saat proses docker build
+RUN cp .env.example .env \
+    && php artisan key:generate \
+    && php artisan wayfinder:generate --with-form
 
 # Install NPM dependencies & jalankan build
 RUN npm ci && npm run build
