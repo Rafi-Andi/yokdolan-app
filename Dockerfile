@@ -20,6 +20,9 @@ COPY . .
 # Copy vendor dari tahap pertama (karena Vite plugin Wayfinder menjalankan command artisan yang butuh PHP & Vendor)
 COPY --from=backend_builder /app/vendor ./vendor
 
+# Generate Wayfinder routes and actions sebelum build agar Vite bisa menemukannya
+RUN php artisan wayfinder:generate --with-form || true
+
 # Install NPM dependencies & jalankan build
 RUN npm ci && npm run build
 
