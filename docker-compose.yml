@@ -28,7 +28,7 @@ services:
     volumes:
       - yokdolan_db_data:/var/lib/mysql
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:3307:3306"
     networks:
       # Database hanya bisa diakses via internal network
       - yokdolan_internal
